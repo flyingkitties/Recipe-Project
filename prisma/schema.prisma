@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model comment {
+  id         String    @id @default(cuid())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  post_id    String?
+  text       String?
+  username   String?   @db.VarChar
+  post       post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model like {
+  id         String    @id @default(cuid())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  post_id    String?
+  username   String?   @db.VarChar
+  liked      Boolean?
+  post       post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model dishTypes {
+  id         String    @id @default(cuid())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  name       String    @unique
+  posts      post[]
+}
+
+model post {
+  id           String      @id @default(cuid())
+  external_id  String      @unique
+  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
+  ingredients  String
+  username     String      @db.VarChar
+  title        String
+  image        String
+  instructions String
+  comment      comment[]
+  like         like[]
+  type         dishTypes[]
+}
