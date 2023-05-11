@@ -1,11 +1,11 @@
-import { ChevronUpIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import { ChevronUpIcon } from '@heroicons/react/24/outline';
+import React from 'react';
 
 function BackTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   };
   return (

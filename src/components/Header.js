@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { GiChefToque } from "react-icons/gi";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { GiChefToque } from 'react-icons/gi';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import {
   UserIcon,
   ChevronDownIcon,
@@ -15,12 +15,12 @@ import {
   Cog6ToothIcon,
   QuestionMarkCircleIcon,
   ChatBubbleLeftRightIcon,
-} from "@heroicons/react/24/outline";
-import Image from "next/image";
-import { Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import axios from "axios";
-import Link from "next/link";
+} from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 
 function Header({ data }) {
   const [query, setQuery] = useState([]);
@@ -39,18 +39,18 @@ function Header({ data }) {
     setQuery(e.target.value);
   }
 
-  const getRecipeData = async () => {
-    const api = await axios.get("api/search/", {
-      params: {
-        tags: query,
-        number: "20",
-      },
-    });
+  // const getRecipeData = async () => {
+  //   const api = await axios.get("api/search/", {
+  //     params: {
+  //       tags: query,
+  //       number: "20",
+  //     },
+  //   });
 
-    const { data } = api;
-    setQuery(data.recipes);
-    console.log(data.recipes);
-  };
+  //   const { data } = api;
+  //   setQuery(data.recipes);
+  //   console.log(data.recipes);
+  // };
 
   return (
     <div className="flex  shadow-lg md:space-x-5 lg:space-x-5 space-x-3 p-2 bg-white  ">
@@ -67,20 +67,30 @@ function Header({ data }) {
       </Link>
 
       {/* Search Bar */}
-      <div
-        className="flex flex-grow cursor-pointer h-10
+      <form
+        className="flex  flex-grow text-gray-600 items-center justify-center  "
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}>
+        <div
+          className="flex flex-grow mx-5 lg:mx-15 cursor-pointer h-10
       items-center border border-gray-300 rounded-2xl 
        bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1">
-        <input
-          type="text"
-          placeholder="What would you like to search for?"
-          className="flex-grow p-2 px-4 h-full rounded-l-2xl focus:outline-none"
-          onChange={handleChange}
-        />
-        <button onClick={getRecipeData} className=" md:p-5 p-3 ">
-          <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
-        </button>
-      </div>
+          <input
+            type="text"
+            placeholder="What would you like to search for?"
+            className="flex-grow p-2 px-4 h-full rounded-l-2xl focus:outline-none"
+            onChange={handleChange}
+          />
+          <Link href={`/search/${query}`}>
+            <button className=" md:p-5 p-3 ">
+              <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
+            </button>
+          </Link>
+        </div>
+      </form>
+
       {/* User  */}
       <div className="flex relative">
         {session ? (

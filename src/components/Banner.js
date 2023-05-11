@@ -1,4 +1,4 @@
-import recipe from '@/pages/recipe/[recipeId]';
+import recipe from '@/pages/[recipeId]';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import Link from 'next/link';
@@ -84,10 +84,7 @@ function Banner() {
             className="flex-grow p-2 px-10 h-full rounded-l-2xl focus:outline-none"
           />
           <Link href={`/search/${query}`}>
-            <button
-              className=" md:p-5 p-3 max-w-10"
-              // onClick={getRecipeData}
-            >
+            <button className=" md:p-5 p-3 max-w-10">
               <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
             </button>
           </Link>
