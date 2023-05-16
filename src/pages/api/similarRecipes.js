@@ -4,14 +4,11 @@ import axios from 'axios';
 export default async function handler(req, res) {
   const options = {
     method: 'GET',
-    url: `https://api.spoonacular.com/recipes/${req.query.recipeId}/information`,
+    url: `https://api.spoonacular.com/recipes/${req.query.recipeId}/similar`,
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
     },
-    params: {
-      includeNutrition: 'true',
-      // addRecipeInformation: true,
-    },
+    params: {},
   };
 
   try {

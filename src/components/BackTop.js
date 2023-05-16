@@ -1,13 +1,19 @@
 import { ChevronUpIcon } from '@heroicons/react/24/outline';
+import { useScroll } from '@react-spring/web';
 import React from 'react';
+import ScrollToTop from 'react-scroll-to-top';
 
 function BackTop() {
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+    if (typeof window !== 'undefined') {
+      console.log('is it scrolling?');
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
   };
+
   return (
     <div
       className="grid items-center justify-center text-center

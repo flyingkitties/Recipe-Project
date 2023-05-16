@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import {
   ClockIcon,
   UserIcon,
   CurrencyPoundIcon,
   ChevronRightIcon,
-} from "@heroicons/react/24/outline";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/react-splide/css";
-import "@splidejs/splide/css";
-import axios from "axios";
+} from '@heroicons/react/24/outline';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css';
+import '@splidejs/splide/css';
+import axios from 'axios';
+import Link from 'next/link';
 
 function Vegetarian() {
   const [vegetarian, setVegetarian] = useState([]);
@@ -19,20 +20,20 @@ function Vegetarian() {
   }, []);
 
   const feedVegerarian = async () => {
-    const checkLocal = localStorage.getItem("vegetarian");
+    const checkLocal = localStorage.getItem('vegetarian');
 
     if (checkLocal) {
       setVegetarian(JSON.parse(checkLocal));
     } else {
-      const api = await axios.get("api/search/", {
+      const api = await axios.get('api/search/', {
         params: {
-          tags: "vegetarian",
-          number: "20",
+          tags: 'vegetarian',
+          number: '20',
         },
       });
 
       const { data } = api;
-      localStorage.setItem("vegetarian", JSON.stringify(data.recipes));
+      localStorage.setItem('vegetarian', JSON.stringify(data.recipes));
       setVegetarian(data.recipes);
     }
   };
@@ -53,12 +54,12 @@ function Vegetarian() {
         <Splide
           options={{
             perPage: 1,
-            gap: "1rem",
-            drag: "free",
-            keyboard: "global",
+            gap: '1rem',
+            drag: 'free',
+            keyboard: 'global',
             autoWidth: true,
             autoHeight: true,
-            arrows: { position: "absolute" },
+            arrows: { position: 'absolute' },
             pagination: false,
           }}>
           {vegetarian?.map((recipe) => {
@@ -72,35 +73,37 @@ function Vegetarian() {
                   hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
                   max-w-[312px]
                 ">
-                  <div
-                    className="flex justify-center content-center 
+                  <Link href={`/${recipe?.id}`}>
+                    <div
+                      className="flex justify-center content-center 
               items-center object-cover">
-                    <Image
-                      className="object-cover  rounded-md  "
-                      loading="eager"
-                      width={312}
-                      height={150}
-                      src={recipe.image}
-                      alt="image"
-                    />
-                  </div>
+                      <Image
+                        className="object-cover  rounded-md  "
+                        loading="eager"
+                        width={312}
+                        height={150}
+                        src={recipe.image}
+                        alt="image"
+                      />
+                    </div>
 
-                  <div className=" pt-2 text-gray-600">
-                    {" "}
-                    <p className=" text-md font-semibold capitalize hover:underline text-gray-700">
-                      {recipe.title}
-                    </p>
-                    <div className="flex space-x-1 items-center ">
-                      <ClockIcon className="h-3 w-3" />
-                      <p className="text-sm font-light">
-                        {recipe.readyInMinutes} min
+                    <div className=" pt-2 text-gray-600">
+                      {' '}
+                      <p className=" text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
+                        {recipe.title}
                       </p>
+                      <div className="flex space-x-1 items-center ">
+                        <ClockIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">
+                          {recipe.readyInMinutes} min
+                        </p>
+                      </div>
+                      <div className="flex space-x-1 items-center">
+                        <UserIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">{recipe.servings}</p>
+                      </div>
                     </div>
-                    <div className="flex space-x-1 items-center">
-                      <UserIcon className="h-3 w-3" />
-                      <p className="text-sm font-light">{recipe.servings}</p>
-                    </div>
-                  </div>
+                  </Link>
                 </SplideSlide>
               );
             }

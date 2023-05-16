@@ -87,7 +87,7 @@ function Popular({ recipe }) {
 
                     <div className=" pt-2 text-gray-600">
                       {' '}
-                      <p className=" text-md font-semibold capitalize hover:underline text-gray-700">
+                      <p className=" text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
                         {recipe.title}
                       </p>
                       <div className="flex space-x-1 items-center ">
