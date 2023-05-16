@@ -1,5 +1,5 @@
-import { GlobeAltIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import { GlobeAltIcon } from '@heroicons/react/24/outline';
+import React from 'react';
 
 function Footer() {
   return (
@@ -14,7 +14,7 @@ function Footer() {
         <p className="link">Sitemap</p>
       </div>
       <div className="flex justify-center text-gray-600 border-t py-2 text-xs">
-        <p className=" ">© 2023 RG Buils</p>
+        <p className=" ">© 2023 RG Builds</p>
       </div>
     </div>
   );

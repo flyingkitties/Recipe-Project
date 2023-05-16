@@ -27,7 +27,7 @@ function recipeById() {
   const [ingredients, setIngredients] = useState([]);
   const [diets, setdiets] = useState([]);
   const [similarRecipeById, setSimilarRecipeById] = useState([]);
-  const [recipeImageById, setRecipeImageById] = useState([]);
+  const [imageId, setimageId] = useState([]);
 
   const [userDrop, setUserDrop] = useState(false);
 
@@ -35,16 +35,17 @@ function recipeById() {
     setUserDrop(!userDrop);
   };
 
-  const getRecipeData = async () => {
+  const getRecipeById = async (id) => {
     const recipeId = router.query.recipeId;
     const api = await axios.get(`../api/recipeId/`, {
       params: {
         number: '20',
         addRecipeInformation: 'true',
-        recipeId: router.query.recipeId,
+        recipeId: id,
       },
     });
-    setRecipeImageById(api.data);
+    setimageId(api.data);
+    console.log(api.data);
     return api.data;
   };
 
@@ -101,11 +102,20 @@ function recipeById() {
   // const recipeId = similarRecipes?.id;
   // console.log('array of ids', recipeId);
 
-  const recipeId = similarRecipes?.map((id, i) => {
-    console.log();
-    getRecipeData(id.id);
-    return id.id;
-  });
+  // function useImage(imageId) {
+  //   console.log(imageId);
+  //   return useQuery(['Image Id', imageId], () => getRecipeData(imageId), {
+  //     enabled: !!imageId,
+  //   });
+  // }
+
+  // const recipeId = similarRecipes?.map((id, i) => {
+  //   console.log(id.id);
+
+  //   return useQuery(['Image Id', imageId], () => getRecipeData(id.id), {
+  //     enabled: !!imageId,
+  //   });
+  // });
 
   // const {data: idsData}
 
@@ -361,51 +371,79 @@ function recipeById() {
             }}></div>
         </div>
       </div>
+      {/* Buttons  */}
+      <div className="flex pt-4 pb-2 space-x-10 ">
+        <div className="btnRecipe ">
+          <AiOutlineLike className="iconMed" />
+        </div>
+        <div className="btnRecipe">
+          <AiOutlineHeart className="iconMed" />
+        </div>
+        <div className="btnRecipe">
+          <FaRegCommentDots className="iconMed" />
+        </div>
+      </div>
       {/* Similar Recipes */}
+
       <div
-        className="flex text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2 mt-5 overflow-hidden">
-        {recipeImageById?.map((recipe) => {
-          return (
-            <div
-              key={recipe.id}
-              className=" p-2 bg-white cursor-pointer max-w-[312px]
+        className="space-y-4 text-xs sm:text-sm md:text-base font-light
+       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2 mt-5
+        ">
+        <div>
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
+            Similar Recipes
+          </h1>
+        </div>
+
+        <div
+          className="flex space-y-4 overflow-x-auto w-full snap-x snap-mandatory  scrollbar-thin scrollbar-track-gray-600/20
+           scrollbar-thumb-[#f7ab0a]/70 space-x-5">
+          {similarRecipeById?.map((recipe) => {
+            return (
+              <div
+                key={recipe.id}
+                className=" p-2 bg-white cursor-pointer min-w-[312px]
                hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
                 ">
-              <Link href={`/${recipe?.id}`}>
-                <div
-                  className="flex justify-center content-center 
+                <Link href={`/${recipe?.id}`}>
+                  <div
+                    className="flex justify-center content-center 
               items-center object-cover">
-                  <Image
-                    className="object-cover  rounded-md  "
-                    loading="eager"
-                    width={312}
-                    height={150}
-                    src={recipe.image}
-                    alt="image"
-                  />
-                </div>
+                    {recipe.image ? (
+                      <Image
+                        className="object-cover  rounded-md  "
+                        loading="eager"
+                        width={312}
+                        height={150}
+                        src={recipe.image}
+                        alt="image"
+                      />
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
 
-                <div className=" pt-2 text-gray-600">
-                  {' '}
-                  <p className=" text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                    {recipe.title}
-                  </p>
-                  <div className="flex space-x-1 items-center ">
-                    <ClockIcon className="h-3 w-3" />
-                    <p className="text-sm font-light">
-                      {recipe.readyInMinutes} min
+                  <div className=" pt-2 text-gray-600">
+                    {' '}
+                    <p className=" text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
+                      {recipe.title}
                     </p>
+                    <div className="flex space-x-1 items-center ">
+                      <ClockIcon className="h-3 w-3" />
+                      <p className="text-sm font-light">
+                        {recipe.readyInMinutes} min
+                      </p>
+                    </div>
+                    <div className="flex space-x-1 items-center">
+                      <UserIcon className="h-3 w-3" />
+                      <p className="text-sm font-light">{recipe.servings}</p>
+                    </div>
                   </div>
-                  <div className="flex space-x-1 items-center">
-                    <UserIcon className="h-3 w-3" />
-                    <p className="text-sm font-light">{recipe.servings}</p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          );
-        })}
+                </Link>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
