@@ -324,20 +324,22 @@ function recipeById() {
           className="text-center tracking-wide"
           dangerouslySetInnerHTML={{ __html: recipeByID.summary }}></div>
       </div>
+
+      {/* Diet Buttons */}
       <div className="flex space-x-5 py-5">
         {diets.map((diet) => {
           return (
-            <div className="btnRecipe flex-grow text-center capitalize tracking-wide">
+            <div className="btnRecipeGray flex-grow text-center capitalize tracking-wide">
               <p key={diet}>{diet}</p>
             </div>
           );
         })}
       </div>
 
+      {/* Ingredients */}
       <div
         className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2">
-        {/* Ingredients */}
         <div className="space-y-4 ">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
             Ingredients
@@ -372,7 +374,7 @@ function recipeById() {
         </div>
       </div>
       {/* Buttons  */}
-      <div className="flex pt-4 pb-2 space-x-10 ">
+      <div className="flex py-2 space-x-10 ">
         <div className="btnRecipe ">
           <AiOutlineLike className="iconMed" />
         </div>
@@ -383,66 +385,75 @@ function recipeById() {
           <FaRegCommentDots className="iconMed" />
         </div>
       </div>
-      {/* Similar Recipes */}
 
+      {/* Similar Recipes */}
       <div
-        className="space-y-4 text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2 mt-5
-        ">
-        <div>
+        className="text-xs sm:text-sm md:text-base
+         font-light bg-white px-10 py-5 text-gray-600 
+         rounded-md shadow-md my-2 mt-2">
+        <div className="space-y-4 ">
           <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
             Similar Recipes
           </h1>
-        </div>
 
-        <div
-          className="flex space-y-4 overflow-x-auto w-full snap-x snap-mandatory  scrollbar-thin scrollbar-track-gray-600/20
-           scrollbar-thumb-[#f7ab0a]/70 space-x-5">
-          {similarRecipeById?.map((recipe) => {
-            return (
-              <div
-                key={recipe.id}
-                className=" p-2 bg-white cursor-pointer min-w-[312px]
-               hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
+          <div
+            className=" flex "
+            // space-y-4 overflow-x-auto w-full snap-x snap-mandatory  scrollbar-thin scrollbar-track-gray-600/20
+            //  scrollbar-thumb-[#f7ab0a]/70 space-x-5 "
+          >
+            {similarRecipeById?.map((recipe) => {
+              return (
+                <div
+                  key={recipe.id}
+                  className="  p-2 bg-white cursor-pointer w-[250px]
+               hover:border-2 hover:border-gray-200 hover:rounded-md
+                hover:drop-shadow-2xl flex-grow
                 ">
-                <Link href={`/${recipe?.id}`}>
-                  <div
-                    className="flex justify-center content-center 
+                  <Link href={`/${recipe?.id}`}>
+                    <div
+                      className="flex justify-center content-center 
               items-center object-cover">
-                    {recipe.image ? (
                       <Image
-                        className="object-cover  rounded-md  "
+                        className="object-cover rounded-md  "
                         loading="eager"
                         width={312}
                         height={150}
                         src={recipe.image}
                         alt="image"
                       />
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className=" pt-2 text-gray-600">
-                    {' '}
-                    <p className=" text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                      {recipe.title}
-                    </p>
-                    <div className="flex space-x-1 items-center ">
-                      <ClockIcon className="h-3 w-3" />
-                      <p className="text-sm font-light">
-                        {recipe.readyInMinutes} min
+                    <div className=" pt-2 text-gray-600">
+                      {' '}
+                      <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
+                        {recipe.title}
                       </p>
+                      <div className="flex space-x-1 items-center ">
+                        <ClockIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">
+                          {recipe.readyInMinutes} min
+                        </p>
+                      </div>
+                      <div className="flex space-x-1 items-center">
+                        <UserIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">{recipe.servings}</p>
+                      </div>
                     </div>
-                    <div className="flex space-x-1 items-center">
-                      <UserIcon className="h-3 w-3" />
-                      <p className="text-sm font-light">{recipe.servings}</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            );
-          })}
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      {/* Comments */}
+      <div
+        className="text-xs sm:text-sm md:text-base font-light
+       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2">
+        <div className="space-y-4 ">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
+            Comments
+          </h1>
         </div>
       </div>
     </div>

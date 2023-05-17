@@ -1,4 +1,3 @@
-import { prisma } from '@/utils/db';
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -9,7 +8,9 @@ export default async function handler(req, res) {
       res.status(500).send('Must include a recipeId');
     }
 
-    const options = {
+    console.log('Getting all similar recipes');
+
+    let { data } = await axios({
       method: 'GET',
       url: `https://api.spoonacular.com/recipes/${recipeId}/similar`,
       headers: {
@@ -18,19 +19,19 @@ export default async function handler(req, res) {
       params: {
         number: number || 5,
       },
-    };
+    });
 
-    console.log('we are here');
-    let { data } = await axios(options);
+    console.log('Recipes lo loop over', data);
 
-    console.log('recipeData', recipeData);
+    let updatedRecipes = [];
+
     for (let index = 0; index < data.length; index++) {
       const recipe = data[index];
       if (!recipe.id) {
         throw new Error('No id');
       }
 
-      const options2 = {
+      let response = await axios({
         method: 'GET',
         url: `https://api.spoonacular.com/recipes/${recipe.id}/information`,
         headers: {
@@ -40,8 +41,7 @@ export default async function handler(req, res) {
           includeNutrition: 'true',
           // addRecipeInformation: true,
         },
-      };
-      let response = await axios(options2);
+      });
 
       updatedRecipes.push(response.data);
     }
@@ -66,6 +66,6 @@ export default async function handler(req, res) {
     //   // Something happened in setting up the request that triggered an Error
     //   console.log('Error', error.message);
     // }
-    console.log(error.config);
+    // console.log(error.config);
   }
 }

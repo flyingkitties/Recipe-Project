@@ -28,8 +28,8 @@
   .btnRecipe {
     @apply cursor-pointer bg-orange-400 lg:p-3 sm:p-2 p-1  rounded-full text-white hover:shadow-lg;
   }
-  .btnRecipeBlue {
-    @apply cursor-pointer bg-[#00B8E1]/70 text-white lg:p-3 sm:p-2 p-1  rounded-full hover:shadow-lg;
+  .btnRecipeGray {
+    @apply bg-gray-300 text-white lg:p-3 sm:p-2 p-1  rounded-full;
   }
   .btnOrg {
     @apply cursor-pointer border-2 border-white shadow-md hover:shadow-2xl hover:bg-[#FF8F00] rounded-3xl p-1 px-3 text-white;
