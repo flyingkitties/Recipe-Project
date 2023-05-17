@@ -35,6 +35,14 @@ function recipeById() {
     setUserDrop(!userDrop);
   };
 
+  useEffect(() => {
+    console.log('going to the top');
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   const getRecipeById = async (id) => {
     const recipeId = router.query.recipeId;
     const api = await axios.get(`../api/recipeId/`, {
@@ -70,6 +78,10 @@ function recipeById() {
       setNutrition(data.nutrition.nutrients);
       setIngredients(data.extendedIngredients);
       setdiets(data.diets);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
     },
   });
 
@@ -90,12 +102,7 @@ function recipeById() {
         })
         .then((res) => res.data),
     onSuccess: (similarRecipes) => {
-      console.log('success');
-      // const id = similarRecipes?.id.map((id) => {
-      //   return id.id;
-      // });
       setSimilarRecipeById(similarRecipes);
-      console.log('similar:', similarRecipes);
     },
   });
 
