@@ -61,7 +61,7 @@ function breakfast() {
         {breakfast?.map((recipe) => {
           if (recipe.image != null) {
             return (
-              <Link href={`/${recipe?.id}`}>
+              <Link href={`recipe/${recipe?.id}`}>
                 <div
                   key={recipe.id}
                   className="flex hover:drop-shadow-2xl border-2 mb-10 lg:my-0 rounded-md cursor-pointer ">

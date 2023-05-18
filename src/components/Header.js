@@ -53,11 +53,11 @@ function Header({ data }) {
   // };
 
   return (
-    <div className="flex  shadow-lg md:space-x-5 lg:space-x-5 space-x-3 p-2 bg-white  ">
+    <div className="flex  shadow-lg space-x-2 sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white  ">
       {/* Logo */}
 
       <Link href="/" className="flex items-center p-1 flex-shrink-0">
-        <GiChefToque className="md:h-6 md:w-6 sm:h-4 sm:w-4 h-6 w-6 text-gray-600  " />
+        <GiChefToque className="md:h-6 md:w-6 h-4 w-4 text-gray-600  " />
         <p className="hidden sm:inline-flex font-semibold titleFont text-gray-700 lg:text-xl pl-2 ">
           Recipe Corner
         </p>
@@ -68,13 +68,13 @@ function Header({ data }) {
 
       {/* Search Bar */}
       <form
-        className="flex  flex-grow text-gray-600 items-center justify-center  "
+        className="flex text-gray-600 items-center justify-center  "
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
         }}>
         <div
-          className="flex flex-grow mx-5 lg:mx-15 cursor-pointer h-10
+          className="flex flex-grow sm:mx-5 lg:mx-15 cursor-pointer h-10
       items-center border border-gray-300 rounded-2xl 
        bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1">
           <input
@@ -191,8 +191,8 @@ function Header({ data }) {
         )}
       </div>
       {/* Menu */}
-      <div className="flex items-center px-1  text-gray-700">
-        <RxHamburgerMenu className="iconMed md:p-1" />
+      <div className="flex flex-shrink items-center px-1  text-gray-700">
+        <RxHamburgerMenu className="iconSmall sm:iconMed md:p-1" />
       </div>
     </div>
   );

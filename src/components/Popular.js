@@ -71,7 +71,7 @@ function Popular({ recipe }) {
                   className=" p-2 bg-white cursor-pointer max-w-[312px]
                hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
                 ">
-                  <Link href={`/${recipe?.id}`}>
+                  <Link href={`recipe/${recipe?.id}`}>
                     <div
                       className="flex justify-center content-center 
               items-center object-cover">

@@ -8,8 +8,6 @@ export default async function handler(req, res) {
       res.status(500).send('Must include a recipeId');
     }
 
-    console.log('Getting all similar recipes');
-
     let { data } = await axios({
       method: 'GET',
       url: `https://api.spoonacular.com/recipes/${recipeId}/similar`,
@@ -20,8 +18,6 @@ export default async function handler(req, res) {
         number: number || 5,
       },
     });
-
-    console.log('Recipes lo loop over', data);
 
     let updatedRecipes = [];
 

@@ -1,4 +1,4 @@
-import recipe from '@/pages/[recipeId]';
+import recipe from '@/pages/recipe/[recipeId]';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import Link from 'next/link';
@@ -28,14 +28,14 @@ function Banner() {
   // };
 
   return (
-    <div className="text-center pt-[1%] px-16 lg:px-40 text-white">
+    <div className="text-center pt-[1%] px-7 sm:px-16 lg:px-40 text-white">
       <div className="mt-[15%] text-4xl sm:text-5xl md:text-6xl lg:text-7xl drop-shadow-[0_0.9px_0.9px_rgba(0,0,0,0.5)]">
         <h1>Search recipes from all over the world!</h1>
       </div>
       <div className="mt-[8%] text-xl md:text-2xl lg:text-3xl drop-shadow-[0_0.9px_0.9px_rgba(0,0,0,0.5)]">
         <h2>Choose a category or search for an ingredient</h2>
       </div>
-      <div className="flex-grid space-x-5 space-y-5 mt-[2%] text-sm md:text-base lg:text-lg ">
+      <div className="flex-grid space-x-5 mt-[2%] text-sm md:text-base lg:text-lg ">
         <Link href="/category/sides">
           <button className="btnOrg">
             <p className="shade">Sides</p>{' '}

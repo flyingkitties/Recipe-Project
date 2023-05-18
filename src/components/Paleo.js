@@ -72,7 +72,7 @@ function Paleo() {
               hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
               max-w-[312px]
             ">
-                  <Link href={`/${recipe?.id}`}>
+                  <Link href={`recipe/${recipe?.id}`}>
                     <div
                       className="flex justify-center content-center 
           items-center object-cover">

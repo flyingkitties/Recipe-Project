@@ -20,19 +20,20 @@ export default function Home() {
           <title>Recipe Corner</title>
         </Head>
 
-        <Banner />
-
-        <section className="mt-[10%]  px-5  bg-white ">
-          <Popular className="" />
-          <Vegetarian />
-          <Keto />
-          <GlutenFree />
-          <Pescetarian />
-          <Vegan />
-          <Paleo />
-        </section>
-        <BackTop />
-        <Footer />
+        <main>
+          <Banner />
+          <section className="mt-[10%]  px-5  bg-white ">
+            <Popular />
+            <Vegetarian />
+            <Keto />
+            <GlutenFree />
+            <Pescetarian />
+            <Vegan />
+            <Paleo />
+          </section>
+          <BackTop />
+          <Footer />
+        </main>
       </div>
     </>
   );
