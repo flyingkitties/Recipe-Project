@@ -68,7 +68,7 @@ function Header({ data }) {
 
       {/* Search Bar */}
       <form
-        className="flex text-gray-600 items-center justify-center  "
+        className="flex flex-grow text-gray-600 items-center justify-center  "
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();

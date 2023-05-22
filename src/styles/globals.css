@@ -26,7 +26,7 @@
     @apply cursor-pointer bg-orange-400 rounded-3xl p-1 px-3 text-white;
   }
   .btnRecipe {
-    @apply cursor-pointer bg-orange-400 lg:p-3 sm:p-2 p-1  rounded-full text-white hover:shadow-lg;
+    @apply cursor-pointer bg-orange-400 lg:p-3 md:p-2  p-1  rounded-full text-white hover:shadow-lg;
   }
   .btnRecipeGray {
     @apply cursor-pointer bg-gray-100 rounded-full lg:p-3 sm:p-2 p-1 hover:shadow-lg;

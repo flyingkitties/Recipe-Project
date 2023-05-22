@@ -37,27 +37,27 @@ function recipeById() {
     setUserDrop(!userDrop);
   };
 
-  useEffect(() => {
-    console.log('going to the top');
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, []);
+  // useEffect(() => {
+  //   console.log('going to the top');
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth',
+  //   });
+  // }, []);
 
-  const getRecipeById = async (id) => {
-    const recipeId = router.query.recipeId;
-    const api = await axios.get(`../api/recipeId/`, {
-      params: {
-        number: '20',
-        addRecipeInformation: 'true',
-        recipeId: id,
-      },
-    });
-    setimageId(api.data);
-    console.log(api.data);
-    return api.data;
-  };
+  // const getRecipeById = async (id) => {
+  //   const recipeId = router.query.recipeId;
+  //   const api = await axios.get(`../api/recipeId/`, {
+  //     params: {
+  //       number: '20',
+  //       addRecipeInformation: 'true',
+  //       recipeId: id,
+  //     },
+  //   });
+  //   setimageId(api.data);
+  //   console.log(api.data);
+  //   return api.data;
+  // };
 
   const {
     data: data,
@@ -108,106 +108,14 @@ function recipeById() {
     },
   });
 
-  // const recipeId = similarRecipes?.id;
-  // console.log('array of ids', recipeId);
-
-  // function useImage(imageId) {
-  //   console.log(imageId);
-  //   return useQuery(['Image Id', imageId], () => getRecipeData(imageId), {
-  //     enabled: !!imageId,
-  //   });
-  // }
-
-  // const recipeId = similarRecipes?.map((id, i) => {
-  //   console.log(id.id);
-
-  //   return useQuery(['Image Id', imageId], () => getRecipeData(id.id), {
-  //     enabled: !!imageId,
-  //   });
-  // });
-
-  // const {data: idsData}
-
-  // const {
-  //   status,
-  //   fetchStatus,
-  //   data: dataImageId,
-  // } = useQueries({
-  //   queries: recipeId?.map((id, i) => {
-  //     return {
-  //       queryKey: ['ImagesId', id],
-  //       queryFn: () =>
-  //         axios
-  //           .get(`../api/recipeId/`, {
-  //             params: {
-  //               number: '20',
-  //               addRecipeInformation: 'true',
-  //               recipeId: id,
-  //             },
-  //           })
-  //           .then((res) => res.data),
-  //       onSuccess: (data) => {
-  //         setRecipeImageById(data);
-  //         console.log('log data image by id:', data);
-  //       },
-  //       enabled: !!recipeId,
-  //     };
-  //   }),
-  // });
-
-  // if (isLoading) return 'loading Data';
-  // if (loadingSimilar) return 'Loading Similar Recipes';
-
-  // if (data.error) return 'an error has occurred:' + data.error.message;
-  // if (errorSimilar) return 'an error has occurred:' + errorSimilar.message;
-
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ['RecipeID', router.query.recipeId],
-  //   queryFn: getRecipeData,
-  //   onSuccess: (data) => {
-  //     setRecipeById(data);
-  //     setNutrition(data.nutrition.nutrients);
-  //     setIngredients(data.extendedIngredients);
-  //     setdiets(data.diets);
-
-  //     if (data?.length === 0) {
-  //       toast.error('Oops, no recipes found! Try again!');
-  //     }
-  //   },
-  //   onError: (e) => {
-  //     console.log('error', e);
-  //   },
-  // });
-
-  // const { similar } = useQuery({
-  //   queryKey: ['SimilarByID', router.query.recipeId],
-  //   queryFn: getSimilarRecipes,
-  //   onSuccess: (similar) => {
-  //     console.log('success');
-  //     setSimilarRecipeById(similar);
-  //     console.log('similar:', similar);
-
-  //     // console.log(data.analyzedInstructions);
-
-  //     if (similar?.length === 0) {
-  //       toast.error('Oops, no recipes found! Try again!');
-  //     }
-  //   },
-  //   onError: (e) => {
-  //     console.log('error', e);
-  //   },
-  // });
-
-  // if (isLoading) {
-  //   return <p>Loading ...</p>;
-  // }
-
   return (
     <div className="bg-gray-100">
       <div className="px-5 sm:px-8 md:px-10 lg:px-32 pt-10">
         <div className=" relative flex  bg-white rounded-md shadow-md">
           {/* Left Section */}
-          <div className="flex object-cover w-[240px] h-[150px] md:w-[312px] md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 ">
+          <div
+            className="flex object-cover w-[240px] h-[150px] md:w-[312px] 
+          md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 ">
             {recipeByID.image ? (
               <Image
                 className="rounded-l-md"
@@ -222,15 +130,21 @@ function recipeById() {
             )}
           </div>
           {/* Right Section */}
-          <div className="sm:px-2 md:px-3 lg:px-5 w-full ">
-            <h1 className=" text-xl sm:text-2xl md:text-3xl lg:text-5xl titleFont my-2 lg:my-5 tracking-wide line-clamp-2">
+          <div
+            className="flex flex-col px-1 sm:px-2 md:px-3 lg:px-5 w-full h-[150px]  
+          md:h-[231px] lg:h-[360px] place-content-evenly">
+            <h1
+              className=" text-base sm:text-xl md:text-3xl lg:text-5xl 
+            titleFont tracking-wide line-clamp-2">
               {recipeByID?.title}
             </h1>
 
-            <div className="text-gray-600 space-y-1 md:space-y-2 lg:space-y-5 sm:pt-2 p-1 md:pt-3 lg:pt-5">
+            <div
+              className=" text-gray-600 space-y-1 md:space-y-2 lg:space-y-5
+             ">
               <div className="flex space-x-1 items-center ">
                 <ClockIcon className="h-3 w-3" />
-                <p className="text-xs md:text-sm lg:text-base font-light">
+                <p className="text-[10px]  md:text-sm lg:text-base font-light">
                   {' '}
                   Ready in:{' '}
                   <span className="font-semibold">
@@ -241,14 +155,14 @@ function recipeById() {
 
               <div className="flex space-x-1 items-center">
                 <UserIcon className="h-3 w-3" />
-                <p className="text-xs md:text-sm lg:text-base font-light">
+                <p className="text-[10px] md:text-sm lg:text-base font-light">
                   Serves:{' '}
                   <span className="font-semibold">{recipeByID?.servings}</span>
                 </p>
               </div>
               <div className="flex space-x-1 items-center">
                 <MdLabelOutline className="h-3 w-3" />
-                <p className="text-xs md:text-sm lg:text-base font-light">
+                <p className="text-[10px] md:text-sm lg:text-base font-light">
                   Source:{' '}
                   {recipeByID?.sourceUrl ? (
                     <Link href={recipeByID?.sourceUrl}>
@@ -266,10 +180,10 @@ function recipeById() {
 
               {/* Drop Nutrition */}
               <div
-                className="flex items-center space-x-1 lg:pt-5"
+                className="flex items-center space-x-1 lg:pt-4 sm:pt-1"
                 onClick={handleUserDrop}>
                 <div className="flex btnRecipe text-center items-center space-x-1 ">
-                  <p className="text-xs md:text-sm lg:text-base font-light ">
+                  <p className="text-[10px]  md:text-sm lg:text-base font-light ">
                     Nutrition per serving
                   </p>
                   {userDrop ? (
@@ -314,8 +228,9 @@ function recipeById() {
             </div>
           </div>
         </div>
+
         {/* Buttons  */}
-        <div className="flex pt-4 pb-2 space-x-10 ">
+        <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
           <div className="btnRecipe ">
             <AiOutlineLike className="iconMed" />
           </div>
@@ -326,16 +241,27 @@ function recipeById() {
             <FaRegCommentDots className="iconMed" />
           </div>
         </div>
+
+        {/* Description */}
+        <div
+          className="text-xs sm:text-sm md:text-base font-light
+       bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
+          <div
+            className="text-justify tracking-wide "
+            dangerouslySetInnerHTML={{ __html: recipeByID.summary }}></div>
+        </div>
         {/* This recipe is... */}
         {!diets || diets != undefined ? (
           <div
             className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
             <div className="space-y-4 ">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
+              <h1
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+              font-semibold text-orange-400">
                 This Recipe Is...
               </h1>
-              <div className="grid grid-rows-2 grid-flow-col gap-1 ">
+              <div className="grid grid-rows-2 lg:grid-rows-1 grid-flow-col gap-1 ">
                 {diets.map((diet, i) => {
                   return (
                     <Link href={`/search/${diet}`}>
@@ -353,19 +279,11 @@ function recipeById() {
         ) : (
           <div></div>
         )}
-        {/* Description */}
-        <div
-          className="text-xs sm:text-sm md:text-base font-light
-       bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
-          <div
-            className="text-center tracking-wide"
-            dangerouslySetInnerHTML={{ __html: recipeByID.summary }}></div>
-        </div>
 
         {/* Ingredients */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Ingredients
@@ -386,14 +304,14 @@ function recipeById() {
         {/* Method */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2 mt-5">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 mt-5">
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Method
             </h1>
 
             <div
-              className="list-disc space-y-5 tracking-wide"
+              className="list-disc space-y-5 tracking-wide text-justify"
               dangerouslySetInnerHTML={{
                 __html: recipeByID.instructions,
               }}></div>
@@ -423,17 +341,17 @@ function recipeById() {
             </h1>
 
             <div
-              className="flex overflow-x-scroll  space-x-4 
+              className="flex overflow-x-scroll  space-x-4 lg:place-content-evenly
              scrollbar-thin scrollbar-track-gray-600/20  scrollbar-thumb-[#f7ab0a]/70  
 ">
               {similarRecipeById?.map((recipe) => {
                 return (
-                  <Link href={`recipe/${recipe?.id}`}>
+                  <Link href={`${recipe?.id}`}>
                     <div
                       key={recipe.id}
                       className=" bg-white p-2 cursor-pointer w-[250px]
                hover:border-2 hover:border-gray-200 hover:rounded-md
-                hover:shadow-lg flex-grow
+                hover:shadow-lg 
                 ">
                       <div
                         className="flex justify-center content-center 
