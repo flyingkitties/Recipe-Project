@@ -58,7 +58,6 @@ function Popular({ recipe }) {
             keyboard: 'global',
             autoWidth: true,
             autoHeight: true,
-            arrows: { position: 'absolute' },
             pagination: false,
           }}>
           {popular?.map((recipe) => {

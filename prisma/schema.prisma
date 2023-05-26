@@ -7,41 +7,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model comment {
+model Comment {
   id         String    @id @default(cuid())
   created_at DateTime? @default(now()) @db.Timestamptz(6)
+  username   String?   @db.VarChar
+  post       Post?     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   post_id    String?
   text       String?
-  username   String?   @db.VarChar
-  post       post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parent     Comment?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId   String?
+  children   Comment[] @relation("ParentChild")
 }
 
-model like {
+model Like {
   id         String    @id @default(cuid())
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   post_id    String?
   username   String?   @db.VarChar
   liked      Boolean?
-  post       post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  post       Post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model dishTypes {
+model Favourite {
+  id             String    @id @default(cuid())
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  post_id        String?
+  username       String?   @db.VarChar
+  favouriteSaved Boolean?
+  post           Post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model DishTypes {
   id         String    @id @default(cuid())
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   name       String    @unique
-  posts      post[]
+  posts      Post[]
 }
 
-model post {
-  id           String      @id @default(cuid())
-  external_id  String      @unique
-  created_at   DateTime?   @default(now()) @db.Timestamptz(6)
-  ingredients  String
-  username     String      @db.VarChar
-  title        String
-  image        String
-  instructions String
-  comment      comment[]
-  like         like[]
-  type         dishTypes[]
+model Post {
+  id          String      @id @default(cuid())
+  external_id Int         @unique
+  created_at  DateTime?   @default(now()) @db.Timestamptz(6)
+  username    String      @db.VarChar
+  title       String
+  image       String
+  ingredients Json[]      @db.JsonB
+  method      String
+  comments    Comment[]
+  likes       Like[]
+  types       DishTypes[]
+  favourites  Favourite[]
 }

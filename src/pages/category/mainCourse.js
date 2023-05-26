@@ -37,7 +37,7 @@ function mainCourse() {
     }
   };
   return (
-    <div className="">
+    <div className="bg-gray-100">
       {/* top */}
       <div>
         <div className=" h-[100px] md:h-[150px] lg:h-[200px]  object-fill overflow-hidden ">
@@ -63,7 +63,7 @@ function mainCourse() {
               <Link href={`recipe/${recipe?.id}`}>
                 <div
                   key={recipe.id}
-                  className="flex hover:drop-shadow-2xl border-2 mb-10 lg:my-0 rounded-md cursor-pointer ">
+                  className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl  ">
                   <div
                     className="flex max-h-[200px] max-w-[200px] justify-center content-center 
       items-center object-contain shrink-0">

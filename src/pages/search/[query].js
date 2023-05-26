@@ -74,9 +74,8 @@ function SearchParams() {
               return (
                 <div
                   key={recipe.id}
-                  className=" bg-white rounded-md cursor-pointer max-w-[312px]
-               hover:border-2 hover:border-gray-100 hover:rounded-md
-                hover:shadow-lg 
+                  className=" bg-white rounded-md shadow-md cursor-pointer max-w-[312px]
+               hover:shadow-xl 
                 ">
                   <Link href={`recipe/${recipe?.id}`}>
                     <div

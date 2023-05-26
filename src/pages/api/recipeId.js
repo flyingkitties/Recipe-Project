@@ -1,3 +1,4 @@
+import { prisma } from '@/utils/db';
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -14,8 +15,37 @@ export default async function handler(req, res) {
   };
 
   try {
+    // const {
+    //   external_id,
+    //   username,
+    //   title,
+    //   image,
+    //   ingredients,
+    //   method,
+    //   comments,
+    //   likes,
+    //   types,
+    // } = req.body;
+
     let response = await axios(options);
     res.status(200).json(response.data);
+
+    // if (response) {
+    //   const createPost = await prisma.post.create({
+    //     data: {
+    //       external_id: response.data.id,
+    //       username,
+    //       title,
+    //       image,
+    //       ingredients,
+    //       method,
+    //       comments,
+    //       likes,
+    //       types,
+    //     },
+    //   });
+    //   res.status(200).json(response.data, createPost);
+    // }
   } catch (error) {
     if (error.response) {
       // The request was made and the server responded with a status code

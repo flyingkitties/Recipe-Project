@@ -10,19 +10,30 @@ import {
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { toast } from 'react-hot-toast';
-import { MdLabelOutline } from 'react-icons/md';
-import { GiCookingPot } from 'react-icons/gi';
-import { IoNutritionOutline } from 'react-icons/io';
+import { MdLabelOutline, MdOutlineSend, MdSend } from 'react-icons/md';
+import { RiSendPlaneFill, RiSendPlaneLine } from 'react-icons/ri';
 import { FaRegCommentDots } from 'react-icons/fa';
-import { BsDot } from 'react-icons/bs';
-import { AiOutlineFire, AiOutlineLike, AiOutlineHeart } from 'react-icons/ai';
+import { BsSendFill, BsSend } from 'react-icons/bs';
+import { IoMdSend, IoSend, IoNutritionOutline } from 'react-icons/io';
+import {
+  AiOutlineFire,
+  AiOutlineSend,
+  AiOutlineLike,
+  AiOutlineHeart,
+} from 'react-icons/ai';
 import { Transition } from '@headlessui/react';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
+import { useSession } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
+import { comment } from 'postcss';
+import TimeAgo from 'react-timeago';
+import ReactTimeago from 'react-timeago';
 
 function recipeById() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [recipeByID, setRecipeById] = useState([]);
   const [nutrition, setNutrition] = useState([]);
@@ -30,6 +41,8 @@ function recipeById() {
   const [diets, setdiets] = useState([]);
   const [similarRecipeById, setSimilarRecipeById] = useState([]);
   const [imageId, setimageId] = useState([]);
+  const [recipeDb, setRecipeDb] = useState([]);
+  const [comments, setComments] = useState([]);
 
   const [userDrop, setUserDrop] = useState(false);
 
@@ -38,7 +51,6 @@ function recipeById() {
   };
 
   // useEffect(() => {
-  //   console.log('going to the top');
   //   window.scrollTo({
   //     top: 0,
   //     behavior: 'smooth',
@@ -58,6 +70,21 @@ function recipeById() {
   //   console.log(api.data);
   //   return api.data;
   // };
+  const addPostToDb = async (data) => {
+    const database = await axios.post('../api/postDB/postPost/', {
+      data: {
+        external_id: data?.id,
+        username: session?.user?.name,
+        title: data?.title,
+        image: data?.image,
+        ingredients: data?.extendedIngredients,
+        method: data?.instructions,
+      },
+    });
+    const dbData = database.data;
+    setRecipeDb(dbData);
+    await getCommentList(dbData);
+  };
 
   const {
     data: data,
@@ -74,16 +101,14 @@ function recipeById() {
             recipeId: router.query.recipeId,
           },
         })
+
         .then((res) => res.data),
     onSuccess: (data) => {
       setRecipeById(data);
       setNutrition(data.nutrition.nutrients);
       setIngredients(data.extendedIngredients);
       setdiets(data.diets);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+      addPostToDb(data);
     },
   });
 
@@ -107,6 +132,55 @@ function recipeById() {
       setSimilarRecipeById(similarRecipes);
     },
   });
+
+  // Comments
+  const AddComment = async (dataComment) => {
+    await axios
+      .post('../api/postDB/comment/', {
+        // where: {
+        //   post_id: data.post_id,
+        // },
+        data: {
+          post_id: recipeDb.id,
+          username: session?.user?.name,
+          text: dataComment.comment,
+        },
+      })
+      .then((res) => res.data);
+  };
+
+  const getCommentList = async (dbData) => {
+    const commentList = await axios.get(`../api/postDB/comment`, {
+      params: {
+        post_id: dbData?.id,
+      },
+      // orderBy: {
+      //   created_at: 'desc',
+      // },
+    });
+
+    const commentListData = commentList.data;
+    console.log(commentListData);
+    setComments(commentListData);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = async (dataComment) => {
+    console.log(dataComment);
+    const notification = toast.loading('Posting your comment...');
+    await AddComment(dataComment);
+    setValue('comments', '');
+
+    toast.success('comment sucessfully posted!', {
+      id: notification,
+    });
+  };
 
   return (
     <div className="bg-gray-100">
@@ -399,6 +473,64 @@ function recipeById() {
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Comments
             </h1>
+          </div>
+          <div className=" relative text-gray-600 mt-5 mb-1">
+            <p className="text-sm">
+              Comment as{' '}
+              <span className="text-orange-400 font-light">
+                {' '}
+                {session?.user.name}{' '}
+              </span>
+            </p>
+
+            {/* Comment Form */}
+            <form
+              className="flex flex-col space-y-3"
+              onSubmit={handleSubmit(onSubmit)}>
+              <textarea
+                {...register('comment')}
+                disabled={!session}
+                className="h-24 rounded-lg bg-gray-100  p-2
+          pl-4 outline-none text-gray-600 w-full font-light "
+                placeholder={session ? 'Write a comment...' : 'Please sign in'}
+              />
+              <button
+                type="submit"
+                className="text-orange-400 disabled:text-gray-200 
+                 absolute bottom-1 right-1 group ">
+                <AiOutlineSend className="iconMed group-hover:hidden" />
+                <IoMdSend className="iconMed hidden group-hover:block" />
+              </button>
+            </form>
+          </div>
+          {/* Map the comments here!!!!!!!!!!!!!!!!!! */}
+          <div className="mt-5">
+            {comments.map((comment) => {
+              console.log(comment);
+              return (
+                <div className=" flex  space-x-2  m-2" key={comment?.id}>
+                  <div className="flex items-start pt-1 ">
+                    <Image
+                      src={`https://avatars.dicebear.com/api/open-peeps/ 
+    ${comment?.username || 'placeholder'}.svg`}
+                      width={30}
+                      height={30}
+                      className="rounded-full cursor-pointer "
+                      alt="User Image"
+                    />
+                  </div>
+                  <div className="flex flex-col px-3 pt-2 pb-3 rounded-lg bg-gray-100 flex-grow">
+                    <p className="pb-2 text-xs text-gray-400">
+                      <span className="font-semibold text-gray-600">
+                        {comment?.username}
+                      </span>{' '}
+                      • <ReactTimeago date={comment?.created_at} />
+                    </p>
+                    <p className="text-gray-600">{comment?.text}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

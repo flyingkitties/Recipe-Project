@@ -21,11 +21,12 @@ import { Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { slide as Menu } from 'react-burger-menu';
 
 function Header({ data }) {
   const [query, setQuery] = useState([]);
-
   const [userDrop, setUserDrop] = useState(false);
+  const [burgerOpen, setBurgerOpen] = useState(false);
 
   const { data: session, status } = useSession();
 
@@ -39,6 +40,14 @@ function Header({ data }) {
     setQuery(e.target.value);
   }
 
+  const handleBurgerOpen = () => {
+    setBurgerOpen(!burgerOpen);
+  };
+
+  const closeBurger = () => {
+    burgerOpen(false);
+  };
+
   // const getRecipeData = async () => {
   //   const api = await axios.get("api/search/", {
   //     params: {
@@ -51,6 +60,52 @@ function Header({ data }) {
   //   setQuery(data.recipes);
   //   console.log(data.recipes);
   // };
+
+  var styles = {
+    bmBurgerButton: {
+      position: 'relative',
+      width: '25px',
+      height: '25px',
+      right: '10px',
+      top: '10px',
+      marginLeft: '5px',
+    },
+    bmBurgerBars: {
+      background: 'rgb(75 85 99)',
+    },
+    bmBurgerBarsHover: {
+      background: '',
+    },
+    bmCrossButton: {
+      height: '25px',
+      width: '25px',
+    },
+    bmCross: {
+      background: 'rgb(75 85 99)',
+    },
+    bmMenuWrap: {
+      position: 'fixed',
+      height: '100%',
+    },
+    bmMenu: {
+      background: 'rgb(255 255 255)',
+      padding: '2.5em 1.5em 0',
+      fontSize: '1.15em',
+    },
+    bmMorphShape: {
+      fill: '#373a47',
+    },
+    bmItemList: {
+      color: 'rgb(75 85 99)',
+      padding: '0.8em',
+    },
+    bmItem: {
+      display: 'inline-block',
+    },
+    bmOverlay: {
+      background: 'rgba(0, 0, 0, 0.3)',
+    },
+  };
 
   return (
     <div className="flex  shadow-lg space-x-2 sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white  ">
@@ -153,7 +208,7 @@ function Header({ data }) {
             className="flex items-center text-center 
            text-gray-700  px-2 link "
             onClick={handleUserDrop}>
-            <UserIcon className="iconMed" />
+            <UserIcon className="iconSmall" />
             <div className="absolute bottom-2 right-[40%] bg-red-600 h-[8px] w-[8px] rounded-full "></div>
 
             {userDrop ? (
@@ -191,9 +246,30 @@ function Header({ data }) {
         )}
       </div>
       {/* Menu */}
-      <div className="flex flex-shrink items-center px-1  text-gray-700">
-        <RxHamburgerMenu className="iconSmall sm:iconMed md:p-1" />
-      </div>
+      {/* <div className="flex flex-shrink items-center px-1  text-gray-700"> */}
+      {/* <RxHamburgerMenu
+          onClick={handleBurgerClick}
+          className="iconSmall sm:iconMed md:p-1"
+        /> */}
+
+      <Menu
+        right
+        styles={styles}
+        // customBurgerIcon={<RxHamburgerMenu className="flex " />}
+        // className="bg-white"
+        // burgerButtonClassName="bg-back"
+        isOpen={burgerOpen}
+        onOpen={handleBurgerOpen}
+        onClose={handleBurgerOpen}>
+        <Link href="/" className="menu-item">
+          Recipes
+        </Link>
+        <Link href="/" onClick={closeBurger}>
+          Create Recipes
+        </Link>
+        <Link href="/">My Favourite Recipes</Link>
+      </Menu>
+      {/* </div> */}
     </div>
   );
 }

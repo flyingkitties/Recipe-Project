@@ -37,7 +37,7 @@ function snacks() {
     }
   };
   return (
-    <div className="">
+    <div className="bg-gray-100">
       {/* top */}
       <div>
         <div className=" h-[100px] md:h-[150px] lg:h-[200px]  object-fill overflow-hidden ">
@@ -57,14 +57,14 @@ function snacks() {
         </div>
       </div>
       {/* Cards */}
-      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
+      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10 ">
         {snacks?.map((recipe) => {
           if (recipe.image != null) {
             return (
               <Link href={`recipe/${recipe?.id}`}>
                 <div
                   key={recipe.id}
-                  className="flex hover:drop-shadow-2xl border-2 mb-10 lg:my-0 rounded-md cursor-pointer ">
+                  className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl ">
                   <div
                     className="flex max-h-[200px] max-w-[200px] justify-center content-center 
       items-center object-contain shrink-0">
