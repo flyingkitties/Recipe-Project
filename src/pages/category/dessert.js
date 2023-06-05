@@ -61,7 +61,7 @@ function dessert() {
         {dessert?.map((recipe) => {
           if (recipe.image != null) {
             return (
-              <Link href={`recipe/${recipe?.id}`}>
+              <Link href={`../recipe/${recipe?.id}`}>
                 <div
                   key={recipe.id}
                   className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl  ">

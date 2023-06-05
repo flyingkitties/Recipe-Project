@@ -6,12 +6,3 @@ body {
   padding-bottom: 10rem;
   background: red;
 }
-
-.bm-burger-button {
-  position: fixed;
-  width: 36px;
-  height: 30px;
-  left: 36px;
-  top: 36px;
-  background-color: blue;
-}

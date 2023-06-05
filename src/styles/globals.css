@@ -16,6 +16,9 @@
   .iconSmall {
     @apply w-4 h-4  items-center justify-center object-center cursor-pointer;
   }
+  .iconXM {
+    @apply w-7 h-7 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
+  }
   .iconMed {
     @apply w-6 h-6 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
   }
@@ -31,6 +34,9 @@
   .btnRecipeGray {
     @apply cursor-pointer bg-gray-100 rounded-full lg:p-3 sm:p-2 p-1 hover:shadow-lg;
   }
+  .btnGray {
+    @apply cursor-pointer bg-gray-400 rounded-full lg:p-3 sm:p-2 p-1 hover:shadow-lg;
+  }
   .btnOrg {
     @apply cursor-pointer border-2 border-white shadow-md hover:shadow-2xl hover:bg-[#FF8F00] rounded-3xl p-1 px-3 my-1 text-white;
   }
@@ -39,7 +45,13 @@
     @apply drop-shadow-[0_0.9px_0.9px_rgba(0,0,0,0.5)];
   }
   .menuDrop {
-    @apply flex items-center p-2 text-gray-600 space-x-3 w-full hover:shadow-md  hover:bg-gray-100 hover:text-gray-800 cursor-pointer;
+    @apply flex items-center p-2 text-gray-600 space-x-3 w-full hover:shadow-sm  hover:bg-gray-50 hover:text-gray-800 cursor-pointer;
+  }
+  .menuDropText {
+    @apply text-xs md:text-sm text-gray-600 hover:text-gray-800;
+  }
+  .hoverGray {
+    @apply text-gray-600 hover:text-gray-800;
   }
   .titleText {
     @apply font-semibold capitalize hover:underline text-gray-800 text-sm md:text-base;

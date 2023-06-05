@@ -77,7 +77,7 @@ function SearchParams() {
                   className=" bg-white rounded-md shadow-md cursor-pointer max-w-[312px]
                hover:shadow-xl 
                 ">
-                  <Link href={`recipe/${recipe?.id}`}>
+                  <Link href={`../recipe/${recipe?.id}`}>
                     <div
                       className="flex justify-center content-center 
               items-center object-cover">
