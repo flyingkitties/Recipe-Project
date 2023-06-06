@@ -120,7 +120,7 @@ function Header({ data }) {
     },
     bmItemList: {
       color: 'rgb(107 114 128)',
-      padding: '0.8em',
+      padding: '0.8em 0 ',
     },
     bmItem: {
       display: 'flex',
@@ -312,97 +312,216 @@ function Header({ data }) {
               </div>
             )}
           </div>
-          {/* Menu */}
-          {/* <div className="flex flex-shrink items-center px-1  text-gray-700"> */}
-          {/* <RxHamburgerMenu
-          onClick={handleBurgerClick}
-          className="iconSmall sm:iconMed md:p-1"
-        /> */}
 
           <Menu
             right
             styles={styles}
             className=""
-            // customBurgerIcon={<RxHamburgerMenu className="flex " />}
-            // className="bg-white"
-            // burgerButtonClassName="bg-back"
             isOpen={burgerOpen}
             onOpen={handleBurgerOpen}
             onClose={handleBurgerOpen}>
-            <Link
-              className="space-x-2 hoverGray "
-              onClick={closeBurger}
-              href="/">
-              <AiOutlineHome className="iconMed" />
-              <p>Home</p>
-            </Link>
+            {/* Home Tab */}
+            <div className="">
+              <Link
+                className="space-x-2 hoverGray flex"
+                onClick={handleBurgerOpen}
+                href="/">
+                <AiOutlineHome className="iconSM" />
+                <p>Home</p>
+              </Link>
+            </div>
 
-            <div
-              onClick={handleRecipesDrop}
-              className="flex space-x-2 hoverGray ">
+            {/* Recipes Tab */}
+            <div className="flex space-x-2 hoverGray ">
               {!recipesDrop ? (
-                <Link href="/" className="flex space-x-2 hoverGray ">
-                  <GiCookingPot className="iconMed" />
+                // Recipes Tab unclicked
+                <div
+                  onClick={handleRecipesDrop}
+                  className="flex space-x-2 hoverGray ">
+                  <GiCookingPot className="iconSM" />
                   <p className="">Recipes</p>
                   <div className="flex items-center">
                     <ChevronDownIcon className="iconSmall" />
                   </div>
-                </Link>
+                </div>
               ) : (
-                <div className="bg-gray-50 w-full">
-                  <div className="flex space-x-2 hoverGray ">
-                    <GiCookingPot className="iconMed" />
+                // Recipes Tab clicked
+                <div className="bg-gray-50 w-full ">
+                  <hr className="" />
+                  <div
+                    className="flex space-x-2 hoverGray py-2"
+                    onClick={handleRecipesDrop}>
+                    <GiCookingPot className="iconSM" />
                     <p className="">Recipes</p>
                     <div className="flex items-center">
                       <ChevronUpIcon className="iconSmall" />
                     </div>
                   </div>
-                  <div className="pl-8 pt-2 space-y-2">
+                  <div className=" relative ">
+                    <hr className="absolute bottom-0 h-full border left-3 md:left-4 z-0 border-[#FF8200]/30" />
                     {!categoryDrop ? (
+                      //Category Tab
                       <div
-                        className="flex space-x-2 hoverGray"
+                        className="flex mt-2 mb-1 space-x-2 hoverGray  py-2"
                         onClick={handleCategoryDrop}>
-                        <p className="">By Category</p>
+                        <p className="ml-8">By Category</p>
                         <div className="flex items-center">
                           <ChevronDownIcon className="iconSmall" />
                         </div>
                       </div>
                     ) : (
+                      //Category Tab clicked
+                      <div className="bg-gray-100 w-full ">
+                        <hr className="" />
+                        <div
+                          className="flex mt-2 mb-1 space-x-2 hoverGray  py-2"
+                          onClick={handleCategoryDrop}>
+                          <p className="ml-8">By Category</p>
+                          <div className="flex items-center">
+                            <ChevronUpIcon className="iconSmall" />
+                          </div>
+                        </div>
+                        <div className="relative pl-5 space-y-2 pb-2">
+                          <hr className="absolute bottom-0  h-full border left-10 z-0 border-[#FF8F00]/50 " />
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className=" hoverGray "
+                              href="/category/breakfast">
+                              <p className="ml-10">Breakfast</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/salad">
+                              <p className="ml-10">Salad</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/sides">
+                              <p className="ml-10">Sides</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/mainCourse">
+                              <p className="ml-10">Main Course</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/dessert">
+                              <p className="ml-10">Dessert</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/snacks">
+                              <p className="ml-10">Snacks</p>
+                            </Link>
+                          </div>
+                        </div>
+                        <hr className="" />
+                      </div>
+                    )}
+
+                    {!dietDrop ? (
+                      //Diet Tab
                       <div>
                         <div
-                          className="flex space-x-2 hoverGray"
-                          onClick={handleCategoryDrop}>
-                          <p className="">By Category</p>
+                          className="flex mt-2 mb-1 space-x-2 hoverGray  py-2"
+                          onClick={handleDietDrop}>
+                          <p className="ml-8">By Diet</p>
                           <div className="flex items-center">
                             <ChevronDownIcon className="iconSmall" />
                           </div>
                         </div>
-                        <Link className="space-x-2 hoverGray " href="/">
-                          <GiForkKnifeSpoon className="iconMed" />
-                          <p>Add a Recipe</p>
-                        </Link>
-                        <Link className="space-x-2 hoverGray " href="/">
-                          <GiForkKnifeSpoon className="iconMed" />
-                          <p>Add a Recipe</p>
-                        </Link>
+                        <hr className="" />
+                      </div>
+                    ) : (
+                      //Diet Tab Clicked
+                      <div className="bg-gray-100 w-full  ">
+                        <hr className="" />
+                        <div
+                          className="flex mt-2 mb-1 space-x-2 hoverGray  py-2 "
+                          onClick={handleDietDrop}>
+                          <p className="ml-8">By Diet</p>
+                          <div className="flex items-center">
+                            <ChevronDownIcon className="iconSmall" />
+                          </div>
+                        </div>
+                        <div className="relative pl-5 space-y-2 pb-2">
+                          <hr className="absolute bottom-0  h-full border left-10 z-0 border-[#FF8F00]/50 " />
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className=" hoverGray "
+                              href="/">
+                              <p className="ml-10">Popular Recipes</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/salad">
+                              <p className="ml-10">Vegetarian</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/sides">
+                              <p className="ml-10">Keto</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/mainCourse">
+                              <p className="ml-10">Gluten Free</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/dessert">
+                              <p className="ml-10">Pescetarian</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/snacks">
+                              <p className="ml-10">Vegan</p>
+                            </Link>
+                          </div>
+                          <div className="py-2">
+                            <Link
+                              onClick={handleBurgerOpen}
+                              className="space-x-2 hoverGray "
+                              href="/category/snacks">
+                              <p className="ml-10">Paleo</p>
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     )}
-                    <div
-                      className="flex space-x-2 hoverGray"
-                      onClick={handleCategoryDrop}>
-                      <p className="">By Category</p>
-                      <div className="flex items-center">
-                        <ChevronDownIcon className="iconSmall" />
-                      </div>
-                    </div>
-                    <div
-                      className="flex space-x-2 hoverGray "
-                      onClick={handleDietDrop}>
-                      <p className="">By Diet</p>
-                      <div className="flex items-center">
-                        <ChevronDownIcon className="iconSmall" />
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
@@ -412,21 +531,21 @@ function Header({ data }) {
               className="space-x-2 hoverGray "
               href="/"
               onClick={closeBurger}>
-              <GiForkKnifeSpoon className="iconMed" />
+              <GiForkKnifeSpoon className="iconSM" />
               <p>Add a Recipe</p>
             </Link>
             <Link
               className="space-x-2 hoverGray"
               href="/"
               onClick={closeBurger}>
-              <AiOutlineHeart className="iconMed hover:text-red-500" />
+              <AiOutlineHeart className="iconSM hover:text-red-500" />
               <p>My Favourite Recipes</p>
             </Link>
             <Link
               className="space-x-2 hoverGray"
               href="/"
               onClick={closeBurger}>
-              <GiCookingGlove className="iconMed" />
+              <GiCookingGlove className="iconSM" />
               <p> My Recipes</p>
             </Link>
           </Menu>

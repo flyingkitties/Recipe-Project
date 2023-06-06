@@ -26,7 +26,7 @@ function breakfast() {
     } else {
       const api = await axios.get('../api/search/', {
         params: {
-          tags: 'breakfast',
+          tags: 'gluten-free',
           number: '20',
         },
       });

@@ -16,11 +16,15 @@
   .iconSmall {
     @apply w-4 h-4  items-center justify-center object-center cursor-pointer;
   }
-  .iconXM {
-    @apply w-7 h-7 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
+  .iconSM {
+    @apply w-6 h-6 items-center justify-center object-center cursor-pointer;
   }
+
   .iconMed {
     @apply w-6 h-6 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
+  }
+  .iconXM {
+    @apply w-7 h-7 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
   }
   .iconLarge {
     @apply md:h-10 md:w-10 h-8 w-8 rounded-full items-center justify-center object-center cursor-pointer;
@@ -51,7 +55,7 @@
     @apply text-xs md:text-sm text-gray-600 hover:text-gray-800;
   }
   .hoverGray {
-    @apply text-gray-600 hover:text-gray-800;
+    @apply text-gray-600 hover:text-gray-800 cursor-pointer;
   }
   .titleText {
     @apply font-semibold capitalize hover:underline text-gray-800 text-sm md:text-base;
