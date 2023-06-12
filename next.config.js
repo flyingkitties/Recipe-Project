@@ -6,6 +6,7 @@ const nextConfig = {
       'spoonacular.com',
       'live.staticflickr.com',
       'lh3.googleusercontent.com',
+      'www.canva.com',
     ],
   },
 };

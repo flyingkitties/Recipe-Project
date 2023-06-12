@@ -28,7 +28,7 @@ function Paleo() {
       const api = await axios.get('api/search/', {
         params: {
           tags: 'paleo',
-          number: '20',
+          number: '5',
         },
       });
 
@@ -40,7 +40,9 @@ function Paleo() {
 
   return (
     <div className="p-5 px-5 sm:px-8 md:px-10 lg:px-20 group">
-      <div className="flex items-center group-hover:text-[#00B8E1] group/item">
+      <Link
+        href="/diet/paleo"
+        className="flex items-center group-hover:text-[#00B8E1] group/item">
         <h1 className="text-gray-700 text-xl font-semibold link px-2">
           Paleo Recipes
         </h1>
@@ -48,7 +50,7 @@ function Paleo() {
           <h3 className="text-xs pl-3 pr-1 cursor-pointer">Explore all</h3>
         </div>
         <ChevronRightIcon className="iconSmall" />
-      </div>
+      </Link>
       <div className="">
         <Splide
           options={{

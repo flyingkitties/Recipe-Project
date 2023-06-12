@@ -1,10 +1,15 @@
-module.exports = {
+const withMT = require('@material-tailwind/react/utils/withMT');
+
+module.exports = withMT({
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
+      rotate: {
+        360: '360deg',
+      },
       display: ['group-hover'],
       backgroundImage: {
         flower:
@@ -21,4 +26,4 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
   ],
-};
+});

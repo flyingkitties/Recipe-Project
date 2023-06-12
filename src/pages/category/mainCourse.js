@@ -1,26 +1,125 @@
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import {
-  ClockIcon,
-  HandThumbUpIcon,
-  StarIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import mainCourseImage from '../../../public/images/main.jpg';
-import Link from 'next/link';
+import RecipeCardHr from '@/components/RecipeCardHr';
+import { Button, IconButton } from '@material-tailwind/react';
+import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 function mainCourse() {
   const [mainCourse, setMainCourse] = useState([]);
+  const [page1, setPage1] = useState(true);
+  const [page2, setPage2] = useState(false);
+  const [page3, setPage3] = useState(false);
+  const [page4, setPage4] = useState(false);
+  const [active, setActive] = useState(1);
+
+  const getItemProps = (index) => ({
+    variant: active === index ? 'filled' : 'text',
+    color: active === index ? 'orange' : 'blue-gray',
+    onClick: () => {
+      setActive(index);
+      if (index === 1) {
+        handlePage1();
+      } else if (index === 2) {
+        handlePage2();
+      } else if (index === 3) {
+        handlePage3();
+      } else if (index === 4) {
+        handlePage4();
+      }
+    },
+    className: ' rounded-full',
+  });
+
+  const next = () => {
+    setActive(active + 1);
+
+    if (active === 0) {
+      handlePage1();
+    }
+    if (active === 1) {
+      handlePage2();
+    }
+    if (active === 2) {
+      handlePage3();
+    }
+    if (active === 3) {
+      handlePage4();
+    }
+    if (active === 4) {
+      return;
+    }
+  };
+
+  const prev = () => {
+    setActive(active - 1);
+    if (active === 0) {
+      handlePage1();
+    }
+    if (active === 1) {
+      return;
+    }
+    if (active === 2) {
+      handlePage1();
+    }
+    if (active === 3) {
+      handlePage2();
+    }
+    if (active === 4) {
+      handlePage3();
+    }
+  };
+
+  const handlePage1 = () => {
+    setPage1(true);
+    setPage2(false);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+
+  const handlePage2 = () => {
+    setPage1(false);
+    setPage2(true);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage3 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(true);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage4 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(false);
+    setPage4(true);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     feedMainCourse();
   }, []);
 
   const feedMainCourse = async () => {
-    const checkLocal = localStorage.getItem('mainCourse');
+    const checkLocal = localStorage.getItem('mainCourse40');
 
     if (checkLocal) {
       setMainCourse(JSON.parse(checkLocal));
@@ -28,11 +127,11 @@ function mainCourse() {
       const api = await axios.get('../api/search/', {
         params: {
           tags: 'main course',
-          number: '20',
+          number: '40',
         },
       });
       const { data } = api;
-      localStorage.setItem('mainCourse', JSON.stringify(data.recipes));
+      localStorage.setItem('mainCourse40', JSON.stringify(data.recipes));
       setMainCourse(data.recipes);
     }
   };
@@ -57,51 +156,85 @@ function mainCourse() {
       </div>
       {/* Cards */}
       <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
-        {mainCourse?.map((recipe) => {
-          if (recipe.image != null) {
+        {mainCourse?.map((recipe, i) => {
+          if (recipe.image != null && i < 10 && page1) {
             return (
-              <Link href={`../recipe/${recipe?.id}`}>
-                <div
-                  key={recipe.id}
-                  className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl  ">
-                  <div
-                    className="flex max-h-[200px] max-w-[200px] justify-center content-center 
-      items-center object-contain shrink-0">
-                    <Image
-                      className="rounded-l-md "
-                      src={recipe.image}
-                      loading="eager"
-                      width={240}
-                      height={150}
-                      alt="Breakfast image"
-                    />
-                  </div>
-                  <div className="p-2">
-                    <h1 className="titleText line-clamp-2 ">{recipe.title}</h1>
-                    <div className="justify-evenly pt-4 space-y-1  text-gray-600 ">
-                      <div className="flex space-x-1 items-center">
-                        <HandThumbUpIcon className="h-4 w-4 text-[#00B8E1] " />
-                        <p className="text-xs font-light">
-                          {recipe.aggregateLikes}
-                        </p>
-                      </div>
-                      <div className="flex space-x-1 items-center ">
-                        <ClockIcon className="h-3 w-3" />
-                        <p className="text-xs font-light">
-                          {recipe.readyInMinutes} min
-                        </p>
-                      </div>
-                      <div className="flex space-x-1 items-center">
-                        <UserIcon className="h-3 w-3" />
-                        <p className="text-xs font-light">{recipe.servings}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              <RecipeCardHr
+                id={recipe.id}
+                key={recipe.id}
+                image={recipe.image}
+                title={recipe.title}
+                aggregateLikes={recipe.aggregateLikes}
+                readyInMinutes={recipe.readyInMinutes}
+                servings={recipe.readyInMinutes}
+              />
+            );
+          }
+          if (recipe.image != null && i >= 10 && i < 20 && page2) {
+            return (
+              <RecipeCardHr
+                id={recipe.id}
+                key={recipe.id}
+                image={recipe.image}
+                title={recipe.title}
+                aggregateLikes={recipe.aggregateLikes}
+                readyInMinutes={recipe.readyInMinutes}
+                servings={recipe.readyInMinutes}
+              />
+            );
+          }
+          if (recipe.image != null && i >= 20 && i < 30 && page3) {
+            return (
+              <RecipeCardHr
+                id={recipe.id}
+                key={recipe.id}
+                image={recipe.image}
+                title={recipe.title}
+                aggregateLikes={recipe.aggregateLikes}
+                readyInMinutes={recipe.readyInMinutes}
+                servings={recipe.readyInMinutes}
+              />
+            );
+          }
+          if (recipe.image != null && i >= 30 && page4) {
+            return (
+              <RecipeCardHr
+                id={recipe.id}
+                key={recipe.id}
+                image={recipe.image}
+                title={recipe.title}
+                aggregateLikes={recipe.aggregateLikes}
+                readyInMinutes={recipe.readyInMinutes}
+                servings={recipe.readyInMinutes}
+              />
             );
           }
         })}
+      </div>
+      <div className="flex items-center justify-center text-justify gap-4">
+        <Button
+          variant="text"
+          color="blue-gray"
+          className="flex items-center gap-2 rounded-full"
+          onClick={prev}
+          disabled={active === 1}>
+          <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+        </Button>
+        <div className="flex items-center gap-2">
+          <IconButton {...getItemProps(1)}>1</IconButton>
+          <IconButton {...getItemProps(2)}>2</IconButton>
+          <IconButton {...getItemProps(3)}>3</IconButton>
+          <IconButton {...getItemProps(4)}>4</IconButton>
+        </div>
+        <Button
+          variant="text"
+          color="blue-gray"
+          className="flex items-center gap-2 rounded-full"
+          onClick={next}
+          disabled={active === 4}>
+          Next
+          <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+        </Button>
       </div>
       <Footer />
     </div>

@@ -1,14 +1,12 @@
 import Footer from '@/components/Footer';
 import axios from 'axios';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import snacksImage from '../../../public/images/snacks.jpg';
 import { Button, IconButton } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import RecipeCardHr from '@/components/RecipeCardHr';
 
-function snacks() {
-  const [snacks, setSnacks] = useState([]);
+function popularPage({}) {
+  const [popPage, setPopPage] = useState([]);
   const [page1, setPage1] = useState(true);
   const [page2, setPage2] = useState(false);
   const [page3, setPage3] = useState(false);
@@ -115,49 +113,38 @@ function snacks() {
   };
 
   useEffect(() => {
-    feedSnacks();
+    feedPopular();
   }, []);
 
-  const feedSnacks = async () => {
-    const checkLocal = localStorage.getItem('snacks40');
+  const feedPopular = async () => {
+    const checkLocal = localStorage.getItem('Popular40');
 
     if (checkLocal) {
-      setSnacks(JSON.parse(checkLocal));
+      setPopPage(JSON.parse(checkLocal));
     } else {
       const api = await axios.get('../api/search/', {
         params: {
-          tags: 'snacks',
-          number: '40',
+          number: `40`,
         },
       });
       const { data } = api;
-      localStorage.setItem('snacks40', JSON.stringify(data.recipes));
-      setSnacks(data.recipes);
+      localStorage.setItem('Popular40', JSON.stringify(data.recipes));
+      setPopPage(data.recipes);
     }
   };
   return (
     <div className="bg-gray-100">
-      {/* top */}
-      <div>
-        <div className=" h-[100px] md:h-[150px] lg:h-[200px]  object-fill overflow-hidden ">
-          <Image src={snacksImage} width={2000} height={200} className="" />
-        </div>
-        <div className="pt-[2%] pb-[7%] text-center ">
-          <h1 className="text-4xl sm:text-[50px] md:text-[60px] lg:text-[80px] font-bold titleFont ">
-            Snack Recipes
-          </h1>
-          <div className="text-gray-600 mt-[5%] text-sm sm:text-base px-10 md:px-32 lg:px-56">
-            <p className=" ">
-              Keep hunger pangs at bay by filling up with a quick bite. Our easy
-              speedy snack recipes are perfect for keeping you going 'til
-              dinner.
-            </p>
-          </div>
-        </div>
+      {/* title */}
+      <div className="pt-[10%] pb-[10%] text-center ">
+        <h1 className="text-4xl sm:text-[50px] md:text-[60px] lg:text-[80px] font-bold titleFont ">
+          Popular Recipes
+        </h1>
       </div>
-      {/* Cards */}
-      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10 ">
-        {snacks?.map((recipe, i) => {
+
+      {/* Main */}
+      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
+        {/* Cards */}
+        {popPage?.map((recipe, i) => {
           if (recipe.image != null && i < 10 && page1) {
             return (
               <RecipeCardHr
@@ -242,4 +229,4 @@ function snacks() {
   );
 }
 
-export default snacks;
+export default popularPage;

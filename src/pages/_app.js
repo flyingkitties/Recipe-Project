@@ -30,14 +30,14 @@ Router.events.on('routeChangeError', progress.finish);
 export default function App({ Component, pageProps }) {
   // const [progress, setProgress] = useState(0);
   return (
-    <SessionProvider session={pageProps.session}>
+    <SessionProvider className="z-0" session={pageProps.session}>
       <Toaster />
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+      <QueryClientProvider className="z-0" client={queryClient}>
         <div className=" ">
           <Header />
           <Component {...pageProps} />
         </div>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>
   );

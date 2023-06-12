@@ -29,11 +29,14 @@
   .iconLarge {
     @apply md:h-10 md:w-10 h-8 w-8 rounded-full items-center justify-center object-center cursor-pointer;
   }
+  .iconLarge {
+    @apply lg:h-16 lg:w-16 md:h-14 md:w-14 h-12 w-12 rounded-full items-center justify-center object-center cursor-pointer;
+  }
   .btn {
-    @apply cursor-pointer bg-orange-400 rounded-3xl p-1 px-3 text-white;
+    @apply cursor-pointer bg-[#FF8F00] rounded-3xl p-1 px-3 text-white;
   }
   .btnRecipe {
-    @apply cursor-pointer bg-orange-400 lg:p-3 md:p-2  p-1  rounded-full text-white hover:shadow-lg;
+    @apply cursor-pointer bg-[#FF8F00] lg:p-3 md:p-2  p-1  rounded-full text-white hover:shadow-lg;
   }
   .btnRecipeGray {
     @apply cursor-pointer bg-gray-100 rounded-full lg:p-3 sm:p-2 p-1 hover:shadow-lg;
@@ -43,6 +46,9 @@
   }
   .btnOrg {
     @apply cursor-pointer border-2 border-white shadow-md hover:shadow-2xl hover:bg-[#FF8F00] rounded-3xl p-1 px-3 my-1 text-white;
+  }
+  .btnBMenu {
+    @apply cursor-pointer border hover:border-2 border-[#FF8F00] shadow-md hover:shadow-2xl rounded-3xl p-1 px-3 my-1 text-[#FF8F00];
   }
 
   .shade {
@@ -59,5 +65,8 @@
   }
   .titleText {
     @apply font-semibold capitalize hover:underline text-gray-800 text-sm md:text-base;
+  }
+  .followUs {
+    @apply iconSmall hover:text-[#FF8F00] transition-transform hover:rotate-[360deg];
   }
 }
