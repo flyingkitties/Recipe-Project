@@ -35,7 +35,7 @@ import {
   BsTiktok,
   BsTwitter,
 } from 'react-icons/bs';
-
+import { Tooltip } from '@material-tailwind/react';
 function Header({ data }) {
   const [query, setQuery] = useState([]);
   const [userDrop, setUserDrop] = useState(false);
@@ -85,26 +85,11 @@ function Header({ data }) {
     setCategoryDrop(!categoryDrop);
   };
 
-  // const getRecipeData = async () => {
-  //   const api = await axios.get("api/search/", {
-  //     params: {
-  //       tags: query,
-  //       number: "20",
-  //     },
-  //   });
-
-  //   const { data } = api;
-  //   setQuery(data.recipes);
-  //   console.log(data.recipes);
-  // };
-
   var styles = {
     bmBurgerButton: {
       position: 'relative',
       width: '35px',
       height: '35px',
-      // right: '3px',
-      // marginLeft: '5px',
     },
     bmBurgerBars: {
       color: 'rgb(75 85 99)',
@@ -134,14 +119,7 @@ function Header({ data }) {
     bmMorphShape: {
       fill: '#373a47',
     },
-    bmItemList: {
-      // color: 'rgb(107 114 128)',
-      // padding: '0.8em 0 ',
-    },
-    bmItem: {
-      // display: 'flex',
-      // padding: '0.5em 0em 0.5em',
-    },
+
     bmOverlay: {
       background: 'rgba(0, 0, 0, 0.3)',
     },
@@ -151,11 +129,13 @@ function Header({ data }) {
     <div>
       <div className="relative sm:flex top-0  z-10 shadow-lg space-x-2 sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white  ">
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0  md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]">
-          <Image width={100} height={100} src={LogoRC} />
-        </Link>
+        <Tooltip content="Recipe Corner">
+          <Link
+            href="/"
+            className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0  md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]">
+            <Image width={100} height={100} src={LogoRC} />
+          </Link>
+        </Tooltip>
 
         {/* Search Bar */}
         <form
@@ -217,7 +197,7 @@ function Header({ data }) {
         {/* User  */}
         <div className="flex absolute sm:static right-2 top-2 items-center space-x-4 pr-2 ">
           <button className="sm:hidden hoverGray" onClick={handleSearchDrop}>
-            <MagnifyingGlassIcon className="iconXM h-[35px] w-[35px]" />
+            <MagnifyingGlassIcon className="iconXM " />
           </button>
           <div className="flex relative">
             {session ? (
@@ -247,7 +227,9 @@ function Header({ data }) {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
-                    <div className=" absolute top-11 right-0 w-44 md:w-52 p-1 bg-white  rounded-md shadow-2xl border-[0.01px] border-gray-200 z-20 ">
+                    <div
+                      className=" absolute top-11 right-0 w-44 md:w-52 p-1 bg-white  
+                    rounded-md shadow-2xl border-[0.01px] border-gray-200 z-20 ">
                       <div className="menuDrop">
                         <Cog6ToothIcon className="iconMed hoverGray" />
                         <p className="menuDropText">Settings & Privacy</p>
@@ -264,13 +246,9 @@ function Header({ data }) {
                         <InformationCircleIcon className="iconMed hoverGray" />
                         <p className="menuDropText">Help and Support</p>
                       </div>
-                      <div className="menuDrop ">
+                      <div className="menuDrop " onClick={() => signOut()}>
                         <ArrowRightOnRectangleIcon className="iconMed  hoverGray " />
-                        <p
-                          className="menuDropText"
-                          onClick={!session ? signIn : signOut}>
-                          Sign Out
-                        </p>
+                        <p className="menuDropText">Sign Out</p>
                       </div>
                     </div>
                   </Transition>
@@ -281,7 +259,7 @@ function Header({ data }) {
                 className="flex  items-center text-center 
            text-gray-700  sm:px-2 link "
                 onClick={handleUserDrop}>
-                <UserIcon className="iconXM hoverGray " />
+                <UserIcon className="iconXM  hoverGray " />
                 <div className="absolute bottom-0 right-[40%] bg-red-600 h-[8px] w-[8px] rounded-full "></div>
 
                 <ChevronDownIcon
@@ -301,13 +279,9 @@ function Header({ data }) {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
                     <div className=" absolute top-10 right-0 w-44 md:w-52 p-2 bg-white border-[0.01px] border-gray-200 rounded-md shadow-2xl z-20 ">
-                      <div className="menuDrop ">
+                      <div className="menuDrop " onClick={() => signIn()}>
                         <ArrowRightOnRectangleIcon className="iconMed hoverGray " />
-                        <p
-                          className="menuDropText"
-                          onClick={!session ? signIn : signOut}>
-                          Sign In
-                        </p>
+                        <p className="menuDropText">Sign In</p>
                       </div>
                       <div className="menuDrop">
                         <InformationCircleIcon className="iconMed hoverGray" />
@@ -502,7 +476,7 @@ function Header({ data }) {
                         </div>
                       ) : (
                         //Diet Tab Clicked
-                        <div className="bg-gray-100 w-full  ">
+                        <div className=" w-full  ">
                           <hr className="" />
                           <div
                             className="flex mt-2 mb-1 space-x-2 hoverGray  py-2 "

@@ -7,6 +7,9 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      outlineWidth: {
+        0.1: '0.1px',
+      },
       rotate: {
         360: '360deg',
       },

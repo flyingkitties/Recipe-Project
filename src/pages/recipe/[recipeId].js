@@ -378,7 +378,7 @@ function recipeById() {
         {/* Method */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 mt-5">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 ">
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Method
@@ -503,7 +503,7 @@ function recipeById() {
               </button>
             </form>
           </div>
-          {/* Map the comments here!!!!!!!!!!!!!!!!!! */}
+          {/* List of Comments */}
           <div className="mt-5">
             {comments.map((comment) => {
               console.log(comment);
