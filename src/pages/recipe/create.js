@@ -9,6 +9,7 @@ import {
   MinusIcon,
   PlusCircleIcon,
   PlusIcon,
+  TrashIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Select from 'react-select';
@@ -35,40 +36,77 @@ import { useSession } from 'next-auth/react';
 import { comment } from 'postcss';
 import TimeAgo from 'react-timeago';
 import ReactTimeago from 'react-timeago';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray, Controller, useWatch } from 'react-hook-form';
+import { Input } from '@material-tailwind/react';
 
 function create() {
   const [imageBoxOpen, setImageBoxOpen] = useState(false);
-  const [ingredientsInput, setIngredientsInput] = useState([
-    { ingredient: '' },
-  ]);
+  const [ingredientsInput, setIngredientsInput] = useState(['']);
   const { data: session, status } = useSession();
-
-  const dietOptions = [
-    { value: 'Vegetarian', label: 'Vegetarian' },
-    { value: 'Keto', label: 'Keto' },
-    { value: 'Gluten Free', label: 'Gluten Free' },
-    { value: 'Pescetarian', label: 'Pescetarian' },
-    { value: 'Vegan', label: 'Vegan' },
-    { value: 'Paleo', label: 'Paleo' },
-  ];
-  const animatedComponents = makeAnimated();
-
-  const handleIngredientChange = (i, e) => {
-    let newIngredientInput = [...ingredientsInput];
-    newIngredientInput[i][e.target.name] = e.target.value;
-    setIngredientsInput(newIngredientInput);
-  };
-
-  let handleAddIngredient = () => {
-    setIngredientsInput([...ingredientsInput, { ingredient: '' }]);
-  };
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      ingredients: '',
+      // [
+      //   {
+      //     name: '',
+      //   },
+      // ],
+    },
+  });
+
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+    {
+      control,
+      name: 'ingredients', // unique name for your Field Array
+    }
+  );
+
+  // console.log('fields!', fields);
+
+  const dietOptions = [
+    { name: 'Vegetarian', value: 'Vegetarian', label: 'Vegetarian' },
+    { name: 'Keto', value: 'Keto', label: 'Keto' },
+    { name: 'Gluten Free', value: 'Gluten Free', label: 'Gluten Free' },
+    { name: 'Pescetarian', value: 'Pescetarian', label: 'Pescetarian' },
+    { name: 'Vegan', value: 'Vegan', label: 'Vegan' },
+    { name: 'Paleo', value: 'Paleo', label: 'Paleo' },
+  ];
+  const animatedComponents = makeAnimated();
+
+  // const handleIngredientChange = (index, e) => {
+  //   let newIngredientInput = [...ingredientsInput];
+  //   // newIngredientInput[i][e.target.name] = e.target.value;
+  //   newIngredientInput[index] = e.target.value;
+  //   setIngredientsInput(newIngredientInput);
+  //   e.preventDefault();
+  //   console.log(ingredientsInput);
+  //   setValue('ingredients', newIngredientInput[index]);
+  // };
+  // console.log(ingredientsInput, 'outside the function');
+
+  // const handleAddIngredient = () => {
+  //   let newIngredient = '';
+  //   setIngredientsInput([...ingredientsInput, newIngredient]);
+  // };
+
+  // let handleRemoveIngredient = (i) => {
+  //   let newIngredientInput = [...ingredientsInput];
+  //   newIngredientInput.splice(i, 1);
+  //   setIngredientsInput(newIngredientInput);
+  // };
+
+  const onSubmit = (data) => console.log(data);
+  //  handleSubmit(async (data) => {
+  //   console.log(data);
+  //   const notification = toast.loading('creating your recipe...');
+  // }
+  // );
 
   return (
     <div className="bg-gray-100">
@@ -80,10 +118,10 @@ function create() {
       </div>
       {/* Body */}
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
         className="px-5 sm:px-10 md:px-14 lg:px-36">
         <div className=" relative flex bg-white rounded-md shadow-md">
-          {/* Left Section */}
+          {/* Left Section container 1 */}
           {/* Image */}
           <div
             className="flex object-cover w-[100px] sm:w-[240px] h-[150px] md:w-[270px] 
@@ -107,7 +145,7 @@ function create() {
                       group-hover:rotate-180 "
                     />
                   )}
-                  <p className="lg:text-lg">Image</p>
+                  <p className="md:text-lg lg:text-xl">Image</p>
                 </div>
                 {/* Image URL */}
                 <div
@@ -144,7 +182,7 @@ function create() {
             </div>
           </div>
 
-          {/* Right Section */}
+          {/* Right Section container 1*/}
           <div
             className="flex flex-col mr-10 pl-1 sm:pl-2 md:pl-3 lg:pl-5 w-full h-[150px]  
           md:h-[231px] lg:h-[360px] place-content-evenly">
@@ -152,10 +190,10 @@ function create() {
             <div className="">
               <input
                 {...register('title', { required: true })}
-                className=" w-full rounded-md lg:p-3 md:p-2 p-1 pl-3
+                className=" w-full rounded-md lg:p-2 md:p-2 pl-3
                 text-base sm:text-xl md:text-2xl lg:text-3xl
                  titleFont tracking-wide border border-gray-600 hover:border-gray-500 
-                 outline-none  text-gray-800  focus:border-orange-400"
+                 outline-none text-gray-800  focus:border-orange-400"
                 type="text"
                 placeholder="Title..."
               />
@@ -210,7 +248,7 @@ function create() {
             </div>
           </div>
         </div>
-        {/* Description */}
+        {/* Description container 2*/}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
@@ -227,7 +265,7 @@ function create() {
             </div>
           </div>
         </div>
-        {/* This recipe is... */}
+        {/* This recipe is... container 3 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
@@ -244,7 +282,7 @@ function create() {
                 options={dietOptions}
                 components={animatedComponents}
                 isMulti
-                o
+                closeMenuOnSelect={false}
                 name="diets"
                 styles={{
                   control: (baseStyles, state) => ({
@@ -268,7 +306,7 @@ function create() {
           </div>
         </div>
 
-        {/* Ingredients */}
+        {/* Ingredients container 4*/}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
@@ -276,32 +314,44 @@ function create() {
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Ingredients
             </h1>
-            <div className="grid grid-rows-2 lg:grid-rows-1 grid-flow-col gap-1 ">
+            <button type="button" onClick={() => prepend('')}>
+              <PlusCircleIcon className="iconMed" />
+            </button>
+            <div className="grid grid-cols-1 ms:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-2 lg:gap-">
               {/* List of ingredients TODO */}
-              <button type="button" onClick={() => handleAddIngredient()}>
-                <PlusCircleIcon className="iconMed" />
-              </button>
 
-              {ingredientsInput.map((ingredient, i) => {
-                <div>
-                  <input
-                    {...register('ingredients', { required: true })}
-                    onChange={(e) => handleIngredientChange(index, e)}
-                    className="pl-3 rounded-md shadow-sm lg:p-3 md:p-2 p-1 border
-                border-gray-600 hover:border-gray-500 outline-none 
-                text-gray-800  focus:border-orange-400"
-                    type="text"
-                    placeholder="Add an ingrediet (e.g. 1 cup Flour)"
-                    value={ingredient.ingredient}
-                    name="ingredient"
-                  />
-                  {errors.ingredients && <p>Ingredient is required</p>}
-                </div>;
+              {fields.map((field, index) => {
+                return (
+                  <div className="flex items-center" key={field.id}>
+                    <Input
+                      {...register(
+                        `ingredients.${index}`
+                        // {required: true,}
+                      )}
+                      className="w-full flex items-center"
+                      type="text"
+                      // name={field.name}
+                      // defaultValue={field.name}
+                      label="Add an ingredient (e.g. 1 cup Flour)"
+                      variant="outlined"
+                      color="orange"
+                      control={control}
+                      icon={
+                        <TrashIcon
+                          className="iconSmall hoverGray"
+                          onClick={() => remove(index)}
+                        />
+                      }
+                    />
+
+                    {errors.ingredients && <p>Ingredient is required</p>}
+                  </div>
+                );
               })}
             </div>
           </div>
         </div>
-        {/* Method */}
+        {/* Method container 5 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 ">

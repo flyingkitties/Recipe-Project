@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { RxGlobe, RxHamburgerMenu } from 'react-icons/rx';
-import { GiChefToque } from 'react-icons/gi';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -9,7 +8,6 @@ import {
   ChevronDownIcon,
   XMarkIcon,
   ArrowRightOnRectangleIcon,
-  ArrowLeftOnRectangleIcon,
   InformationCircleIcon,
   ChevronUpIcon,
   Cog6ToothIcon,
@@ -36,6 +34,7 @@ import {
   BsTwitter,
 } from 'react-icons/bs';
 import { Tooltip } from '@material-tailwind/react';
+
 function Header({ data }) {
   const [query, setQuery] = useState([]);
   const [userDrop, setUserDrop] = useState(false);
@@ -49,6 +48,12 @@ function Header({ data }) {
 
   const router = useRouter();
 
+  // Handle query
+  function handleChange(e) {
+    setQuery(e.target.value);
+  }
+
+  // Menu Drops
   const triggers = {
     onMouseEnter: () => setOpenMenu(true),
     onMouseLeave: () => setOpenMenu(false),
@@ -61,10 +66,6 @@ function Header({ data }) {
   const handleUserDrop = () => {
     setUserDrop(!userDrop);
   };
-
-  function handleChange(e) {
-    setQuery(e.target.value);
-  }
 
   const handleBurgerOpen = () => {
     setBurgerOpen(!burgerOpen);
@@ -85,6 +86,7 @@ function Header({ data }) {
     setCategoryDrop(!categoryDrop);
   };
 
+  // Burger Menu Styles
   var styles = {
     bmBurgerButton: {
       position: 'relative',
@@ -133,7 +135,7 @@ function Header({ data }) {
           <Link
             href="/"
             className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0  md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]">
-            <Image width={100} height={100} src={LogoRC} />
+            <Image width={100} height={100} src={LogoRC} alt="Logo" />
           </Link>
         </Tooltip>
 
@@ -207,7 +209,7 @@ function Header({ data }) {
                   width={35}
                   height={35}
                   className="rounded-full cursor-pointer"
-                  alt="Session Image"
+                  alt="User Image"
                 />
                 <div className="absolute bottom-0 right-[40%] bg-green-500 h-[8px] w-[8px] rounded-full "></div>
 

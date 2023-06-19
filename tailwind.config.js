@@ -1,5 +1,7 @@
 const withMT = require('@material-tailwind/react/utils/withMT');
 
+const colors = require('material-ui-colors');
+
 module.exports = withMT({
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
@@ -7,6 +9,7 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      colors: { ...colors, myOrange: '#FF8F00' },
       outlineWidth: {
         0.1: '0.1px',
       },
