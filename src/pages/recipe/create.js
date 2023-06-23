@@ -1,11 +1,6 @@
-import { useRouter } from 'next/router';
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
   ClockIcon,
-  HandThumbUpIcon,
   MinusIcon,
   PlusCircleIcon,
   PlusIcon,
@@ -14,30 +9,13 @@ import {
 } from '@heroicons/react/24/outline';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import classNames from 'classnames';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { MdLabelOutline, MdOutlineSend, MdSend } from 'react-icons/md';
-import { RiSendPlaneFill, RiSendPlaneLine } from 'react-icons/ri';
-import { FaRegCommentDots } from 'react-icons/fa';
-import { BsSendFill, BsSend } from 'react-icons/bs';
-import { IoMdSend, IoSend, IoNutritionOutline } from 'react-icons/io';
-import {
-  AiOutlineFire,
-  AiOutlineSend,
-  AiOutlineLike,
-  AiOutlineHeart,
-} from 'react-icons/ai';
-import { Transition } from '@headlessui/react';
-import { useQueries, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import Footer from '@/components/Footer';
 import { useSession } from 'next-auth/react';
-import { comment } from 'postcss';
-import TimeAgo from 'react-timeago';
-import ReactTimeago from 'react-timeago';
 import { useForm, useFieldArray, Controller, useWatch } from 'react-hook-form';
 import { Input } from '@material-tailwind/react';
+import Footer from '../../components/Footer';
 
 function create() {
   const [imageBoxOpen, setImageBoxOpen] = useState(false);
@@ -276,32 +254,39 @@ function create() {
               This Recipe Is...
             </h1>
             <div className="">
-              <Select
-                {...register('diets')}
-                classNames="rounded-md"
-                options={dietOptions}
-                components={animatedComponents}
-                isMulti
-                closeMenuOnSelect={false}
+              <Controller
+                control={control}
                 name="diets"
-                styles={{
-                  control: (baseStyles, state) => ({
-                    ...baseStyles,
-                    borderColor: state.isFocused ? 'orange' : 'gray',
-                  }),
-                }}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: '0.375rem',
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'orange-300',
-                    primary: 'gray-600',
-                    primary75: '',
-                  },
-                })}
+                render={({ field: { onChange, value } }) => (
+                  <Select
+                    {...register('diets')}
+                    classNames="rounded-md"
+                    options={dietOptions}
+                    value={value ? value : []}
+                    onChange={onChange}
+                    components={animatedComponents}
+                    isMulti
+                    closeMenuOnSelect={false}
+                    // Styles
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderColor: state.isFocused ? 'orange' : 'gray',
+                      }),
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: '0.375rem',
+                      colors: {
+                        ...theme.colors,
+                        primary25: 'orange-300',
+                        primary: 'gray-600',
+                        primary75: '',
+                      },
+                    })}
+                  />
+                )}
               />
-              {errors.diets && <p>Error</p>}
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
-import Footer from '@/components/Footer';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import dessertImage from '../../../public/images/dessert.jpg';
-import RecipeCardHr from '@/components/RecipeCardHr';
 import { Button, IconButton } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import RecipeCardHr from '../../components/RecipeCardHr';
+import Footer from '../../components/Footer';
+import dessertImage from '../../../public/images/dessert.jpg';
 
 function dessert() {
   const [dessert, setDessert] = useState([]);
@@ -14,6 +14,48 @@ function dessert() {
   const [page3, setPage3] = useState(false);
   const [page4, setPage4] = useState(false);
   const [active, setActive] = useState(1);
+
+  const handlePage1 = () => {
+    setPage1(true);
+    setPage2(false);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+
+  const handlePage2 = () => {
+    setPage1(false);
+    setPage2(true);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage3 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(true);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage4 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(false);
+    setPage4(true);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
 
   const getItemProps = (index) => ({
     variant: active === index ? 'filled' : 'text',
@@ -72,52 +114,6 @@ function dessert() {
     }
   };
 
-  const handlePage1 = () => {
-    setPage1(true);
-    setPage2(false);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  const handlePage2 = () => {
-    setPage1(false);
-    setPage2(true);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage3 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(true);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage4 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(false);
-    setPage4(true);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  useEffect(() => {
-    feedDessert();
-  }, []);
-
   const feedDessert = async () => {
     const checkLocal = localStorage.getItem('dessert40');
 
@@ -135,6 +131,10 @@ function dessert() {
       setDessert(data.recipes);
     }
   };
+  useEffect(() => {
+    feedDessert();
+  }, []);
+
   return (
     <div className="bg-gray-100">
       {/* top */}

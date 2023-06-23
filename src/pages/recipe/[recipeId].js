@@ -24,12 +24,12 @@ import {
 import { Transition } from '@headlessui/react';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import Footer from '@/components/Footer';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { comment } from 'postcss';
 import TimeAgo from 'react-timeago';
 import ReactTimeago from 'react-timeago';
+import Footer from '@/components/Footer';
 
 function recipeById() {
   const router = useRouter();
@@ -86,15 +86,11 @@ function recipeById() {
     await getCommentList(dbData);
   };
 
-  const {
-    data: data,
-    isLoading: isLoading,
-    error: error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['RecipeID', router.query.recipeId],
     queryFn: () =>
       axios
-        .get(`../api/recipeId/`, {
+        .get('../api/recipeId/', {
           params: {
             number: '20',
             addRecipeInformation: 'true',
@@ -120,7 +116,7 @@ function recipeById() {
     queryKey: ['SimilarByID', router.query.recipeId],
     queryFn: () =>
       axios
-        .get(`../api/similarRecipes/`, {
+        .get('../api/similarRecipes/', {
           params: {
             number: '4',
             recipeId: router.query.recipeId,
@@ -150,7 +146,7 @@ function recipeById() {
   };
 
   const getCommentList = async (dbData) => {
-    const commentList = await axios.get(`../api/postDB/comment`, {
+    const commentList = await axios.get('../api/postDB/comment', {
       params: {
         post_id: dbData?.id,
       },
@@ -188,7 +184,7 @@ function recipeById() {
         <div className=" relative flex  bg-white rounded-md shadow-md">
           {/* Left Section */}
           <div
-            className="flex object-cover w-[240px] h-[150px] md:w-[312px] 
+            className="flex object-cover w-[240px] h-[150px] md:w-[312px]
           md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 ">
             {recipeByID.image ? (
               <Image
@@ -200,15 +196,15 @@ function recipeById() {
                 alt="Breakfast image"
               />
             ) : (
-              <div></div>
+              <div />
             )}
           </div>
           {/* Right Section */}
           <div
-            className="flex flex-col px-1 sm:px-2 md:px-3 lg:px-5 w-full h-[150px]  
+            className="flex flex-col px-1 sm:px-2 md:px-3 lg:px-5 w-full h-[150px]
           md:h-[231px] lg:h-[360px] place-content-evenly">
             <h1
-              className=" text-base sm:text-xl md:text-3xl lg:text-5xl 
+              className=" text-base sm:text-xl md:text-3xl lg:text-5xl
             titleFont tracking-wide line-clamp-2">
               {recipeByID?.title}
             </h1>
@@ -269,7 +265,7 @@ function recipeById() {
                 {userDrop ? (
                   <Transition
                     as={Fragment}
-                    show={true}
+                    show
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
                     enterTo="transform opacity-100 scale-100"
@@ -284,9 +280,10 @@ function recipeById() {
                               <div
                                 className=" space-y-2 p-2 items-center place-content-center bg-gray-200 text-center text-xs font-light"
                                 key={nutrients.name}>
-                                <p className="">{nutrients.name} </p>
+                                <p className="">{nutrients.name}</p>
                                 <p className="font-semibold">
-                                  {nutrients.amount} {nutrients.unit}
+                                  {nutrients.amount}
+                                  {nutrients.unit}
                                 </p>
                               </div>
                             );
@@ -296,7 +293,7 @@ function recipeById() {
                     </div>
                   </Transition>
                 ) : (
-                  <div></div>
+                  <div />
                 )}
               </div>
             </div>
@@ -322,36 +319,33 @@ function recipeById() {
        bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
           <div
             className="text-justify tracking-wide "
-            dangerouslySetInnerHTML={{ __html: recipeByID.summary }}></div>
+            dangerouslySetInnerHTML={{ __html: recipeByID.summary }}
+          />
         </div>
         {/* This recipe is... */}
-        {!diets || diets != undefined ? (
+        {(!diets || diets !== undefined) && (
           <div
             className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
             <div className="space-y-4 ">
               <h1
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
               font-semibold text-orange-400">
                 This Recipe Is...
               </h1>
               <div className="grid grid-rows-2 lg:grid-rows-1 grid-flow-col gap-1 ">
-                {diets.map((diet, i) => {
-                  return (
-                    <Link href={`/search/${diet}`}>
-                      <div
-                        key={diet}
-                        className=" flex-grow lex space-x-1 text-center items-center btnRecipeGray capitalize tracking-wide">
-                        <p>{diet}</p>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {diets.map((diet, i) => (
+                  <Link href={`/search/${diet}`}>
+                    <div
+                      key={diet}
+                      className=" flex-grow lex space-x-1 text-center items-center btnRecipeGray capitalize tracking-wide">
+                      <p>{diet}</p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
-        ) : (
-          <div></div>
         )}
 
         {/* Ingredients */}
@@ -363,15 +357,13 @@ function recipeById() {
               Ingredients
             </h1>
             <ul className="list-disc space-y-2 tracking-wide ">
-              {ingredients?.map((ing) => {
-                return (
-                  <div>
-                    <li key={ing.id} className="">
-                      {ing.original}
-                    </li>
-                  </div>
-                );
-              })}
+              {ingredients?.map((ing) => (
+                <div>
+                  <li key={ing.id} className="">
+                    {ing.original}
+                  </li>
+                </div>
+              ))}
             </ul>
           </div>
         </div>
@@ -386,9 +378,11 @@ function recipeById() {
 
             <div
               className="list-disc space-y-5 tracking-wide text-justify"
+              // eslint-disable-next-line react/no-danger
               dangerouslySetInnerHTML={{
                 __html: recipeByID.instructions,
-              }}></div>
+              }}
+            />
           </div>
         </div>
         {/* Buttons  */}
@@ -407,7 +401,7 @@ function recipeById() {
         {/* Similar Recipes */}
         <div
           className="text-xs sm:text-sm md:text-base
-         font-light bg-white px-10 py-5 text-gray-600 
+         font-light bg-white px-10 py-5 text-gray-600
          rounded-md shadow-md my-2 mt-2">
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
@@ -416,52 +410,48 @@ function recipeById() {
 
             <div
               className="flex overflow-x-scroll  space-x-4 lg:place-content-evenly
-             scrollbar-thin scrollbar-track-gray-600/20  scrollbar-thumb-[#f7ab0a]/70  
+             scrollbar-thin scrollbar-track-gray-600/20  scrollbar-thumb-[#f7ab0a]/70
 ">
-              {similarRecipeById?.map((recipe) => {
-                return (
-                  <Link href={`${recipe?.id}`}>
-                    <div
-                      key={recipe.id}
-                      className=" bg-white p-2 cursor-pointer w-[250px]
+              {similarRecipeById?.map((recipe) => (
+                <Link href={`${recipe?.id}`}>
+                  <div
+                    key={recipe.id}
+                    className=" bg-white p-2 cursor-pointer w-[250px]
                hover:border-2 hover:border-gray-200 hover:rounded-md
-                hover:shadow-lg 
+                hover:shadow-lg
                 ">
-                      <div
-                        className="flex justify-center content-center 
+                    <div
+                      className="flex justify-center content-center
               items-center object-cover">
-                        <Image
-                          className="object-cover rounded-md  "
-                          loading="eager"
-                          width={312}
-                          height={150}
-                          src={recipe.image}
-                          alt="image"
-                        />
-                      </div>
+                      <Image
+                        className="object-cover rounded-md  "
+                        loading="eager"
+                        width={312}
+                        height={150}
+                        src={recipe.image}
+                        alt="image"
+                      />
+                    </div>
 
-                      <div className=" pt-2 text-gray-600">
-                        {' '}
-                        <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                          {recipe.title}
+                    <div className=" pt-2 text-gray-600">
+                      {' '}
+                      <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
+                        {recipe.title}
+                      </p>
+                      <div className="flex space-x-1 items-center ">
+                        <ClockIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">
+                          {recipe.readyInMinutes} min
                         </p>
-                        <div className="flex space-x-1 items-center ">
-                          <ClockIcon className="h-3 w-3" />
-                          <p className="text-sm font-light">
-                            {recipe.readyInMinutes} min
-                          </p>
-                        </div>
-                        <div className="flex space-x-1 items-center">
-                          <UserIcon className="h-3 w-3" />
-                          <p className="text-sm font-light">
-                            {recipe.servings}
-                          </p>
-                        </div>
+                      </div>
+                      <div className="flex space-x-1 items-center">
+                        <UserIcon className="h-3 w-3" />
+                        <p className="text-sm font-light">{recipe.servings}</p>
                       </div>
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -496,7 +486,7 @@ function recipeById() {
               />
               <button
                 type="submit"
-                className="text-orange-400 disabled:text-gray-200 
+                className="text-orange-400 disabled:text-gray-200
                  absolute bottom-1 right-1 group ">
                 <AiOutlineSend className="iconMed group-hover:hidden" />
                 <IoMdSend className="iconMed hidden group-hover:block" />
