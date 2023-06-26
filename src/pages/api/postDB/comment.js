@@ -1,19 +1,20 @@
-import { prisma } from '@/utils/db';
-import { Comment } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+/* eslint-disable camelcase */
+// import { Comment } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../../utils/db';
 
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
-      const username = req.body.data.username;
-      const post_id = req.body.data.post_id;
-      const text = req.body.data.text;
+      const { username } = req.body.data;
+      const { post_id } = req.body.data;
+      const { text } = req.body.data;
 
       const createComment = await prisma.comment.create({
         data: {
-          post_id: post_id,
-          username: username,
-          text: text,
+          post_id,
+          username,
+          text,
         },
       });
       console.log('Comment added to DB');
@@ -59,4 +60,5 @@ export default async function handler(req, res) {
     res.status(500).json({ message: 'Oops an error has occurred!', error });
     console.log(error.config);
   }
+  return null;
 }

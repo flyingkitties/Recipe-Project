@@ -1,12 +1,12 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
 function Footer() {
   return (
     <div className="bg-white z-10 shadow-md mt-10">
       <div
-        className="flex justify-center p-4 text-sm text-gray-600 
-            space-x-4 ">
+        className="flex justify-center p-4 text-sm text-gray-600
+            space-x-4 "
+      >
         <p className=" link">Privacy</p>
         <p>·</p>
         <p className="link">Terms</p>

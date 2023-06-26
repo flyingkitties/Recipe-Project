@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { RxGlobe, RxHamburgerMenu } from 'react-icons/rx';
+/* eslint-disable react/jsx-one-expression-per-line */
+import React, { useState, Fragment } from 'react';
+import { RxGlobe } from 'react-icons/rx';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import {
   UserIcon,
   ChevronDownIcon,
@@ -20,12 +20,8 @@ import { AiOutlineHome, AiOutlineHeart } from 'react-icons/ai';
 import { GiCookingPot, GiCookingGlove, GiForkKnifeSpoon } from 'react-icons/gi';
 import Image from 'next/image';
 import { Transition } from '@headlessui/react';
-import { Fragment } from 'react';
-import axios from 'axios';
 import Link from 'next/link';
 import { slide as Menu } from 'react-burger-menu';
-import Iframe from 'react-iframe';
-import LogoRC from '../../public/images/logoRC.png';
 import {
   BsFacebook,
   BsInstagram,
@@ -34,8 +30,9 @@ import {
   BsTwitter,
 } from 'react-icons/bs';
 import { Tooltip } from '@material-tailwind/react';
+import LogoRC from '../../public/images/logoRC.png';
 
-function Header({ data }) {
+function Header() {
   const [query, setQuery] = useState([]);
   const [userDrop, setUserDrop] = useState(false);
   const [burgerOpen, setBurgerOpen] = useState(false);
@@ -44,50 +41,12 @@ function Header({ data }) {
   const [dietDrop, setDietDrop] = useState(false);
   const [categoryDrop, setCategoryDrop] = useState(false);
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
-  const router = useRouter();
-
-  // Handle query
-  function handleChange(e) {
-    setQuery(e.target.value);
-  }
-
-  // Menu Drops
-  const triggers = {
-    onMouseEnter: () => setOpenMenu(true),
-    onMouseLeave: () => setOpenMenu(false),
-  };
-
-  const handleSearchDrop = () => {
-    setSearchDrop(!searchDrop);
-  };
-
-  const handleUserDrop = () => {
-    setUserDrop(!userDrop);
-  };
-
-  const handleBurgerOpen = () => {
-    setBurgerOpen(!burgerOpen);
-  };
-
-  const closeBurger = () => {
-    SetBurgerOpen(!burgerOpen);
-  };
-
-  const handleRecipesDrop = () => {
-    setRecipesDrop(!recipesDrop);
-  };
-
-  const handleDietDrop = () => {
-    setDietDrop(!dietDrop);
-  };
-  const handleCategoryDrop = () => {
-    setCategoryDrop(!categoryDrop);
-  };
+  // const router = useRouter();
 
   // Burger Menu Styles
-  var styles = {
+  const styles = {
     bmBurgerButton: {
       position: 'relative',
       width: '35px',
@@ -127,15 +86,63 @@ function Header({ data }) {
     },
   };
 
+  // Handle query
+  function handleChange(e) {
+    setQuery(e.target.value);
+  }
+
+  // Menu Drops
+  // const triggers = {
+  //   onMouseEnter: () => setOpenMenu(true),
+  //   onMouseLeave: () => setOpenMenu(false),
+  // };
+
+  const handleSearchDrop = () => {
+    setSearchDrop(!searchDrop);
+  };
+
+  const handleUserDrop = () => {
+    setUserDrop(!userDrop);
+  };
+
+  const handleBurgerOpen = () => {
+    setBurgerOpen(!burgerOpen);
+  };
+
+  const closeBurger = () => {
+    setBurgerOpen(!burgerOpen);
+  };
+
+  const handleRecipesDrop = () => {
+    setRecipesDrop(!recipesDrop);
+  };
+
+  const handleDietDrop = () => {
+    setDietDrop(!dietDrop);
+  };
+  const handleCategoryDrop = () => {
+    setCategoryDrop(!categoryDrop);
+  };
+
   return (
     <div>
-      <div className="relative sm:flex top-0  z-10 shadow-lg space-x-2 sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white  ">
+      <div
+        className="relative sm:flex top-0  z-10 shadow-lg space-x-2
+      sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white"
+      >
         {/* Logo */}
         <Tooltip content="Recipe Corner">
           <Link
             href="/"
-            className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0  md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]">
-            <Image width={100} height={100} src={LogoRC} alt="Logo" />
+            className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0
+            md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]"
+          >
+            <Image
+              width={100}
+              height={100}
+              src={LogoRC}
+              alt="Logo"
+            />
           </Link>
         </Tooltip>
 
@@ -145,11 +152,13 @@ function Header({ data }) {
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
-          }}>
+          }}
+        >
           <div
             className="flex flex-grow sm:mx-5 lg:mx-15 cursor-pointer h-10
-      items-center border border-gray-300 rounded-2xl 
-       bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1">
+      items-center border border-gray-300 rounded-2xl
+       bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1"
+          >
             <input
               type="text"
               placeholder="What would you like to search for?"
@@ -157,7 +166,10 @@ function Header({ data }) {
               onChange={handleChange}
             />
             <Link href={`/search/${query}`}>
-              <button className=" md:p-5 p-3 ">
+              <button
+                className=" md:p-5 p-3"
+                type="button"
+              >
                 <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
               </button>
             </Link>
@@ -167,7 +179,10 @@ function Header({ data }) {
           <div className="sm:hidden absolute flex top-1 left-1 w-screen z-50 bg-white">
             <button
               onClick={handleSearchDrop}
-              className="flex items-center pt-1 px-1 space-x-1 text-gray-700 hover:text-gray-800">
+              onKeyDown={handleSearchDrop}
+              type="button"
+              className="flex items-center pt-1 px-1 space-x-1 text-gray-700 hover:text-gray-800"
+            >
               <ChevronLeftIcon className="iconSmall hover:shadow-2xl hover:w-5 hover:h-5" />
               <p className="hover:shadow-2xl ">Back</p>
             </button>
@@ -176,11 +191,13 @@ function Header({ data }) {
               onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-              }}>
+              }}
+            >
               <div
                 className="flex flex-grow sm:mx-5 lg:mx-15 cursor-pointer h-10
-      items-center border border-gray-300 rounded-2xl 
-       bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1">
+                items-center border border-gray-300 rounded-2xl
+                 bg-[#00B8E1]/70 hover:bg-[#00B8E1] mt-1"
+              >
                 <input
                   type="text"
                   placeholder="What would you like to search for?"
@@ -188,7 +205,10 @@ function Header({ data }) {
                   onChange={handleChange}
                 />
                 <Link href={`/search/${query}`}>
-                  <button className=" md:p-5 p-3 ">
+                  <button
+                    className=" md:p-5 p-3 "
+                    type="button"
+                  >
                     <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
                   </button>
                 </Link>
@@ -198,12 +218,23 @@ function Header({ data }) {
         )}
         {/* User  */}
         <div className="flex absolute sm:static right-2 top-2 items-center space-x-4 pr-2 ">
-          <button className="sm:hidden hoverGray" onClick={handleSearchDrop}>
+          <button
+            className="sm:hidden hoverGray"
+            onClick={handleSearchDrop}
+            onKeyDown={handleSearchDrop}
+            type="button"
+          >
             <MagnifyingGlassIcon className="iconXM " />
           </button>
           <div className="flex relative">
             {session ? (
-              <div className="flex items-center link" onClick={handleUserDrop}>
+              <div
+                className="flex items-center link"
+                onClick={handleUserDrop}
+                onKeyDown={handleUserDrop}
+                role="button"
+                tabIndex="0"
+              >
                 <Image
                   src={session.user.image}
                   width={35}
@@ -211,7 +242,7 @@ function Header({ data }) {
                   className="rounded-full cursor-pointer"
                   alt="User Image"
                 />
-                <div className="absolute bottom-0 right-[40%] bg-green-500 h-[8px] w-[8px] rounded-full "></div>
+                <div className="absolute bottom-0 right-[40%] bg-green-500 h-[8px] w-[8px] rounded-full" />
 
                 <ChevronDownIcon
                   className={`iconSmall hoverGray transition-transform ${
@@ -222,16 +253,18 @@ function Header({ data }) {
                 {userDrop && (
                   <Transition
                     as={Fragment}
-                    show={true}
+                    show
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
                     enterTo="transform opacity-100 scale-100"
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95">
+                    leaveTo="transform opacity-0 scale-95"
+                  >
                     <div
-                      className=" absolute top-11 right-0 w-44 md:w-52 p-1 bg-white  
-                    rounded-md shadow-2xl border-[0.01px] border-gray-200 z-20 ">
+                      className=" absolute top-11 right-0 w-44 md:w-52 p-1 bg-white
+                    rounded-md shadow-2xl border-[0.01px] border-gray-200 z-20 "
+                    >
                       <div className="menuDrop">
                         <Cog6ToothIcon className="iconMed hoverGray" />
                         <p className="menuDropText">Settings & Privacy</p>
@@ -248,7 +281,13 @@ function Header({ data }) {
                         <InformationCircleIcon className="iconMed hoverGray" />
                         <p className="menuDropText">Help and Support</p>
                       </div>
-                      <div className="menuDrop " onClick={() => signOut()}>
+                      <div
+                        className="menuDrop "
+                        onClick={() => signOut()}
+                        onKeyDown={() => signOut()}
+                        role="button"
+                        tabIndex="0"
+                      >
                         <ArrowRightOnRectangleIcon className="iconMed  hoverGray " />
                         <p className="menuDropText">Sign Out</p>
                       </div>
@@ -258,11 +297,15 @@ function Header({ data }) {
               </div>
             ) : (
               <div
-                className="flex  items-center text-center 
+                className="flex  items-center text-center
            text-gray-700  sm:px-2 link "
-                onClick={handleUserDrop}>
+                onClick={handleUserDrop}
+                onKeyDown={handleUserDrop}
+                role="button"
+                tabIndex="0"
+              >
                 <UserIcon className="iconXM  hoverGray " />
-                <div className="absolute bottom-0 right-[40%] bg-red-600 h-[8px] w-[8px] rounded-full "></div>
+                <div className="absolute bottom-0 right-[40%] bg-red-600 h-[8px] w-[8px] rounded-full " />
 
                 <ChevronDownIcon
                   className={`iconSmall hoverGray transition-transform ${
@@ -273,15 +316,25 @@ function Header({ data }) {
                 {userDrop && (
                   <Transition
                     as={Fragment}
-                    show={true}
+                    show
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
                     enterTo="transform opacity-100 scale-100"
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95">
-                    <div className=" absolute top-10 right-0 w-44 md:w-52 p-2 bg-white border-[0.01px] border-gray-200 rounded-md shadow-2xl z-20 ">
-                      <div className="menuDrop " onClick={() => signIn()}>
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <div
+                      className=" absolute top-10 right-0 w-44 md:w-52 p-2
+                     bg-white border-[0.01px] border-gray-200 rounded-md shadow-2xl z-20"
+                    >
+                      <div
+                        className="menuDrop "
+                        onClick={() => signIn()}
+                        onKeyDown={() => signIn()}
+                        role="button"
+                        tabIndex="0"
+                      >
                         <ArrowRightOnRectangleIcon className="iconMed hoverGray " />
                         <p className="menuDropText">Sign In</p>
                       </div>
@@ -304,7 +357,8 @@ function Header({ data }) {
             onOpen={handleBurgerOpen}
             onClose={handleBurgerOpen}
             customBurgerIcon={<Bars3Icon />}
-            customCrossIcon={<XMarkIcon />}>
+            customCrossIcon={<XMarkIcon />}
+          >
             <div className="block space-y-2 relative">
               {/* Header */}
               <div>
@@ -312,7 +366,8 @@ function Header({ data }) {
                   <div className="w-full text-gray-800 ">
                     <div className="py-5 px-2">
                       <h1 className="text-2xl">
-                        Hello, <span className="">{session.user.name}!</span>
+                        Hello,
+                        <span className="">{session?.user.name}!</span>
                       </h1>
                       <p className="text-xs mt-3 hoverGray">Sign Out</p>
                     </div>
@@ -323,12 +378,18 @@ function Header({ data }) {
                     <div className="flex items-center justify-center p-5 space-x-5">
                       <button
                         className="btnBMenu "
-                        onClick={!session ? signIn : signOut}>
+                        onClick={!session ? signIn : signOut}
+                        onKeyDown={!session ? signIn : signOut}
+                        type="button"
+                      >
                         Sign In
                       </button>
                       <button
                         className="btnBMenu"
-                        onClick={!session ? signIn : signOut}>
+                        onClick={!session ? signIn : signOut}
+                        onKeyDown={!session ? signIn : signOut}
+                        type="button"
+                      >
                         Log In
                       </button>
                     </div>
@@ -341,7 +402,8 @@ function Header({ data }) {
                 <Link
                   className="flex space-x-2 hoverGray "
                   onClick={handleBurgerOpen}
-                  href="/">
+                  href="/"
+                >
                   <AiOutlineHome className="iconSM" />
                   <p>Home</p>
                 </Link>
@@ -353,7 +415,11 @@ function Header({ data }) {
                   // Recipes Tab unclicked
                   <div
                     onClick={handleRecipesDrop}
-                    className="flex space-x-2 hoverGray ">
+                    onKeyDown={handleRecipesDrop}
+                    className="flex space-x-2 hoverGray "
+                    role="button"
+                    tabIndex="0"
+                  >
                     <GiCookingPot className="iconSM" />
                     <p className="">Recipes</p>
                     <div className="flex items-center">
@@ -366,7 +432,11 @@ function Header({ data }) {
                     <hr className="-mt-2" />
                     <div
                       className="flex space-x-2 hoverGray py-2 "
-                      onClick={handleRecipesDrop}>
+                      onClick={handleRecipesDrop}
+                      onKeyDown={handleRecipesDrop}
+                      role="button"
+                      tabIndex="0"
+                    >
                       <GiCookingPot className="iconSM" />
                       <p className="">Recipes</p>
                       <div className="flex items-center">
@@ -375,38 +445,48 @@ function Header({ data }) {
                     </div>
                     <div className=" relative ">
                       <hr
-                        className="absolute bottom-0 h-full border left-3 
+                        className="absolute bottom-0 h-full border left-3
                      border-[#FF8F00]/70"
                       />
+
                       {!categoryDrop ? (
-                        //Category Tab
+                        // Category Tab
                         <div
                           className="flex mt-2 mb-1 space-x-2 hoverGray py-2"
-                          onClick={handleCategoryDrop}>
+                          onClick={handleCategoryDrop}
+                          onKeyDown={handleCategoryDrop}
+                          role="button"
+                          tabIndex="0"
+                        >
                           <p className="ml-8">By Category</p>
                           <div className="flex items-center">
                             <ChevronDownIcon className="iconSmall" />
                           </div>
                         </div>
                       ) : (
-                        //Category Tab clicked
+                        // Category Tab clicked
                         <div className=" w-full ">
                           <hr className="" />
                           <div
-                            className="flex mt-2 mb-1 space-x-2 hoverGray  "
-                            onClick={handleCategoryDrop}>
+                            className="flex mt-2 mb-1 space-x-2 hoverGray"
+                            onClick={handleCategoryDrop}
+                            onKeyDown={handleCategoryDrop}
+                            role="button"
+                            tabIndex="0"
+                          >
                             <p className="ml-8">By Category</p>
                             <div className="flex items-center">
                               <ChevronUpIcon className="iconSmall" />
                             </div>
                           </div>
                           <div className="relative pl-5 space-y-2 pb-2">
-                            <hr className="absolute bottom-0  h-full border left-10 z-0 border-[#FF8F00]/70 " />
+                            <hr className="absolute bottom-0  h-full border left-10 z-0 border-[#FF8F00]/70" />
                             <div className="py-2">
                               <Link
                                 onClick={handleBurgerOpen}
                                 className=" hoverGray "
-                                href="/category/popular">
+                                href="/category/popular"
+                              >
                                 <p className="ml-10">Popular Recipes</p>
                               </Link>
                             </div>
@@ -414,7 +494,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className=" hoverGray "
-                                href="/category/breakfast">
+                                href="/category/breakfast"
+                              >
                                 <p className="ml-10">Breakfast</p>
                               </Link>
                             </div>
@@ -422,7 +503,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/category/salad">
+                                href="/category/salad"
+                              >
                                 <p className="ml-10">Salad</p>
                               </Link>
                             </div>
@@ -430,7 +512,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/category/sides">
+                                href="/category/sides"
+                              >
                                 <p className="ml-10">Sides</p>
                               </Link>
                             </div>
@@ -438,7 +521,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/category/mainCourse">
+                                href="/category/mainCourse"
+                              >
                                 <p className="ml-10">Main Course</p>
                               </Link>
                             </div>
@@ -446,7 +530,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/category/dessert">
+                                href="/category/dessert"
+                              >
                                 <p className="ml-10">Dessert</p>
                               </Link>
                             </div>
@@ -454,7 +539,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/category/snacks">
+                                href="/category/snacks"
+                              >
                                 <p className="ml-10">Snacks</p>
                               </Link>
                             </div>
@@ -464,11 +550,15 @@ function Header({ data }) {
                       )}
 
                       {!dietDrop ? (
-                        //Diet Tab
+                        // Diet Tab
                         <div>
                           <div
                             className="flex mt-2 mb-1 space-x-2 hoverGray  py-2"
-                            onClick={handleDietDrop}>
+                            onClick={handleDietDrop}
+                            onKeyDown={handleDietDrop}
+                            role="button"
+                            tabIndex="0"
+                          >
                             <p className="ml-8">By Diet</p>
                             <div className="flex items-center">
                               <ChevronDownIcon className="iconSmall" />
@@ -477,12 +567,16 @@ function Header({ data }) {
                           <hr className="" />
                         </div>
                       ) : (
-                        //Diet Tab Clicked
+                        // Diet Tab Clicked
                         <div className=" w-full  ">
                           <hr className="" />
                           <div
                             className="flex mt-2 mb-1 space-x-2 hoverGray  py-2 "
-                            onClick={handleDietDrop}>
+                            onClick={handleDietDrop}
+                            onKeyDown={handleDietDrop}
+                            role="button"
+                            tabIndex="0"
+                          >
                             <p className="ml-8">By Diet</p>
                             <div className="flex items-center">
                               <ChevronDownIcon className="iconSmall" />
@@ -495,7 +589,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/vegetarian">
+                                href="/diet/vegetarian"
+                              >
                                 <p className="ml-10">Vegetarian</p>
                               </Link>
                             </div>
@@ -503,7 +598,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/keto">
+                                href="/diet/keto"
+                              >
                                 <p className="ml-10">Keto</p>
                               </Link>
                             </div>
@@ -511,7 +607,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/glutenFree">
+                                href="/diet/glutenFree"
+                              >
                                 <p className="ml-10">Gluten Free</p>
                               </Link>
                             </div>
@@ -519,7 +616,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/pescetarian">
+                                href="/diet/pescetarian"
+                              >
                                 <p className="ml-10">Pescetarian</p>
                               </Link>
                             </div>
@@ -527,7 +625,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/vegan">
+                                href="/diet/vegan"
+                              >
                                 <p className="ml-10">Vegan</p>
                               </Link>
                             </div>
@@ -535,7 +634,8 @@ function Header({ data }) {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/paleo">
+                                href="/diet/paleo"
+                              >
                                 <p className="ml-10">Paleo</p>
                               </Link>
                             </div>
@@ -550,7 +650,8 @@ function Header({ data }) {
                 <Link
                   className="flex space-x-2 hoverGray "
                   href="/recipe/create"
-                  onClick={closeBurger}>
+                  onClick={closeBurger}
+                >
                   <GiForkKnifeSpoon className="iconSM" />
                   <p>Add a Recipe</p>
                 </Link>
@@ -559,7 +660,8 @@ function Header({ data }) {
                 <Link
                   className="flex space-x-2 hoverGray"
                   href="/"
-                  onClick={closeBurger}>
+                  onClick={closeBurger}
+                >
                   <AiOutlineHeart className="iconSM hover:text-red-500" />
                   <p>My Favourite Recipes</p>
                 </Link>
@@ -568,7 +670,8 @@ function Header({ data }) {
                 <Link
                   className="flex space-x-2 hoverGray"
                   href="/"
-                  onClick={closeBurger}>
+                  onClick={closeBurger}
+                >
                   <GiCookingGlove className="iconSM" />
                   <p> My Recipes</p>
                 </Link>

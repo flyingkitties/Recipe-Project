@@ -1,41 +1,41 @@
-import Header from '@/components/Header';
+/* eslint-disable import/no-unresolved */
+import React from 'react';
 import Head from 'next/head';
-import { useState } from 'react';
-import Popular from '@/components/Popular';
-import Banner from '@/components/Banner';
-import Vegetarian from '@/components/Vegetarian';
-import Keto from '@/components/Keto';
-import GlutenFree from '@/components/GlutenFree';
-import Pescetarian from '@/components/Pescetarian';
-import Vegan from '@/components/Vegan';
-import Paleo from '@/components/Paleo';
-import Footer from '@/components/Footer';
-import BackTop from '@/components/BackTop';
+import Popular from '../components/Popular';
+import Banner from '../components/Banner';
+import Vegetarian from '../components/Vegetarian';
+import Keto from '../components/Keto';
+import GlutenFree from '../components/GlutenFree';
+import Pescetarian from '../components/Pescetarian';
+import Vegan from '../components/Vegan';
+import Paleo from '../components/Paleo';
+import Footer from '../components/Footer';
+import BackTop from '../components/BackTop';
+import '@splidejs/react-splide/css';
+import '@splidejs/splide/css';
 
 export default function Home() {
   return (
-    <>
-      <div className="bg-fixed bg-center bg-no-repeat bg-cover bg-orange">
-        <Head>
-          <title>Recipe Corner</title>
-        </Head>
+    <div className="bg-fixed bg-center bg-no-repeat bg-cover bg-orange">
+      <Head>
+        <title>Recipe Corner</title>
+      </Head>
 
-        <main>
-          <Banner />
-          <section className="mt-[10%]  px-5  bg-white ">
-            <Popular />
-            <Vegetarian />
-            <Keto />
-            <GlutenFree />
-            <Pescetarian />
-            <Vegan />
-            <Paleo />
-          </section>
-          <BackTop />
-          <Footer />
-        </main>
-      </div>
-    </>
+      <main>
+        <Banner />
+        <section className="mt-[10%]  px-5  bg-white ">
+          <Popular />
+          <Vegetarian />
+          <Keto />
+          <GlutenFree />
+          <Pescetarian />
+          <Vegan />
+          <Paleo />
+        </section>
+        <BackTop />
+        <Footer />
+      </main>
+    </div>
   );
 }
 

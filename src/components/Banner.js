@@ -1,10 +1,7 @@
-import recipe from '@/pages/recipe/[recipeId]';
+/* eslint-disable react/jsx-closing-bracket-location */
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import axios from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useParams, Route } from 'react-router-dom';
 
 function Banner() {
   const [query, setQuery] = useState([]);
@@ -12,20 +9,6 @@ function Banner() {
   function handleChange(e) {
     setQuery(e.target.value);
   }
-
-  // const getRecipeData = async () => {
-  //   const api = await axios.get('api/search/', {
-  //     params: {
-  //       tags: query,
-  //       number: '20',
-  //     },
-  //   });
-
-  //   const { data } = api;
-  //   setQuery(data.recipes);
-
-  //   console.log(data.recipes);
-  // };
 
   return (
     <div className="text-center pt-[1%] px-7 sm:px-16 lg:px-40 text-white">
@@ -37,33 +20,33 @@ function Banner() {
       </div>
       <div className="flex-grid space-x-5 mt-[2%] text-sm md:text-base lg:text-lg ">
         <Link href="/category/sides">
-          <button className="btnOrg">
-            <p className="shade">Sides</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Sides</p>
           </button>
         </Link>
         <Link href="/category/dessert">
-          <button className="btnOrg">
-            <p className="shade">Dessert</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Dessert</p>
           </button>
         </Link>
         <Link href="/category/salad">
-          <button className="btnOrg">
-            <p className="shade">Salad</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Salad</p>
           </button>
         </Link>
         <Link href="/category/breakfast">
-          <button className="btnOrg">
-            <p className="shade">Breakfast</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Breakfast</p>
           </button>
         </Link>
         <Link href="/category/mainCourse">
-          <button className="btnOrg">
-            <p className="shade">Main Course</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Main Course</p>
           </button>
         </Link>
         <Link href="/category/snacks">
-          <button className="btnOrg">
-            <p className="shade">Snacks</p>{' '}
+          <button className="btnOrg" type="button">
+            <p className="shade">Snacks</p>
           </button>
         </Link>
       </div>
@@ -75,7 +58,7 @@ function Banner() {
         }}>
         <div
           className="flex  cursor-pointer h-10
-      items-center drop-shadow-xl rounded-2xl 
+      items-center drop-shadow-xl rounded-2xl
        bg-[#FF8F00] hover:bg-[#FF8200] max-w-[800px] flex-grow  ">
           <input
             type="text"
@@ -84,7 +67,7 @@ function Banner() {
             className="flex-grow p-2 px-10 h-full rounded-l-2xl focus:outline-none"
           />
           <Link href={`/search/${query}`}>
-            <button className=" md:p-5 p-3 max-w-10">
+            <button className=" md:p-5 p-3 max-w-10" type="button">
               <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
             </button>
           </Link>

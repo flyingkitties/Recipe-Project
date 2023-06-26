@@ -5,7 +5,7 @@ import axios from 'axios';
 export default async function handler(req, res) {
   const options = {
     method: 'GET',
-    url: `https://api.spoonacular.com/recipes/complexSearch`,
+    url: 'https://api.spoonacular.com/recipes/complexSearch',
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
     },
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   };
 
   try {
-    let response = await axios(options);
+    const response = await axios(options);
 
     res.status(200).json(response.data);
   } catch (error) {

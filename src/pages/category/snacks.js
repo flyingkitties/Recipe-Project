@@ -1,19 +1,64 @@
-import Footer from '@/components/Footer';
+/* eslint-disable no-useless-return */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import snacksImage from '../../../public/images/snacks.jpg';
 import { Button, IconButton } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import RecipeCardHr from '@/components/RecipeCardHr';
+import RecipeCardHr from '../../components/RecipeCardHr';
+import Footer from '../../components/Footer';
+import snacksImage from '../../../public/images/snacks.jpg';
 
 function snacks() {
-  const [snacks, setSnacks] = useState([]);
+  const [snacksData, setSnacksData] = useState([]);
   const [page1, setPage1] = useState(true);
   const [page2, setPage2] = useState(false);
   const [page3, setPage3] = useState(false);
   const [page4, setPage4] = useState(false);
   const [active, setActive] = useState(1);
+
+  const handlePage1 = () => {
+    setPage1(true);
+    setPage2(false);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+
+  const handlePage2 = () => {
+    setPage1(false);
+    setPage2(true);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage3 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(true);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage4 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(false);
+    setPage4(true);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
 
   const getItemProps = (index) => ({
     variant: active === index ? 'filled' : 'text',
@@ -72,57 +117,11 @@ function snacks() {
     }
   };
 
-  const handlePage1 = () => {
-    setPage1(true);
-    setPage2(false);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  const handlePage2 = () => {
-    setPage1(false);
-    setPage2(true);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage3 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(true);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage4 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(false);
-    setPage4(true);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  useEffect(() => {
-    feedSnacks();
-  }, []);
-
   const feedSnacks = async () => {
     const checkLocal = localStorage.getItem('snacks40');
 
     if (checkLocal) {
-      setSnacks(JSON.parse(checkLocal));
+      setSnacksData(JSON.parse(checkLocal));
     } else {
       const api = await axios.get('../api/search/', {
         params: {
@@ -132,15 +131,24 @@ function snacks() {
       });
       const { data } = api;
       localStorage.setItem('snacks40', JSON.stringify(data.recipes));
-      setSnacks(data.recipes);
+      setSnacksData(data.recipes);
     }
   };
+  useEffect(() => {
+    feedSnacks();
+  }, []);
+
   return (
     <div className="bg-gray-100">
       {/* top */}
       <div>
         <div className=" h-[100px] md:h-[150px] lg:h-[200px]  object-fill overflow-hidden ">
-          <Image src={snacksImage} width={2000} height={200} className="" />
+          <Image
+            src={snacksImage}
+            width={2000}
+            height={200}
+            className=""
+          />
         </div>
         <div className="pt-[2%] pb-[7%] text-center ">
           <h1 className="text-4xl sm:text-[50px] md:text-[60px] lg:text-[80px] font-bold titleFont ">
@@ -149,7 +157,7 @@ function snacks() {
           <div className="text-gray-600 mt-[5%] text-sm sm:text-base px-10 md:px-32 lg:px-56">
             <p className=" ">
               Keep hunger pangs at bay by filling up with a quick bite. Our easy
-              speedy snack recipes are perfect for keeping you going 'til
+              speedy snack recipes are perfect for keeping you going &apos;til
               dinner.
             </p>
           </div>
@@ -157,7 +165,7 @@ function snacks() {
       </div>
       {/* Cards */}
       <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10 ">
-        {snacks?.map((recipe, i) => {
+        {snacksData?.map((recipe, i) => {
           if (recipe.image != null && i < 10 && page1) {
             return (
               <RecipeCardHr
@@ -210,6 +218,7 @@ function snacks() {
               />
             );
           }
+          return null;
         })}
       </div>
       <div className="flex items-center justify-center text-justify gap-4">
@@ -218,8 +227,13 @@ function snacks() {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={prev}
-          disabled={active === 1}>
-          <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+          disabled={active === 1}
+        >
+          <ArrowLeftIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />{' '}
+          Previous
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -232,9 +246,13 @@ function snacks() {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={next}
-          disabled={active === 4}>
+          disabled={active === 4}
+        >
           Next
-          <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+          <ArrowRightIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />
         </Button>
       </div>
       <Footer />

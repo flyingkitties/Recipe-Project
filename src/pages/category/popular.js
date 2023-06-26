@@ -1,17 +1,62 @@
-import Footer from '@/components/Footer';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-useless-return */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, IconButton } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import RecipeCardHr from '@/components/RecipeCardHr';
+import RecipeCardHr from '../../components/RecipeCardHr';
+import Footer from '../../components/Footer';
 
-function popularPage({}) {
+function popularPage() {
   const [popPage, setPopPage] = useState([]);
   const [page1, setPage1] = useState(true);
   const [page2, setPage2] = useState(false);
   const [page3, setPage3] = useState(false);
   const [page4, setPage4] = useState(false);
   const [active, setActive] = useState(1);
+
+  const handlePage1 = () => {
+    setPage1(true);
+    setPage2(false);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+
+  const handlePage2 = () => {
+    setPage1(false);
+    setPage2(true);
+    setPage3(false);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage3 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(true);
+    setPage4(false);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
+  const handlePage4 = () => {
+    setPage1(false);
+    setPage2(false);
+    setPage3(false);
+    setPage4(true);
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth',
+    });
+  };
 
   const getItemProps = (index) => ({
     variant: active === index ? 'filled' : 'text',
@@ -70,52 +115,6 @@ function popularPage({}) {
     }
   };
 
-  const handlePage1 = () => {
-    setPage1(true);
-    setPage2(false);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  const handlePage2 = () => {
-    setPage1(false);
-    setPage2(true);
-    setPage3(false);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage3 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(true);
-    setPage4(false);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-  const handlePage4 = () => {
-    setPage1(false);
-    setPage2(false);
-    setPage3(false);
-    setPage4(true);
-    window.scrollTo({
-      top: 100,
-      behavior: 'smooth',
-    });
-  };
-
-  useEffect(() => {
-    feedPopular();
-  }, []);
-
   const feedPopular = async () => {
     const checkLocal = localStorage.getItem('Popular40');
 
@@ -124,7 +123,7 @@ function popularPage({}) {
     } else {
       const api = await axios.get('../api/search/', {
         params: {
-          number: `40`,
+          number: '40',
         },
       });
       const { data } = api;
@@ -132,6 +131,10 @@ function popularPage({}) {
       setPopPage(data.recipes);
     }
   };
+  useEffect(() => {
+    feedPopular();
+  }, []);
+
   return (
     <div className="bg-gray-100">
       {/* title */}
@@ -197,6 +200,7 @@ function popularPage({}) {
               />
             );
           }
+          return null;
         })}
       </div>
       <div className="flex items-center justify-center text-justify gap-4">
@@ -205,8 +209,13 @@ function popularPage({}) {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={prev}
-          disabled={active === 1}>
-          <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+          disabled={active === 1}
+        >
+          <ArrowLeftIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />{' '}
+          Previous
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -219,9 +228,13 @@ function popularPage({}) {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={next}
-          disabled={active === 4}>
+          disabled={active === 4}
+        >
           Next
-          <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+          <ArrowRightIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />
         </Button>
       </div>
       <Footer />

@@ -1,6 +1,7 @@
-import { prisma } from '@/utils/db';
-import { Post } from '@prisma/client';
-import { PrismaClient } from '@prisma/client';
+/* eslint-disable camelcase */
+import { prisma } from '../../../utils/db';
+// import { Post } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 
 export default async function handler(req, res) {
   try {
@@ -17,36 +18,35 @@ export default async function handler(req, res) {
         // types,
         // favourites,
       } = req.body.data;
-      const ingredients = req.body.data.ingredients.map((ingredient) => {
-        return {
-          id: ingredient.id,
-          nameClean: ingredient.nameClean,
-          original: ingredient.original,
-          amount: ingredient.amount,
-        };
-      });
+
+      const ingredients = req.body.data.ingredients.map((ingredient) => ({
+        id: ingredient.id,
+        nameClean: ingredient.nameClean,
+        original: ingredient.original,
+        amount: ingredient.amount,
+      }));
 
       const createPost = await prisma.post.upsert({
-        where: { external_id: external_id },
+        where: { external_id },
         update: {
-          external_id: external_id,
-          username: username,
-          title: title,
-          image: image,
-          ingredients: ingredients,
-          method: method,
+          external_id,
+          username,
+          title,
+          image,
+          ingredients,
+          method,
           //   comments,
           //   likes,
           //   types,
           //   favourites,
         },
         create: {
-          external_id: external_id,
-          username: username,
-          title: title,
-          image: image,
-          ingredients: ingredients,
-          method: method,
+          external_id,
+          username,
+          title,
+          image,
+          ingredients,
+          method,
         },
       });
       console.log('New Post Created');
@@ -73,4 +73,5 @@ export default async function handler(req, res) {
     res.status(500).json({ message: 'Oops an error has occurred!', error });
     console.log(error.config);
   }
+  return null;
 }

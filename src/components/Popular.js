@@ -1,24 +1,17 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ClockIcon,
   UserIcon,
-  CurrencyPoundIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
-import { Splide, SplideSlide, SplideTrack } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
-import '@splidejs/splide/css';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
 import axios from 'axios';
 import Link from 'next/link';
 
-function Popular({ recipe }) {
+function Popular() {
   const [popular, setPopular] = useState([]);
-
-  useEffect(() => {
-    feedPopular();
-  }, []);
 
   const feedPopular = async () => {
     const checkLocal = localStorage.getItem('popular');
@@ -38,11 +31,16 @@ function Popular({ recipe }) {
     }
   };
 
+  useEffect(() => {
+    feedPopular();
+  }, []);
+
   return (
     <div className="p-5 px-5 sm:px-8 md:px-10 lg:px-20 group">
       <Link
         href="/category/popular"
-        className="flex items-center group-hover:text-[#00B8E1] group/item">
+        className="flex items-center group-hover:text-[#00B8E1] group/item"
+      >
         <h1 className="text-gray-700 text-xl font-semibold link px-2">
           Popular Recipes
         </h1>
@@ -61,21 +59,23 @@ function Popular({ recipe }) {
             autoWidth: true,
             autoHeight: true,
             pagination: false,
-          }}>
+          }}
+        >
           {popular?.map((recipe) => {
             if (recipe.image != null) {
               return (
-                //Cards
-
+                // Cards
                 <SplideSlide
                   key={recipe.id}
                   className=" p-2 bg-white cursor-pointer max-w-[312px]
                hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
-                ">
+                "
+                >
                   <Link href={`recipe/${recipe?.id}`}>
                     <div
-                      className="flex justify-center content-center 
-              items-center object-cover">
+                      className="flex justify-center content-center
+              items-center object-cover"
+                    >
                       <Image
                         className="object-cover  rounded-md  "
                         loading="eager"
@@ -106,6 +106,7 @@ function Popular({ recipe }) {
                 </SplideSlide>
               );
             }
+            return console.log('error');
           })}
         </Splide>
       </div>
@@ -114,32 +115,3 @@ function Popular({ recipe }) {
 }
 
 export default Popular;
-
-//  {/* Right portion */}
-//  <div className="relative space-y-4 w-full pt-2">
-//  {" "}
-//  <p className=" text-lg font-semibold capitalize hover:underline">
-//    {recipe.title}
-//  </p>
-//  <div className="">
-//    <div className="flex space-x-1 items-center">
-//      <ClockIcon className="h-3 w-3" />
-//      <p className="text-sm font-light">
-//        {recipe.readyInMinutes} min
-//      </p>
-//    </div>
-//    <div className="flex space-x-1 items-center">
-//      <UserIcon className="h-3 w-3" />
-//      <p className="text-sm font-light">{recipe.servings}</p>
-//    </div>
-//  </div>
-//  <div className="absolute bottom-3 left-2 px-5  bg-[#62B6B7] text-white rounded-md text-center ">
-//    <p className="capitalize">{recipe.diets[1]}</p>
-//  </div>
-// </div>
-
-{
-  /* <div
-                className="flex  items-center justify-center  filter 
-              contrast-[110%] brightness-[115%]   "></div> */
-}

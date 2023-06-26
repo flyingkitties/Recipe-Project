@@ -1,6 +1,6 @@
-//Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { prisma } from '@/utils/db';
+import { prisma } from '../../../utils/db';
 
 export default async function handler(req, res) {
   try {
@@ -39,4 +39,5 @@ export default async function handler(req, res) {
     res.status(500).json({ message: 'Oops an error has occurred!', error });
     console.log(error.config);
   }
+  return null;
 }

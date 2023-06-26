@@ -1,23 +1,19 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   ClockIcon,
   UserIcon,
-  CurrencyPoundIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
-import '@splidejs/splide/css';
+// import '@splidejs/react-splide/css';
+// import '@splidejs/splide/css';
 import axios from 'axios';
 import Link from 'next/link';
 
 function GlutenFree() {
   const [glutenFree, setGlutenFree] = useState([]);
-
-  useEffect(() => {
-    feedGlutenFree();
-  }, []);
 
   const feedGlutenFree = async () => {
     const checkLocal = localStorage.getItem('glutenFree');
@@ -36,15 +32,24 @@ function GlutenFree() {
       setGlutenFree(data.recipes);
     }
   };
+
+  useEffect(() => {
+    feedGlutenFree();
+  }, []);
+
   return (
     <div className="p-5 px-5 sm:px-8 md:px-10 lg:px-20 group">
       <Link
         href="/diet/glutenFree"
-        className="flex items-center group-hover:text-[#00B8E1] group/item">
+        className="flex items-center group-hover:text-[#00B8E1] group/item"
+      >
         <h1 className="text-gray-700 text-xl font-semibold link px-2">
           Gluten Free Recipes
         </h1>
-        <div href="/diet/glutenFree" className="hidden group-hover/item:block">
+        <div
+          href="/diet/glutenFree"
+          className="hidden group-hover/item:block"
+        >
           <h3 className="text-xs pl-3 pr-1 cursor-pointer">Explore all</h3>
         </div>
         <ChevronRightIcon className="iconSmall" />
@@ -60,24 +65,26 @@ function GlutenFree() {
             autoHeight: true,
             arrows: { position: 'absolute' },
             pagination: false,
-          }}>
+          }}
+        >
+          {/* Cards */}
           {glutenFree?.map((recipe) => {
             if (recipe.image != null) {
               return (
-                //Cards
-
                 <SplideSlide
                   key={recipe.id}
-                  className=" p-2 bg-white cursor-pointer 
+                  className=" p-2 bg-white cursor-pointer
                 hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-xl
                 max-w-[312px]
-              ">
+              "
+                >
                   <Link href={`/recipe/${recipe?.id}`}>
                     <div
-                      className="flex justify-center content-center 
-            items-center object-cover">
+                      className="flex justify-center content-center
+            items-center object-cover"
+                    >
                       <Image
-                        className="object-cover  rounded-md  "
+                        className="object-cover rounded-md"
                         loading="eager"
                         width={312}
                         height={150}
@@ -106,6 +113,7 @@ function GlutenFree() {
                 </SplideSlide>
               );
             }
+            return console.log('error');
           })}
         </Splide>
       </div>

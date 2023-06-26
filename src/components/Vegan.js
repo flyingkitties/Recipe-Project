@@ -1,23 +1,19 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {
   ClockIcon,
   UserIcon,
-  CurrencyPoundIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/react-splide/css';
-import '@splidejs/splide/css';
+
 import axios from 'axios';
 import Link from 'next/link';
 
 function Vegan() {
   const [vegan, setVegan] = useState([]);
-
-  useEffect(() => {
-    feedVegan();
-  }, []);
 
   const feedVegan = async () => {
     const checkLocal = localStorage.getItem('vegan');
@@ -38,11 +34,16 @@ function Vegan() {
     }
   };
 
+  useEffect(() => {
+    feedVegan();
+  }, []);
+
   return (
     <div className="p-5 px-5 sm:px-8 md:px-10 lg:px-20 group">
       <Link
         href="/diet/vegan"
-        className="flex items-center group-hover:text-[#00B8E1] group/item">
+        className="flex items-center group-hover:text-[#00B8E1] group/item"
+      >
         <h1 className="text-gray-700 text-xl font-semibold link px-2">
           Vegan Recipes
         </h1>
@@ -62,22 +63,25 @@ function Vegan() {
             autoHeight: true,
             arrows: { position: 'absolute' },
             pagination: false,
-          }}>
+          }}
+        >
           {vegan?.map((recipe) => {
             if (recipe.image != null) {
               return (
-                //Cards
+                // Cards
 
                 <SplideSlide
                   key={recipe.id}
-                  className=" p-2 bg-white cursor-pointer 
+                  className=" p-2 bg-white cursor-pointer
               hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
               max-w-[312px]
-            ">
+            "
+                >
                   <Link href={`recipe/${recipe?.id}`}>
                     <div
-                      className="flex justify-center content-center 
-          items-center object-cover">
+                      className="flex justify-center content-center
+          items-center object-cover"
+                    >
                       <Image
                         className="object-cover  rounded-md  "
                         loading="eager"
@@ -108,6 +112,7 @@ function Vegan() {
                 </SplideSlide>
               );
             }
+            return console.log('error');
           })}
         </Splide>
       </div>

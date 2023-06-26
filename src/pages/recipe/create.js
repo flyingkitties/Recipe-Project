@@ -1,4 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+/* eslint-disable comma-dangle */
+/* eslint-disable react/jsx-wrap-multilines */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable object-curly-newline */
+/* eslint-disable react/jsx-closing-bracket-location */
+import React, { useState } from 'react';
 import {
   ClockIcon,
   MinusIcon,
@@ -9,18 +15,16 @@ import {
 } from '@heroicons/react/24/outline';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { toast } from 'react-hot-toast';
-import { MdLabelOutline, MdOutlineSend, MdSend } from 'react-icons/md';
-import Link from 'next/link';
+import { MdLabelOutline } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
-import { useForm, useFieldArray, Controller, useWatch } from 'react-hook-form';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { Input } from '@material-tailwind/react';
 import Footer from '../../components/Footer';
 
 function create() {
   const [imageBoxOpen, setImageBoxOpen] = useState(false);
-  const [ingredientsInput, setIngredientsInput] = useState(['']);
-  const { data: session, status } = useSession();
+  // const [ingredientsInput, setIngredientsInput] = useState(['']);
+  const { data: session } = useSession();
 
   const {
     register,
@@ -38,12 +42,10 @@ function create() {
     },
   });
 
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control,
-      name: 'ingredients', // unique name for your Field Array
-    }
-  );
+  const { fields, prepend, remove } = useFieldArray({
+    control,
+    name: 'ingredients', // unique name for your Field Array
+  });
 
   // console.log('fields!', fields);
 
@@ -56,28 +58,6 @@ function create() {
     { name: 'Paleo', value: 'Paleo', label: 'Paleo' },
   ];
   const animatedComponents = makeAnimated();
-
-  // const handleIngredientChange = (index, e) => {
-  //   let newIngredientInput = [...ingredientsInput];
-  //   // newIngredientInput[i][e.target.name] = e.target.value;
-  //   newIngredientInput[index] = e.target.value;
-  //   setIngredientsInput(newIngredientInput);
-  //   e.preventDefault();
-  //   console.log(ingredientsInput);
-  //   setValue('ingredients', newIngredientInput[index]);
-  // };
-  // console.log(ingredientsInput, 'outside the function');
-
-  // const handleAddIngredient = () => {
-  //   let newIngredient = '';
-  //   setIngredientsInput([...ingredientsInput, newIngredient]);
-  // };
-
-  // let handleRemoveIngredient = (i) => {
-  //   let newIngredientInput = [...ingredientsInput];
-  //   newIngredientInput.splice(i, 1);
-  //   setIngredientsInput(newIngredientInput);
-  // };
 
   const onSubmit = (data) => console.log(data);
   //  handleSubmit(async (data) => {
@@ -102,24 +82,27 @@ function create() {
           {/* Left Section container 1 */}
           {/* Image */}
           <div
-            className="flex object-cover w-[100px] sm:w-[240px] h-[150px] md:w-[270px] 
-          md:h-[231px] lg:h-[360px] lg:w-[390px] xl:w-[480px] shrink-0 items-center 
+            className="flex object-cover w-[100px] sm:w-[240px] h-[150px] md:w-[270px]
+          md:h-[231px] lg:h-[360px] lg:w-[390px] xl:w-[480px] shrink-0 items-center
           justify-center space-x-1 ">
             <div
-              className="flex group items-center 
+              className="flex group items-center
           justify-center hoverGray">
               <div>
                 <div
                   className="flex items-center justify-center"
-                  onClick={() => setImageBoxOpen(!imageBoxOpen)}>
+                  onClick={() => setImageBoxOpen(!imageBoxOpen)}
+                  tabIndex="0"
+                  onKeyDown={() => setImageBoxOpen(!imageBoxOpen)}
+                  role="button">
                   {imageBoxOpen ? (
                     <MinusIcon
-                      className="iconSmall  group-hover:transition-transform 
+                      className="iconSmall  group-hover:transition-transform
                       group-hover:rotate-180 "
                     />
                   ) : (
                     <PlusIcon
-                      className="iconSmall  group-hover:transition-transform 
+                      className="iconSmall  group-hover:transition-transform
                       group-hover:rotate-180 "
                     />
                   )}
@@ -132,27 +115,32 @@ function create() {
           h-full bg-white items-center justify-center ${
             imageBoxOpen === false && 'hidden'
           }`}>
-                  <div className={`w-full mr-10`}>
+                  <div className="w-full mr-10">
                     <div
                       className="flex w-full items-center mb-2
           justify-center text-xs sm:text-sm md:text-base font-light ">
                       <input
                         {...register('image', { required: true })}
-                        className="pl-3 w-full rounded-md shadow-sm 
-                        lg:p-3 md:p-2 p-1 border border-gray-600 hover:border-gray-500 
+                        className="pl-3 w-full rounded-md shadow-sm
+                        lg:p-3 md:p-2 p-1 border border-gray-600 hover:border-gray-500
                  outline-none  text-gray-800  focus:border-orange-400 "
                         type="text"
                         placeholder="Add an Image URL"
                       />
                       {errors.image && <p>Image is required</p>}
                     </div>
-                    <div
-                      className="flex items-center justify-center  "
-                      onClick={() => {
-                        setImageBoxOpen(false);
-                        event.preventDefault();
-                      }}>
-                      <button className="btnRecipe px-5">Submit Image</button>
+                    <div className="flex items-center justify-center">
+                      <button
+                        type="button"
+                        className="btnRecipe px-5"
+                        onClick={() => {
+                          setImageBoxOpen(false);
+                        }}
+                        onKeyDown={() => {
+                          setImageBoxOpen(false);
+                        }}>
+                        Submit Image
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -160,9 +148,9 @@ function create() {
             </div>
           </div>
 
-          {/* Right Section container 1*/}
+          {/* Right Section container 1 */}
           <div
-            className="flex flex-col mr-10 pl-1 sm:pl-2 md:pl-3 lg:pl-5 w-full h-[150px]  
+            className="flex flex-col mr-10 pl-1 sm:pl-2 md:pl-3 lg:pl-5 w-full h-[150px]
           md:h-[231px] lg:h-[360px] place-content-evenly">
             {/* Title */}
             <div className="">
@@ -170,7 +158,7 @@ function create() {
                 {...register('title', { required: true })}
                 className=" w-full rounded-md lg:p-2 md:p-2 pl-3
                 text-base sm:text-xl md:text-2xl lg:text-3xl
-                 titleFont tracking-wide border border-gray-600 hover:border-gray-500 
+                 titleFont tracking-wide border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800  focus:border-orange-400"
                 type="text"
                 placeholder="Title..."
@@ -189,8 +177,8 @@ function create() {
                 <div className="text-[10px] md:text-sm lg:text-base font-light">
                   <input
                     {...register('readyInMinutes', { required: true })}
-                    className="md:p-1 p-[2px] text-center 
-                    border border-gray-600 hover:border-gray-500 
+                    className="md:p-1 p-[2px] text-center
+                    border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md focus:border-orange-400
                  required:border-red-400"
                     type="text"
@@ -208,9 +196,9 @@ function create() {
                 <div className="text-[10px] md:text-sm lg:text-base font-light">
                   <input
                     {...register('servings', { required: true })}
-                    className=" md:p-1 p-[2px] text-center 
-                    border border-gray-600 hover:border-gray-500 
-                 outline-none text-gray-800 rounded-md  focus:border-orange-400 "
+                    className=" md:p-1 p-[2px] text-center
+                    border border-gray-600 hover:border-gray-500
+                 outline-none text-gray-800 rounded-md focus:border-orange-400"
                     type="text"
                     placeholder="Number of people..."
                   />
@@ -226,7 +214,7 @@ function create() {
             </div>
           </div>
         </div>
-        {/* Description container 2*/}
+        {/* Description container 2 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
@@ -234,7 +222,7 @@ function create() {
             <div className=" ">
               <textarea
                 {...register('summary', { required: true })}
-                className="h-24  border border-gray-600 hover:border-gray-500 
+                className="h-24  border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md  p-2
           pl-4 w-full font-light  focus:border-orange-400"
                 placeholder="Write a description..."
@@ -249,7 +237,7 @@ function create() {
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
           <div className="space-y-4 ">
             <h1
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
               font-semibold text-orange-400">
               This Recipe Is...
             </h1>
@@ -262,7 +250,7 @@ function create() {
                     {...register('diets')}
                     classNames="rounded-md"
                     options={dietOptions}
-                    value={value ? value : []}
+                    value={value}
                     onChange={onChange}
                     components={animatedComponents}
                     isMulti
@@ -291,7 +279,7 @@ function create() {
           </div>
         </div>
 
-        {/* Ingredients container 4*/}
+        {/* Ingredients container 4 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
@@ -305,34 +293,32 @@ function create() {
             <div className="grid grid-cols-1 ms:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-2 lg:gap-">
               {/* List of ingredients TODO */}
 
-              {fields.map((field, index) => {
-                return (
-                  <div className="flex items-center" key={field.id}>
-                    <Input
-                      {...register(
-                        `ingredients.${index}`
-                        // {required: true,}
-                      )}
-                      className="w-full flex items-center"
-                      type="text"
-                      // name={field.name}
-                      // defaultValue={field.name}
-                      label="Add an ingredient (e.g. 1 cup Flour)"
-                      variant="outlined"
-                      color="orange"
-                      control={control}
-                      icon={
-                        <TrashIcon
-                          className="iconSmall hoverGray"
-                          onClick={() => remove(index)}
-                        />
-                      }
-                    />
+              {fields.map((field, index) => (
+                <div className="flex items-center" key={field.id}>
+                  <Input
+                    {...register(
+                      `ingredients.${index}`
+                      // {required: true,}
+                    )}
+                    className="w-full flex items-center"
+                    type="text"
+                    // name={field.name}
+                    // defaultValue={field.name}
+                    label="Add an ingredient (e.g. 1 cup Flour)"
+                    variant="outlined"
+                    color="orange"
+                    control={control}
+                    icon={
+                      <TrashIcon
+                        className="iconSmall hoverGray"
+                        onClick={() => remove(index)}
+                      />
+                    }
+                  />
 
-                    {errors.ingredients && <p>Ingredient is required</p>}
-                  </div>
-                );
-              })}
+                  {errors.ingredients && <p>Ingredient is required</p>}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -348,7 +334,7 @@ function create() {
             <div className="list-disc space-y-5 tracking-wide text-justify">
               <textarea
                 {...register('instructions', { required: true })}
-                className="h-24  border border-gray-600 hover:border-gray-500 
+                className="h-24  border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md  p-2
           pl-4 w-full font-light  focus:border-orange-400 "
                 placeholder="Write the method step by step..."
@@ -358,7 +344,9 @@ function create() {
           </div>
         </div>
         <div className="pb-10">
-          <button className="btnRecipe w-full">Create Recipe</button>
+          <button className="btnRecipe w-full" type="submit">
+            Create Recipe
+          </button>
         </div>
       </form>
       <Footer />

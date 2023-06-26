@@ -1,10 +1,12 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-one-expression-per-line */
 import {
   ClockIcon,
   HandThumbUpIcon,
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 function RecipeCardHr({
@@ -16,11 +18,15 @@ function RecipeCardHr({
   servings,
 }) {
   return (
-    <Link id={id} href={`../recipe/${id}`}>
-      <div className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl  ">
+    <Link
+      id={id}
+      href={`../recipe/${id}`}
+    >
+      <div className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl">
         <div
-          className="flex max-h-[200px] max-w-[200px] justify-center content-center 
-          items-center object-contain shrink-0">
+          className="flex max-h-[200px] max-w-[200px] justify-center content-center
+          items-center object-contain shrink-0"
+        >
           <Image
             className="rounded-l-md "
             src={image}

@@ -1,3 +1,6 @@
+/* eslint-disable no-useless-return */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-one-expression-per-line */
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +11,7 @@ import Footer from '../../components/Footer';
 import dessertImage from '../../../public/images/dessert.jpg';
 
 function dessert() {
-  const [dessert, setDessert] = useState([]);
+  const [dessertData, setDessertData] = useState([]);
   const [page1, setPage1] = useState(true);
   const [page2, setPage2] = useState(false);
   const [page3, setPage3] = useState(false);
@@ -118,7 +121,7 @@ function dessert() {
     const checkLocal = localStorage.getItem('dessert40');
 
     if (checkLocal) {
-      setDessert(JSON.parse(checkLocal));
+      setDessertData(JSON.parse(checkLocal));
     } else {
       const api = await axios.get('../api/search/', {
         params: {
@@ -128,7 +131,7 @@ function dessert() {
       });
       const { data } = api;
       localStorage.setItem('dessert40', JSON.stringify(data.recipes));
-      setDessert(data.recipes);
+      setDessertData(data.recipes);
     }
   };
   useEffect(() => {
@@ -140,7 +143,12 @@ function dessert() {
       {/* top */}
       <div>
         <div className=" h-[100px] md:h-[150px] lg:h-[200px]  object-fill overflow-hidden ">
-          <Image src={dessertImage} width={2000} height={200} className="" />
+          <Image
+            src={dessertImage}
+            width={2000}
+            height={200}
+            className=""
+          />
         </div>
         <div className="pt-[2%] pb-[7%] text-center ">
           <h1 className="text-4xl sm:text-[50px] md:text-[60px] lg:text-[80px] font-bold titleFont ">
@@ -157,7 +165,7 @@ function dessert() {
       </div>
       {/* Cards */}
       <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
-        {dessert?.map((recipe, i) => {
+        {dessertData?.map((recipe, i) => {
           if (recipe.image != null && i < 10 && page1) {
             return (
               <RecipeCardHr
@@ -210,6 +218,7 @@ function dessert() {
               />
             );
           }
+          return null;
         })}
       </div>
       <div className="flex items-center justify-center text-justify gap-4">
@@ -218,8 +227,13 @@ function dessert() {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={prev}
-          disabled={active === 1}>
-          <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" /> Previous
+          disabled={active === 1}
+        >
+          <ArrowLeftIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />{' '}
+          Previous
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -232,9 +246,13 @@ function dessert() {
           color="blue-gray"
           className="flex items-center gap-2 rounded-full"
           onClick={next}
-          disabled={active === 4}>
+          disabled={active === 4}
+        >
           Next
-          <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
+          <ArrowRightIcon
+            strokeWidth={2}
+            className="h-4 w-4"
+          />
         </Button>
       </div>
       <Footer />

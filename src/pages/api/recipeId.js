@@ -1,4 +1,4 @@
-import { prisma } from '@/utils/db';
+// import { prisma } from '../../../utils/db';
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     //   types,
     // } = req.body;
 
-    let response = await axios(options);
+    const response = await axios(options);
     res.status(200).json(response.data);
 
     // if (response) {

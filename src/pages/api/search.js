@@ -1,12 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { prisma } from '@/utils/db';
 import axios from 'axios';
+// import { prisma } from '@/utils/db';
 
 export default async function handler(req, res) {
   const options = {
     method: 'GET',
-    url: `https://api.spoonacular.com/recipes/random`,
+    url: 'https://api.spoonacular.com/recipes/random',
     headers: {
       'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
     },
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   };
 
   try {
-    let response = await axios(options);
+    const response = await axios(options);
 
     res.status(200).json(response.data);
   } catch (error) {
