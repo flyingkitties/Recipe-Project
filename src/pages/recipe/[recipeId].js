@@ -48,7 +48,7 @@ function recipeById() {
   };
 
   const getCommentList = async (dbData) => {
-    const commentList = await axios.get('../api/postDB/comment', {
+    const commentList = await axios.get('../api/postDB/comment/', {
       params: {
         post_id: dbData?.id,
       },
