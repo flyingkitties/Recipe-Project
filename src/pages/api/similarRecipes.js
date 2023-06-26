@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-plusplus */
 import axios from 'axios';
 
 export default async function handler(req, res) {
@@ -8,7 +10,7 @@ export default async function handler(req, res) {
       res.status(500).send('Must include a recipeId');
     }
 
-    let { data } = await axios({
+    const { data } = await axios({
       method: 'GET',
       url: `https://api.spoonacular.com/recipes/${recipeId}/similar`,
       headers: {
@@ -19,7 +21,7 @@ export default async function handler(req, res) {
       },
     });
 
-    let updatedRecipes = [];
+    const updatedRecipes = [];
 
     for (let index = 0; index < data.length; index++) {
       const recipe = data[index];
@@ -27,7 +29,7 @@ export default async function handler(req, res) {
         throw new Error('No id');
       }
 
-      let response = await axios({
+      const response = await axios({
         method: 'GET',
         url: `https://api.spoonacular.com/recipes/${recipe.id}/information`,
         headers: {
@@ -43,9 +45,7 @@ export default async function handler(req, res) {
     }
     res.status(200).json(updatedRecipes);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: 'Oops an error has occurred!', error: error });
+    res.status(500).json({ message: 'Oops an error has occurred!', error });
     // if (error.response) {
     //   // The request was made and the server responded with a status code
     //   // that falls out of the range of 2xx

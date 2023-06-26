@@ -74,14 +74,14 @@ function Vegetarian() {
 
                 <SplideSlide
                   key={recipe.id}
-                  className=" p-2 bg-white cursor-pointer 
+                  className=" p-2 bg-white cursor-pointer
                   hover:border-2 hover:border-gray-200 hover:rounded-md hover:drop-shadow-2xl
                   max-w-[312px]
                 "
                 >
                   <Link href={`recipe/${recipe?.id}`}>
                     <div
-                      className="flex justify-center content-center 
+                      className="flex justify-center content-center
               items-center object-cover"
                     >
                       <Image
@@ -114,7 +114,7 @@ function Vegetarian() {
                 </SplideSlide>
               );
             }
-            return console.log('error');
+            return null;
           })}
         </Splide>
       </div>
