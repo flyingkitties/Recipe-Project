@@ -164,7 +164,7 @@ function dessert() {
         </div>
       </div>
       {/* Cards */}
-      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
+      <div className="px-5 sm:px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
         {dessertData?.map((recipe, i) => {
           if (recipe.image != null && i < 10 && page1) {
             return (
@@ -233,7 +233,7 @@ function dessert() {
             strokeWidth={2}
             className="h-4 w-4"
           />{' '}
-          Previous
+          <span className="hidden sm:inline-flex">Previous</span>
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -248,7 +248,7 @@ function dessert() {
           onClick={next}
           disabled={active === 4}
         >
-          Next
+          <span className="hidden sm:inline-flex">Next</span>
           <ArrowRightIcon
             strokeWidth={2}
             className="h-4 w-4"

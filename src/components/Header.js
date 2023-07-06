@@ -30,7 +30,8 @@ import {
   BsTwitter,
 } from 'react-icons/bs';
 import { Tooltip } from '@material-tailwind/react';
-import LogoRC from '../../public/images/logoRC.png';
+// import LogoRC from '../../public/images/logoRC.png';
+import Logo from '../../public/logo.png';
 
 function Header() {
   const [query, setQuery] = useState([]);
@@ -61,8 +62,8 @@ function Header() {
     bmCrossButton: {
       height: '35px',
       width: '35px',
-      right: '12px',
-      top: '18px',
+      right: '14px',
+      top: '12px',
     },
     bmCross: {
       color: 'rgb(75 85 99)',
@@ -128,19 +129,19 @@ function Header() {
     <div>
       <div
         className="relative sm:flex top-0  z-10 shadow-lg space-x-2
-      sm:space-x-3 md:space-x-5 lg:space-x-5  p-2 bg-white"
+      sm:space-x-3 md:space-x-5 lg:space-x-5  p-1 bg-white"
       >
         {/* Logo */}
         <Tooltip content="Recipe Corner">
           <Link
             href="/"
-            className="flex z-20 items-center lg:ml-3 ml-1 flex-shrink-0
-            md:w-14 md:h-14 sm:h-12 sm:w-12 h-[40px] w-[40px]"
+            className="flex z-20 items-center lg:ml-5 ml-3 flex-shrink-0
+            md:w-14 md:h-14 h-12 w-12 "
           >
             <Image
               width={100}
               height={100}
-              src={LogoRC}
+              src={Logo}
               alt="Logo"
             />
           </Link>
@@ -175,8 +176,9 @@ function Header() {
             </Link>
           </div>
         </form>
+        {/* Handle Search drop on small screen */}
         {searchDrop && (
-          <div className="sm:hidden absolute flex top-1 left-1 w-screen z-50 bg-white">
+          <div className="sm:hidden absolute flex top-1 -left-2 pb-1  w-screen z-50 bg-white">
             <button
               onClick={handleSearchDrop}
               onKeyDown={handleSearchDrop}
@@ -187,7 +189,7 @@ function Header() {
               <p className="hover:shadow-2xl ">Back</p>
             </button>
             <form
-              className=" flex-grow text-gray-600 items-center justify-center pl-5 pr-20 sm:px-0 "
+              className=" flex-grow text-gray-600 items-center justify-center pl-5 pr-20 "
               onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -216,20 +218,20 @@ function Header() {
             </form>
           </div>
         )}
-        {/* User  */}
-        <div className="flex absolute sm:static right-2 top-2 items-center space-x-4 pr-2 ">
+        {/* Search bar drop on small screen  */}
+        <div className="flex absolute sm:static right-2 top-3 items-center space-x-4 lg:pr-5 pr-3 ">
           <button
             className="sm:hidden hoverGray"
             onClick={handleSearchDrop}
             onKeyDown={handleSearchDrop}
             type="button"
           >
-            <MagnifyingGlassIcon className="iconXM " />
+            <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer " />
           </button>
           <div className="flex relative">
             {session ? (
               <div
-                className="flex items-center link"
+                className="flex items-center link "
                 onClick={handleUserDrop}
                 onKeyDown={handleUserDrop}
                 role="button"
@@ -239,7 +241,7 @@ function Header() {
                   src={session.user.image}
                   width={35}
                   height={35}
-                  className="rounded-full cursor-pointer"
+                  className="rounded-full cursor-pointer h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]"
                   alt="User Image"
                 />
                 <div className="absolute bottom-0 right-[40%] bg-green-500 h-[8px] w-[8px] rounded-full" />
@@ -356,8 +358,12 @@ function Header() {
             isOpen={burgerOpen}
             onOpen={handleBurgerOpen}
             onClose={handleBurgerOpen}
-            customBurgerIcon={<Bars3Icon />}
-            customCrossIcon={<XMarkIcon />}
+            customBurgerIcon={
+              <Bars3Icon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]" />
+            }
+            customCrossIcon={
+              <XMarkIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]" />
+            }
           >
             <div className="block space-y-2 relative">
               {/* Header */}

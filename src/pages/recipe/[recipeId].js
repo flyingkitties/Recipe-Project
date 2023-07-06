@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
@@ -5,7 +6,7 @@
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useRouter } from 'next/router';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   ChevronDownIcon,
@@ -47,19 +48,38 @@ function recipeById() {
     setUserDrop(!userDrop);
   };
 
-  const getCommentList = async (dbData) => {
-    const commentList = await axios.get('../api/postDB/comment/', {
-      params: {
-        post_id: dbData?.id,
-      },
-      // orderBy: {
-      //   created_at: 'desc',
-      // },
-    });
+  // Get list of Comments from dataBase
+  // const getCommentList = async (dbData) => {
+  //   const commentList = await axios.get('../api/postDB/comment/', {
+  //     params: {
+  //       post_id: dbData?.id,
+  //     },
+  //   });
 
-    const commentListData = commentList.data;
-    setComments(commentListData);
-  };
+  //   const commentListData = commentList.data;
+  //   setComments(commentListData);
+  // };
+
+  const {
+    data: commmentListData,
+    isLoading: commentIsLoading,
+    error: commentError,
+    refetch,
+  } = useQuery({
+    queryKey: ['getCommentList', recipeDb.id],
+    queryFn: () =>
+      axios
+        .get('../api/postDB/comment/', {
+          params: {
+            post_id: recipeDb?.id,
+          },
+        })
+        .then((res) => res.data),
+    retry: 3,
+    onSuccess: (commentListData) => {
+      setComments(commentListData);
+    },
+  });
 
   const addPostToDb = async (data) => {
     const database = await axios.post('../api/postDB/postPost/', {
@@ -74,7 +94,7 @@ function recipeById() {
     });
     const dbData = database.data;
     setRecipeDb(dbData);
-    await getCommentList(dbData);
+    // await getCommentList(dbData);
   };
 
   const { data, isLoading, error } = useQuery({
@@ -120,13 +140,10 @@ function recipeById() {
     },
   });
 
-  // Comments
+  // Add Comments to DataBase
   const AddComment = async (dataComment) => {
     await axios
       .post('../api/postDB/comment/', {
-        // where: {
-        //   post_id: data.post_id,
-        // },
         data: {
           post_id: recipeDb.id,
           username: session?.user?.name,
@@ -136,6 +153,7 @@ function recipeById() {
       .then((res) => res.data);
   };
 
+  // Handle Comment submit
   const {
     register,
     handleSubmit,
@@ -143,15 +161,15 @@ function recipeById() {
     setValue,
     formState: { errors },
   } = useForm();
+
   const onSubmit = async (dataComment) => {
-    console.log(dataComment);
     const notification = toast.loading('Posting your comment...');
     await AddComment(dataComment);
-    setValue('comments', '');
-
+    setValue('comment', '');
     toast.success('comment sucessfully posted!', {
       id: notification,
     });
+    refetch();
   };
 
   return (
@@ -160,25 +178,23 @@ function recipeById() {
         <div className=" relative flex  bg-white rounded-md shadow-md">
           {/* Left Section */}
           <div
-            className="flex object-cover w-[240px] h-[150px] md:w-[312px]
+            className="flex object-cover w-[200px] h-[150px] sm:w-[240px] md:w-[312px]
           md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 "
           >
-            {recipeByID.image ? (
+            {recipeByID.image && (
               <Image
                 className="rounded-l-md"
                 src={recipeByID?.image}
                 loading="eager"
                 width={480}
                 height={360}
-                alt="Breakfast image"
+                alt="Recipe Image"
               />
-            ) : (
-              <div />
             )}
           </div>
           {/* Right Section */}
           <div
-            className="flex flex-col px-1 sm:px-2 md:px-3 lg:px-5 w-full h-[150px]
+            className="flex flex-col px-2 md:px-3 lg:px-5 w-full h-[150px]
           md:h-[231px] lg:h-[360px] place-content-evenly"
           >
             <h1
@@ -229,14 +245,14 @@ function recipeById() {
               </div>
 
               {/* Drop Nutrition */}
-              <div
-                className="flex items-center space-x-1 lg:pt-4 sm:pt-1"
-                onClick={handleUserDrop}
-                onKeyDown={handleUserDrop}
-                role="button"
-                tabIndex="0"
-              >
-                <div className="flex btnRecipe text-center items-center space-x-1 ">
+              <div className="flex items-center space-x-1 lg:pt-4 sm:pt-1">
+                <div
+                  className="flex btnRecipe text-center items-center space-x-1 "
+                  onClick={handleUserDrop}
+                  onKeyDown={handleUserDrop}
+                  role="button"
+                  tabIndex="0"
+                >
                   <p className="text-[10px]  md:text-sm lg:text-base font-light ">
                     Nutrition per serving
                   </p>
@@ -264,12 +280,12 @@ function recipeById() {
                             return (
                               <div
                                 className=" space-y-2 p-2 items-center place-content-center bg-gray-200 text-center text-xs font-light"
-                                key={nutrients.name}
+                                key={nutrients?.name}
                               >
-                                <p className="">{nutrients.name}</p>
+                                <p className="">{nutrients?.name}</p>
                                 <p className="font-semibold">
-                                  {nutrients.amount}
-                                  {nutrients.unit}
+                                  {nutrients?.amount}
+                                  {nutrients?.unit}
                                 </p>
                               </div>
                             );
@@ -314,7 +330,7 @@ function recipeById() {
         {(!diets || diets !== undefined) && (
           <div
             className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2"
+       bg-white px-10 py-5 pb-5 text-gray-600 rounded-md shadow-md my-2"
           >
             <div className="space-y-4 ">
               <h1
@@ -324,12 +340,12 @@ function recipeById() {
                 This Recipe Is...
               </h1>
               <div className="grid grid-rows-2 lg:grid-rows-1 grid-flow-col gap-1 ">
-                {diets.map((diet, i) => (
-                  <Link href={`/search/${diet}`}>
-                    <div
-                      key={diet}
-                      className=" flex-grow lex space-x-1 text-center items-center btnRecipeGray capitalize tracking-wide"
-                    >
+                {diets?.map((diet, i) => (
+                  <Link
+                    href={`/search/${diet}`}
+                    key={diet}
+                  >
+                    <div className=" flex-grow lex space-x-1 text-center items-center btnRecipeGray capitalize tracking-wide">
                       <p>{diet}</p>
                     </div>
                   </Link>
@@ -350,13 +366,8 @@ function recipeById() {
             </h1>
             <ul className="list-disc space-y-2 tracking-wide ">
               {ingredients?.map((ing) => (
-                <div>
-                  <li
-                    key={ing.id}
-                    className=""
-                  >
-                    {ing.original}
-                  </li>
+                <div key={ing?.id}>
+                  <li className="">{ing?.original}</li>
                 </div>
               ))}
             </ul>
@@ -411,9 +422,11 @@ function recipeById() {
 "
             >
               {similarRecipeById?.map((recipe) => (
-                <Link href={`${recipe?.id}`}>
+                <Link
+                  href={`${recipe?.id}`}
+                  key={recipe?.id}
+                >
                   <div
-                    key={recipe.id}
                     className=" bg-white p-2 cursor-pointer w-[250px]
                hover:border-2 hover:border-gray-200 hover:rounded-md
                 hover:shadow-lg
@@ -428,25 +441,25 @@ function recipeById() {
                         loading="eager"
                         width={312}
                         height={150}
-                        src={recipe.image}
-                        alt="image"
+                        src={recipe?.image}
+                        alt="Recipe Image"
                       />
                     </div>
 
                     <div className=" pt-2 text-gray-600">
                       {' '}
                       <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                        {recipe.title}
+                        {recipe?.title}
                       </p>
                       <div className="flex space-x-1 items-center ">
                         <ClockIcon className="h-3 w-3" />
                         <p className="text-sm font-light">
-                          {recipe.readyInMinutes} min
+                          {recipe?.readyInMinutes} min
                         </p>
                       </div>
                       <div className="flex space-x-1 items-center">
                         <UserIcon className="h-3 w-3" />
-                        <p className="text-sm font-light">{recipe.servings}</p>
+                        <p className="text-sm font-light">{recipe?.servings}</p>
                       </div>
                     </div>
                   </div>
@@ -480,53 +493,56 @@ function recipeById() {
               onSubmit={handleSubmit(onSubmit)}
             >
               <textarea
-                {...register('comment')}
+                {...register('comment', { maxLength: 500, required: true })}
                 disabled={!session}
                 className="h-24 rounded-lg bg-gray-100  p-2
           pl-4 outline-none text-gray-600 w-full font-light "
                 placeholder={session ? 'Write a comment...' : 'Please sign in'}
               />
+
               <button
                 type="submit"
                 className="text-orange-400 disabled:text-gray-200
-                 absolute bottom-1 right-1 group "
+                 absolute top-16 right-1 group"
               >
                 <AiOutlineSend className="iconMed group-hover:hidden" />
                 <IoMdSend className="iconMed hidden group-hover:block" />
               </button>
+
+              {errors.comment?.type === 'required' &&
+                toast.error('Comment is required', {
+                  id: 'comment required',
+                })}
             </form>
           </div>
           {/* List of Comments */}
           <div className="mt-5">
-            {comments.map((commentLine) => {
-              console.log(commentLine);
-              return (
-                <div
-                  className=" flex  space-x-2  m-2"
-                  key={commentLine?.id}
-                >
-                  <div className="flex items-start pt-1 ">
-                    <Image
-                      src={`https://avatars.dicebear.com/api/open-peeps/ 
+            {comments.map((commentLine) => (
+              <div
+                className=" flex  space-x-2  m-2"
+                key={commentLine?.id}
+              >
+                <div className="flex items-start pt-1 ">
+                  <Image
+                    src={`https://avatars.dicebear.com/api/open-peeps/ 
     ${commentLine?.username || 'placeholder'}.svg`}
-                      width={30}
-                      height={30}
-                      className="rounded-full cursor-pointer "
-                      alt="User Image"
-                    />
-                  </div>
-                  <div className="flex flex-col px-3 pt-2 pb-3 rounded-lg bg-gray-100 flex-grow">
-                    <p className="pb-2 text-xs text-gray-400">
-                      <span className="font-semibold text-gray-600">
-                        {commentLine?.username}
-                      </span>{' '}
-                      • <ReactTimeago date={commentLine?.created_at} />
-                    </p>
-                    <p className="text-gray-600">{commentLine?.text}</p>
-                  </div>
+                    width={30}
+                    height={30}
+                    className="rounded-full cursor-pointer "
+                    alt="User Image"
+                  />
                 </div>
-              );
-            })}
+                <div className="flex flex-col px-3 pt-2 pb-3 rounded-lg bg-gray-100 flex-grow">
+                  <p className="pb-2 text-xs text-gray-400">
+                    <span className="font-semibold text-gray-600">
+                      {commentLine?.username}
+                    </span>{' '}
+                    • <ReactTimeago date={commentLine?.created_at} />
+                  </p>
+                  <p className="text-gray-600">{commentLine?.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

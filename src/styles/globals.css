@@ -19,7 +19,6 @@
   .iconSM {
     @apply w-6 h-6 items-center justify-center object-center cursor-pointer;
   }
-
   .iconMed {
     @apply w-6 h-6 md:w-8 md:h-8 items-center justify-center object-center cursor-pointer;
   }
@@ -29,7 +28,7 @@
   .iconLarge {
     @apply md:h-10 md:w-10 h-8 w-8 rounded-full items-center justify-center object-center cursor-pointer;
   }
-  .iconLarge {
+  .iconXLarge {
     @apply lg:h-16 lg:w-16 md:h-14 md:w-14 h-12 w-12 rounded-full items-center justify-center object-center cursor-pointer;
   }
   .btn {

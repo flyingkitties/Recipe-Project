@@ -164,7 +164,7 @@ function breakfast() {
         </div>
       </div>
       {/* Cards */}
-      <div className="px-20 md:px-32  lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
+      <div className="px-5 sm:px-20 md:px-32 lg:grid lg:grid-cols-2 lg:gap-5 pb-10">
         {breakfastData?.map((recipe, i) => {
           if (recipe.image != null && i < 10 && page1) {
             return (
@@ -221,7 +221,7 @@ function breakfast() {
           return null;
         })}
       </div>
-      <div className="flex items-center justify-center text-justify gap-4">
+      <div className="flex items-center justify-center text-justify gap-2 sm:gap-4 px-5">
         <Button
           variant="text"
           color="blue-gray"
@@ -233,7 +233,7 @@ function breakfast() {
             strokeWidth={2}
             className="h-4 w-4"
           />{' '}
-          Previous
+          <span className="hidden sm:inline-flex">Previous</span>
         </Button>
         <div className="flex items-center gap-2">
           <IconButton {...getItemProps(1)}>1</IconButton>
@@ -248,7 +248,7 @@ function breakfast() {
           onClick={next}
           disabled={active === 4}
         >
-          Next
+          <span className="hidden sm:inline-flex">Next</span>
           <ArrowRightIcon
             strokeWidth={2}
             className="h-4 w-4"
