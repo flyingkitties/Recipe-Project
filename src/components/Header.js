@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState, Fragment } from 'react';
 import { RxGlobe } from 'react-icons/rx';
@@ -29,7 +30,7 @@ import {
   BsTiktok,
   BsTwitter,
 } from 'react-icons/bs';
-import { Tooltip } from '@material-tailwind/react';
+import { Button, Tooltip, Typography } from '@material-tailwind/react';
 // import LogoRC from '../../public/images/logoRC.png';
 import Logo from '../../public/logo.png';
 
@@ -132,11 +133,23 @@ function Header() {
       sm:space-x-3 md:space-x-5 lg:space-x-5  p-1 bg-white"
       >
         {/* Logo */}
-        <Tooltip content="Recipe Corner">
+        <Tooltip
+          className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+          content={
+            <div className="">
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Recipe Corner
+              </Typography>
+            </div>
+          }
+        >
           <Link
             href="/"
-            className="flex z-20 items-center lg:ml-5 ml-3 flex-shrink-0
-            md:w-14 md:h-14 h-12 w-12 "
+            className="flex z-20 items-center justify-center lg:ml-5 ml-3 flex-shrink-0
+            md:w-14 md:h-14 h-12 w-12 md:pt-1"
           >
             <Image
               width={100}
@@ -166,14 +179,28 @@ function Header() {
               className="flex-grow p-2 px-4 h-full rounded-l-2xl focus:outline-none truncate"
               onChange={handleChange}
             />
-            <Link href={`/search/${query}`}>
-              <button
-                className=" md:p-5 p-3"
-                type="button"
-              >
-                <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
-              </button>
-            </Link>
+            <Tooltip
+              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10  "
+              content={
+                <div className="">
+                  <Typography
+                    color="gray"
+                    className="font-medium"
+                  >
+                    Search
+                  </Typography>
+                </div>
+              }
+            >
+              <Link href={`/search/${query}`}>
+                <button
+                  className=" md:px-5 p-[0.85rem]"
+                  type="button"
+                >
+                  <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
+                </button>
+              </Link>
+            </Tooltip>
           </div>
         </form>
         {/* Handle Search drop on small screen */}
@@ -219,15 +246,30 @@ function Header() {
           </div>
         )}
         {/* Search bar drop on small screen  */}
+
         <div className="flex absolute sm:static right-2 top-3 items-center space-x-4 lg:pr-5 pr-3 ">
-          <button
-            className="sm:hidden hoverGray"
-            onClick={handleSearchDrop}
-            onKeyDown={handleSearchDrop}
-            type="button"
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 mt-2"
+            content={
+              <div className="">
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  Search
+                </Typography>
+              </div>
+            }
           >
-            <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer " />
-          </button>
+            <button
+              className="sm:hidden hoverGray"
+              onClick={handleSearchDrop}
+              onKeyDown={handleSearchDrop}
+              type="button"
+            >
+              <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer " />
+            </button>
+          </Tooltip>
           <div className="flex relative">
             {session ? (
               <div
@@ -359,14 +401,20 @@ function Header() {
             onOpen={handleBurgerOpen}
             onClose={handleBurgerOpen}
             customBurgerIcon={
-              <Bars3Icon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]" />
+              <Button
+                variant="text"
+                size="sm"
+                className="p-0 "
+              >
+                <Bars3Icon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] text-gray-800" />
+              </Button>
             }
             customCrossIcon={
               <XMarkIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]" />
             }
           >
             <div className="block space-y-2 relative">
-              {/* Header */}
+              {/* Menu Header */}
               <div>
                 {session ? (
                   <div className="w-full text-gray-800 ">

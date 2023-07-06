@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
@@ -15,6 +16,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { Tooltip, Typography } from '@material-tailwind/react';
 import { toast } from 'react-hot-toast';
 import { MdLabelOutline } from 'react-icons/md';
 import { FaRegCommentDots } from 'react-icons/fa';
@@ -197,13 +199,25 @@ function recipeById() {
             className="flex flex-col px-2 md:px-3 lg:px-5 w-full h-[150px]
           md:h-[231px] lg:h-[360px] place-content-evenly"
           >
-            <h1
-              className=" text-base sm:text-xl md:text-3xl lg:text-5xl
-            titleFont tracking-wide line-clamp-2"
+            <Tooltip
+              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+              placement="top-end"
+              content={
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  {recipeByID?.title}
+                </Typography>
+              }
             >
-              {recipeByID?.title}
-            </h1>
-
+              <h1
+                className=" text-base sm:text-xl md:text-3xl lg:text-5xl
+            titleFont tracking-wide line-clamp-2 pb-1"
+              >
+                {recipeByID?.title}
+              </h1>
+            </Tooltip>
             <div
               className=" text-gray-600 space-y-1 md:space-y-2 lg:space-y-5
              "
@@ -305,15 +319,64 @@ function recipeById() {
 
         {/* Buttons  */}
         <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
-          <div className="btnRecipe ">
-            <AiOutlineLike className="iconMed" />
-          </div>
-          <div className="btnRecipe">
-            <AiOutlineHeart className="iconMed" />
-          </div>
-          <div className="btnRecipe">
-            <FaRegCommentDots className="iconMed" />
-          </div>
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Like
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe "
+              type="button"
+            >
+              <AiOutlineLike className="iconMed" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Add to Favourites
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe"
+              type="button"
+            >
+              <AiOutlineHeart className="iconMed" />
+            </button>
+          </Tooltip>
+
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Comment
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe"
+              type="button"
+            >
+              <FaRegCommentDots className="iconMed" />
+            </button>
+          </Tooltip>
         </div>
 
         {/* Description */}
@@ -394,15 +457,64 @@ function recipeById() {
         </div>
         {/* Buttons  */}
         <div className="flex py-2 space-x-10 ">
-          <div className="btnRecipe ">
-            <AiOutlineLike className="iconMed" />
-          </div>
-          <div className="btnRecipe">
-            <AiOutlineHeart className="iconMed" />
-          </div>
-          <div className="btnRecipe">
-            <FaRegCommentDots className="iconMed" />
-          </div>
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Like
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe "
+              type="button"
+            >
+              <AiOutlineLike className="iconMed" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Add to Favourites
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe"
+              type="button"
+            >
+              <AiOutlineHeart className="iconMed" />
+            </button>
+          </Tooltip>
+
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            placement="top-start"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                Comment
+              </Typography>
+            }
+          >
+            <button
+              className="btnRecipe"
+              type="button"
+            >
+              <FaRegCommentDots className="iconMed" />
+            </button>
+          </Tooltip>
         </div>
 
         {/* Similar Recipes */}

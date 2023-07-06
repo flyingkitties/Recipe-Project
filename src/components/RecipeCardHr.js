@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-one-expression-per-line */
 import {
@@ -8,6 +9,7 @@ import {
 import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
+import { Tooltip, Typography } from '@material-tailwind/react';
 
 function RecipeCardHr({
   id,
@@ -37,7 +39,21 @@ function RecipeCardHr({
           />
         </div>
         <div className="p-2">
-          <h1 className="titleText line-clamp-2">{title}</h1>
+          <Tooltip
+            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
+            placement="top-end"
+            content={
+              <Typography
+                color="gray"
+                className="font-medium"
+              >
+                {title}
+              </Typography>
+            }
+          >
+            <h1 className="titleText line-clamp-2">{title}</h1>
+          </Tooltip>
+
           <div className="justify-evenly pt-4 space-y-1 text-gray-600 ">
             <div className="flex space-x-1 items-center">
               <HandThumbUpIcon className="h-4 w-4 text-[#00B8E1] " />
