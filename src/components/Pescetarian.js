@@ -35,7 +35,7 @@ function Pescetarian() {
   return (
     <div className="p-5 px-5 sm:px-8 md:px-10 lg:px-20 group">
       <Link
-        href="/diet/pescetarian"
+        href="/diets/pescetarian"
         className="flex items-center group-hover:text-[#00B8E1] group/item"
       >
         <h1 className="text-gray-700 text-xl font-semibold link px-2">

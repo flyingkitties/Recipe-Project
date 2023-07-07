@@ -643,7 +643,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/vegetarian"
+                                href="/diets/vegetarian"
                               >
                                 <p className="ml-10">Vegetarian</p>
                               </Link>
@@ -652,7 +652,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/keto"
+                                href="/diets/keto"
                               >
                                 <p className="ml-10">Keto</p>
                               </Link>
@@ -661,7 +661,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/glutenFree"
+                                href="/diets/glutenFree"
                               >
                                 <p className="ml-10">Gluten Free</p>
                               </Link>
@@ -670,7 +670,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/pescetarian"
+                                href="/diets/pescetarian"
                               >
                                 <p className="ml-10">Pescetarian</p>
                               </Link>
@@ -679,7 +679,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/vegan"
+                                href="/diets/vegan"
                               >
                                 <p className="ml-10">Vegan</p>
                               </Link>
@@ -688,7 +688,7 @@ function Header() {
                               <Link
                                 onClick={handleBurgerOpen}
                                 className="space-x-2 hoverGray "
-                                href="/diet/paleo"
+                                href="/diets/paleo"
                               >
                                 <p className="ml-10">Paleo</p>
                               </Link>
