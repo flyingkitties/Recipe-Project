@@ -15,6 +15,8 @@ function glutenFreePage() {
   const [page3, setPage3] = useState(false);
   const [page4, setPage4] = useState(false);
   const [active, setActive] = useState(1);
+
+  // Pagination
   const handlePage1 = () => {
     setPage1(true);
     setPage2(false);
