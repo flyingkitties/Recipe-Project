@@ -20,32 +20,50 @@ function Banner() {
       </div>
       <div className="flex-grid space-x-5 mt-[2%] text-sm md:text-base lg:text-lg ">
         <Link href="/category/sides">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Sides</p>
           </button>
         </Link>
         <Link href="/category/dessert">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Dessert</p>
           </button>
         </Link>
         <Link href="/category/salad">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Salad</p>
           </button>
         </Link>
         <Link href="/category/breakfast">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Breakfast</p>
           </button>
         </Link>
         <Link href="/category/mainCourse">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Main Course</p>
           </button>
         </Link>
         <Link href="/category/snacks">
-          <button className="btnOrg" type="button">
+          <button
+            className="btnOrg"
+            type="button"
+          >
             <p className="shade">Snacks</p>
           </button>
         </Link>
@@ -55,11 +73,13 @@ function Banner() {
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
-        }}>
+        }}
+      >
         <div
           className="flex  cursor-pointer h-10
       items-center drop-shadow-xl rounded-2xl
-       bg-[#FF8F00] hover:bg-[#FF8200] max-w-[800px] flex-grow  ">
+       bg-[#FF8F00] hover:bg-[#FF8200] max-w-[800px] flex-grow  "
+        >
           <input
             type="text"
             onChange={handleChange}
@@ -67,7 +87,10 @@ function Banner() {
             className="flex-grow p-2 px-10 h-full rounded-l-2xl focus:outline-none"
           />
           <Link href={`/search/${query}`}>
-            <button className=" md:p-5 p-3 max-w-10" type="button">
+            <button
+              className=" md:p-5 p-3 max-w-10"
+              type="button"
+            >
               <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
             </button>
           </Link>
