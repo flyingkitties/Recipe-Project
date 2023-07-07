@@ -180,12 +180,12 @@ function recipeById() {
         <div className=" relative flex  bg-white rounded-md shadow-md">
           {/* Left Section */}
           <div
-            className="flex object-cover w-[200px] h-[150px] sm:w-[240px] md:w-[312px]
+            className="flex object-cover w-[160px] h-[150px] sm:w-[240px] md:w-[312px]
           md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 "
           >
             {recipeByID.image && (
               <Image
-                className="rounded-l-md"
+                className="rounded-l-md object-cover"
                 src={recipeByID?.image}
                 loading="eager"
                 width={480}

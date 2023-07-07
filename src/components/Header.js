@@ -267,7 +267,7 @@ function Header() {
               onKeyDown={handleSearchDrop}
               type="button"
             >
-              <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer " />
+              <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer text-gray-800 " />
             </button>
           </Tooltip>
           <div className="flex relative">
@@ -289,7 +289,7 @@ function Header() {
                 <div className="absolute bottom-0 right-[40%] bg-green-500 h-[8px] w-[8px] rounded-full" />
 
                 <ChevronDownIcon
-                  className={`iconSmall hoverGray transition-transform ${
+                  className={`iconSmall hoverGray text-gray-800 transition-transform ${
                     userDrop ? 'rotate-180' : ''
                   }`}
                 />
@@ -348,11 +348,11 @@ function Header() {
                 role="button"
                 tabIndex="0"
               >
-                <UserIcon className="iconXM  hoverGray " />
+                <UserIcon className="iconXM  hoverGray text-gray-800" />
                 <div className="absolute bottom-0 right-[40%] bg-red-600 h-[8px] w-[8px] rounded-full " />
 
                 <ChevronDownIcon
-                  className={`iconSmall hoverGray transition-transform ${
+                  className={`iconSmall hoverGray text-gray-800 transition-transform ${
                     userDrop ? 'rotate-180' : ''
                   }`}
                 />
@@ -410,7 +410,7 @@ function Header() {
               </Button>
             }
             customCrossIcon={
-              <XMarkIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px]" />
+              <XMarkIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] text-gray-800" />
             }
           >
             <div className="block space-y-2 relative">
