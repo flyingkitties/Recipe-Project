@@ -6,13 +6,13 @@ import { prisma } from '../../../utils/db';
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
-      console.log('inside POST');
       const {
         external_id,
         username,
         title,
         image,
         method,
+        sourceUrl,
         // comments,
         // likes,
         // types,
@@ -26,31 +26,41 @@ export default async function handler(req, res) {
         amount: ingredient.amount,
       }));
 
-      const createPost = await prisma.post.upsert({
-        where: { external_id },
-        update: {
+      const postExists = await prisma.post.findFirst({
+        where: {
           external_id,
-          username,
-          title,
-          image,
-          ingredients,
-          method,
-          //   comments,
-          //   likes,
-          //   types,
-          //   favourites,
-        },
-        create: {
-          external_id,
-          username,
-          title,
-          image,
-          ingredients,
-          method,
         },
       });
-      console.log('New Post Created');
-      return res.status(200).send(createPost);
+      console.log(postExists);
+
+      if (postExists) {
+        const createPost = await prisma.post.upsert({
+          where: { external_id },
+          update: {
+            external_id,
+            username: username || sourceUrl || 'None',
+            title,
+            image,
+            ingredients,
+            method,
+            //   comments,
+            //   likes,
+            //   types,
+            //   favourites,
+          },
+          create: {
+            external_id,
+            username: username || sourceUrl || 'None',
+            title,
+            image,
+            ingredients,
+            method,
+          },
+        });
+
+        return res.status(200).send(createPost);
+      }
+      return res.status(200).send(postExists);
     }
   } catch (error) {
     console.log(error);

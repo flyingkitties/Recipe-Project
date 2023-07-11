@@ -39,7 +39,7 @@ function SearchParams() {
       }
     },
     onError: (e) => {
-      console.log('error', e);
+      toast.error('Oops, there was an error here! Try again!', { id: e });
     },
   });
   if (isLoading) {

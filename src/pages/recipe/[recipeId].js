@@ -185,6 +185,10 @@ function recipeById() {
           >
             {recipeByID.image && (
               <Image
+                // style={{
+                //   transform: 'scale(1.2,1)',
+                //   // scale: '2, 1',
+                // }}
                 className="rounded-l-md object-cover"
                 src={recipeByID?.image}
                 loading="eager"
@@ -200,20 +204,22 @@ function recipeById() {
           md:h-[231px] lg:h-[360px] place-content-evenly"
           >
             <Tooltip
-              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
               placement="top-end"
               content={
-                <Typography
-                  color="gray"
-                  className="font-medium"
-                >
-                  {recipeByID?.title}
-                </Typography>
+                recipeByID?.title ? (
+                  <Typography
+                    color="gray"
+                    className="font-medium"
+                  >
+                    {recipeByID?.title}
+                  </Typography>
+                ) : null
               }
             >
               <h1
                 className=" text-base sm:text-xl md:text-3xl lg:text-5xl
-            titleFont tracking-wide line-clamp-2 pb-1"
+            titleFont tracking-wide line-clamp-2 pb-1 pl-1"
               >
                 {recipeByID?.title}
               </h1>
@@ -320,7 +326,7 @@ function recipeById() {
         {/* Buttons  */}
         <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography
@@ -339,7 +345,7 @@ function recipeById() {
             </button>
           </Tooltip>
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography
@@ -359,7 +365,7 @@ function recipeById() {
           </Tooltip>
 
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography
@@ -458,7 +464,7 @@ function recipeById() {
         {/* Buttons  */}
         <div className="flex py-2 space-x-10 ">
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography
@@ -477,7 +483,7 @@ function recipeById() {
             </button>
           </Tooltip>
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography
@@ -497,7 +503,7 @@ function recipeById() {
           </Tooltip>
 
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
             content={
               <Typography

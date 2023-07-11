@@ -40,7 +40,7 @@ function RecipeCardHr({
         </div>
         <div className="p-2">
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
             placement="top-end"
             content={
               <Typography

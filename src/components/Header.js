@@ -1,28 +1,27 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState, Fragment } from 'react';
-import { RxGlobe } from 'react-icons/rx';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { Transition } from '@headlessui/react';
 import {
-  UserIcon,
-  ChevronDownIcon,
-  XMarkIcon,
   ArrowRightOnRectangleIcon,
-  InformationCircleIcon,
+  Bars3Icon,
+  ChatBubbleLeftRightIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
   ChevronUpIcon,
   Cog6ToothIcon,
+  InformationCircleIcon,
   QuestionMarkCircleIcon,
-  ChatBubbleLeftRightIcon,
-  ChevronLeftIcon,
-  Bars3Icon,
+  UserIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { AiOutlineHome, AiOutlineHeart } from 'react-icons/ai';
-import { GiCookingPot, GiCookingGlove, GiForkKnifeSpoon } from 'react-icons/gi';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import { Button, Tooltip, Typography } from '@material-tailwind/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { Transition } from '@headlessui/react';
 import Link from 'next/link';
+import React, { Fragment, useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
+import { AiOutlineHeart, AiOutlineHome } from 'react-icons/ai';
 import {
   BsFacebook,
   BsInstagram,
@@ -30,12 +29,14 @@ import {
   BsTiktok,
   BsTwitter,
 } from 'react-icons/bs';
-import { Button, Tooltip, Typography } from '@material-tailwind/react';
+import { GiCookingGlove, GiCookingPot, GiForkKnifeSpoon } from 'react-icons/gi';
+import { RxGlobe } from 'react-icons/rx';
 // import LogoRC from '../../public/images/logoRC.png';
+import { useRouter } from 'next/router';
 import Logo from '../../public/logo.png';
 
 function Header() {
-  const [query, setQuery] = useState([]);
+  const [query, setQuery] = useState('');
   const [userDrop, setUserDrop] = useState(false);
   const [burgerOpen, setBurgerOpen] = useState(false);
   const [searchDrop, setSearchDrop] = useState(false);
@@ -93,6 +94,12 @@ function Header() {
     setQuery(e.target.value);
   }
 
+  const { push } = useRouter();
+  function handleSearch() {
+    if (!query.length) return;
+    push(`/search/${query}`);
+  }
+
   // Menu Drops
   // const triggers = {
   //   onMouseEnter: () => setOpenMenu(true),
@@ -134,7 +141,7 @@ function Header() {
       >
         {/* Logo */}
         <Tooltip
-          className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+          className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
           content={
             <div className="">
               <Typography
@@ -179,8 +186,10 @@ function Header() {
               className="flex-grow p-2 px-4 h-full rounded-l-2xl focus:outline-none truncate"
               onChange={handleChange}
             />
+            {/* Search button */}
+
             <Tooltip
-              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10  "
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10  "
               content={
                 <div className="">
                   <Typography
@@ -192,14 +201,13 @@ function Header() {
                 </div>
               }
             >
-              <Link href={`/search/${query}`}>
-                <button
-                  className=" md:px-5 p-[0.85rem]"
-                  type="button"
-                >
-                  <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
-                </button>
-              </Link>
+              <button
+                className=" md:px-5 p-[0.85rem]"
+                type="button"
+                onClick={handleSearch}
+              >
+                <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
+              </button>
             </Tooltip>
           </div>
         </form>
@@ -249,7 +257,7 @@ function Header() {
 
         <div className="flex absolute sm:static right-2 top-3 items-center space-x-4 lg:pr-5 pr-3 ">
           <Tooltip
-            className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 mt-2"
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 mt-2"
             content={
               <div className="">
                 <Typography

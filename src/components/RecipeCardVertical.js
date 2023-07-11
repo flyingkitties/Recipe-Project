@@ -46,7 +46,7 @@ function RecipeCardVertical({
         <div className="flex flex-col space-y-1 justify-center p-2 text-gray-600">
           <div className="">
             <Tooltip
-              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
               placement="top-end"
               content={
                 <Typography

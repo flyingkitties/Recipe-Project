@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-closing-bracket-location */
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Tooltip, Typography } from '@material-tailwind/react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -86,14 +88,28 @@ function Banner() {
             placeholder="Ingredient, dish, keyword..."
             className="flex-grow p-2 px-10 h-full rounded-l-2xl focus:outline-none"
           />
-          <Link href={`/search/${query}`}>
-            <button
-              className=" md:p-5 p-3 max-w-10"
-              type="button"
-            >
-              <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
-            </button>
-          </Link>
+          <Tooltip
+            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10  "
+            content={
+              <div className="">
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  Search
+                </Typography>
+              </div>
+            }
+          >
+            <Link href={`/search/${query}`}>
+              <button
+                className=" md:p-5 p-3 max-w-10"
+                type="button"
+              >
+                <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
+              </button>
+            </Link>
+          </Tooltip>
         </div>
       </form>
     </div>
