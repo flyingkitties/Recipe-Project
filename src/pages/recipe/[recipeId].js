@@ -21,14 +21,17 @@ import { toast } from 'react-hot-toast';
 import { MdLabelOutline } from 'react-icons/md';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { IoMdSend } from 'react-icons/io';
-import { AiOutlineSend, AiOutlineLike, AiOutlineHeart } from 'react-icons/ai';
+import {
+  AiOutlineSend,
+  AiOutlineLike,
+  AiOutlineHeart,
+  AiFillLike,
+} from 'react-icons/ai';
 import { Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
-// import { comment } from 'postcss';
-// import TimeAgo from 'react-timeago';
 import ReactTimeago from 'react-timeago';
 import Footer from '../../components/Footer';
 
@@ -36,6 +39,7 @@ function recipeById() {
   const router = useRouter();
   const { data: session } = useSession();
 
+  const [userDrop, setUserDrop] = useState(false);
   const [recipeByID, setRecipeById] = useState([]);
   const [nutrition, setNutrition] = useState([]);
   const [ingredients, setIngredients] = useState([]);
@@ -43,8 +47,8 @@ function recipeById() {
   const [similarRecipeById, setSimilarRecipeById] = useState([]);
   const [recipeDb, setRecipeDb] = useState([]);
   const [comments, setComments] = useState([]);
-
-  const [userDrop, setUserDrop] = useState(false);
+  const [likes, setLikes] = useState(false);
+  const [favourites, setFacourites] = useState(false);
 
   const handleUserDrop = () => {
     setUserDrop(!userDrop);
@@ -62,13 +66,15 @@ function recipeById() {
   //   setComments(commentListData);
   // };
 
+  // Get Comments
   const {
-    data: commmentListData,
+    data: commentListData,
     isLoading: commentIsLoading,
     error: commentError,
     refetch,
   } = useQuery({
     queryKey: ['getCommentList', recipeDb.id],
+    enabled: !!recipeDb?.id,
     queryFn: () =>
       axios
         .get('../api/postDB/comment/', {
@@ -83,11 +89,36 @@ function recipeById() {
     },
   });
 
+  // Get Likes
+  const {
+    data: likedData,
+    isLoading: likesIsLoading,
+    error: likesError,
+    // refetch,
+  } = useQuery({
+    queryKey: ['getLiked', recipeDb.id],
+    enabled: !!router.query.recipeId && !!session?.user?.email,
+    queryFn: () =>
+      axios
+        .get('../api/postDB/like/', {
+          params: {
+            post_id: recipeDb.id,
+            email: session?.user?.email,
+          },
+        })
+        .then((res) => res.data),
+    retry: 3,
+    onSuccess: (likedData) => {
+      setLikes(likedData);
+      console.log('LikedData:', likedData);
+    },
+  });
+
   const addPostToDb = async (data) => {
     const database = await axios.post('../api/postDB/postPost/', {
       data: {
         external_id: data?.id,
-        username: session?.user?.name,
+        username: session?.user?.email,
         title: data?.title,
         image: data?.image,
         ingredients: data?.extendedIngredients,
@@ -95,6 +126,7 @@ function recipeById() {
       },
     });
     const dbData = database.data;
+    console.log('🚀 ~ dbData', dbData);
     setRecipeDb(dbData);
     // await getCommentList(dbData);
   };
@@ -142,13 +174,30 @@ function recipeById() {
     },
   });
 
+  // Add Likes to the dataBase
+  const handleLike = async () => {
+    setLikes((prev) => !prev); // faster way of getting previous value
+    console.log('Likes:', likes);
+    await axios
+      .post('../api/postDB/like/', {
+        data: {
+          post_id: recipeDb.id,
+          username: session?.user?.email,
+          liked: likes,
+        },
+      })
+      .then((res) => res.data)
+      .catch((e) => setLikes((prev) => !prev));
+    console.log('Like post is:', likes);
+  };
+
   // Add Comments to DataBase
   const AddComment = async (dataComment) => {
     await axios
       .post('../api/postDB/comment/', {
         data: {
           post_id: recipeDb.id,
-          username: session?.user?.name,
+          username: session?.user?.email,
           text: dataComment.comment,
         },
       })
@@ -185,22 +234,19 @@ function recipeById() {
           >
             {recipeByID.image && (
               <Image
-                // style={{
-                //   transform: 'scale(1.2,1)',
-                //   // scale: '2, 1',
-                // }}
                 className="rounded-l-md object-cover"
                 src={recipeByID?.image}
                 loading="eager"
                 width={480}
                 height={360}
                 alt="Recipe Image"
+                priority
               />
             )}
           </div>
           {/* Right Section */}
           <div
-            className="flex flex-col px-2 md:px-3 lg:px-5 w-full h-[150px]
+            className="flex flex-col pb-1 px-2 md:px-3 lg:px-5 w-full h-[150px]
           md:h-[231px] lg:h-[360px] place-content-evenly"
           >
             <Tooltip
@@ -265,15 +311,15 @@ function recipeById() {
               </div>
 
               {/* Drop Nutrition */}
-              <div className="flex items-center space-x-1 lg:pt-4 sm:pt-1">
+              <div className="flex items-center space-x-1 lg:pt-4 md:pt-1">
                 <div
-                  className="flex btnRecipe text-center items-center space-x-1 "
+                  className="flex btnRecipeFlat text-center items-center space-x-1 "
                   onClick={handleUserDrop}
                   onKeyDown={handleUserDrop}
                   role="button"
                   tabIndex="0"
                 >
-                  <p className="text-[10px]  md:text-sm lg:text-base font-light ">
+                  <p className="text-[10px] md:text-sm lg:text-base font-light ">
                     Nutrition per serving
                   </p>
                   {userDrop ? (
@@ -338,10 +384,15 @@ function recipeById() {
             }
           >
             <button
+              onClick={handleLike}
               className="btnRecipe "
               type="button"
             >
-              <AiOutlineLike className="iconMed" />
+              {likes ? (
+                <AiFillLike className="iconMed bg-red-500" />
+              ) : (
+                <AiOutlineLike className="iconMed bg-blue-500" />
+              )}
             </button>
           </Tooltip>
           <Tooltip
@@ -435,7 +486,7 @@ function recipeById() {
             </h1>
             <ul className="list-disc space-y-2 tracking-wide ">
               {ingredients?.map((ing) => (
-                <div key={ing?.id}>
+                <div key={ing?.original}>
                   <li className="">{ing?.original}</li>
                 </div>
               ))}

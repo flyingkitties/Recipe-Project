@@ -6,38 +6,41 @@ import { prisma } from '../../../utils/db';
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
-      const { username } = req.body.data;
-      const { post_id } = req.body.data;
-      const { text } = req.body.data;
+      const { username, post_id, text } = req.body.data;
+      console.log('🚀 ~ post_id MUTATION', post_id);
 
       const createComment = await prisma.comment.create({
         data: {
-          post_id,
+          post: {
+            connect: {
+              id: post_id,
+            },
+          },
           username,
           text,
         },
       });
       console.log('Comment added to DB');
-      res.json(createComment);
+      return res.json(createComment);
     }
     if (req.method === 'GET') {
       const { post_id } = req.query;
+      console.log('🚀 ~ post_id', post_id);
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
-      if (post_id) {
-        const getComments = await prisma.comment.findMany({
-          where: {
-            post_id,
-          },
-          orderBy: {
-            created_at: 'desc',
-          },
-        });
-        console.log('req. query log', req.query);
-        console.log('Getting list of comments', getComments);
-        return res.status(200).send(getComments);
-      }
+      if (!post_id) return res.status(500).send('Missing Post Id');
+      const getComments = await prisma.comment.findMany({
+        where: {
+          post_id,
+        },
+        orderBy: {
+          created_at: 'desc',
+        },
+      });
+      // console.log('req. query log', req.query);
+      // console.log('Getting list of comments', getComments);
+      return res.status(200).send(getComments);
     }
   } catch (error) {
     console.log(error);

@@ -32,10 +32,10 @@ function RecipeCardHr({
           <Image
             className="rounded-l-md "
             src={image}
-            loading="eager"
+            loading="lazy"
             width={240}
             height={150}
-            alt="GF image"
+            alt="Recipe mage"
           />
         </div>
         <div className="p-2">

@@ -13,8 +13,6 @@ export default async function handler(req, res) {
         image,
         method,
         sourceUrl,
-        // comments,
-        // likes,
         // types,
         // favourites,
       } = req.body.data;
@@ -26,14 +24,27 @@ export default async function handler(req, res) {
         amount: ingredient.amount,
       }));
 
-      const postExists = await prisma.post.findFirst({
+      const postExists = await prisma.post.findUnique({
         where: {
           external_id,
         },
+        include: {
+          comments: true,
+          likes: true,
+          // _count: {
+          //   select: {
+          //     likes: true,
+          //   },
+          // },
+        },
       });
-      console.log(postExists);
+      // const likes = postExists.likes.filter((like) => like.liked === true);
+      // const likesCount = likes.length;
+      // postExists.count.likes = likesCount;
 
-      if (postExists) {
+      // console.log('Post Exists in DB:', postExists);
+
+      if (!postExists) {
         const createPost = await prisma.post.upsert({
           where: { external_id },
           update: {
@@ -42,9 +53,7 @@ export default async function handler(req, res) {
             title,
             image,
             ingredients,
-            method,
-            //   comments,
-            //   likes,
+            method: method || 'None',
             //   types,
             //   favourites,
           },
@@ -54,10 +63,24 @@ export default async function handler(req, res) {
             title,
             image,
             ingredients,
-            method,
+            method: method || 'None',
+          },
+          include: {
+            comments: true,
+            _count: {
+              select: {
+                likes: {
+                  where: {
+                    liked: true,
+                  },
+                },
+              },
+            },
           },
         });
+        console.log('🚀 ~ createPost', createPost);
 
+        console.log('Creating new Post');
         return res.status(200).send(createPost);
       }
       return res.status(200).send(postExists);

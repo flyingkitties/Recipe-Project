@@ -34,8 +34,8 @@ function RecipeCardVertical({
             items-center object-cover "
         >
           <Image
-            className="object-cover rounded-t-md"
-            loading="eager"
+            className="w-auto h-auto rounded-t-md"
+            loading="lazy"
             width={312}
             height={150}
             src={image}

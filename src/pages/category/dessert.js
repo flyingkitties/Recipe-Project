@@ -148,6 +148,8 @@ function dessert() {
             width={2000}
             height={200}
             className=""
+            alt="Hearder Image"
+            priority
           />
         </div>
         <div className="pt-[2%] pb-[7%] text-center ">
