@@ -41,7 +41,7 @@ function RecipeCardHr({
         <div className="p-2">
           <Tooltip
             className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
-            placement="top-end"
+            placement="top-start"
             content={
               <Typography
                 color="gray"
@@ -55,18 +55,57 @@ function RecipeCardHr({
           </Tooltip>
 
           <div className="justify-evenly pt-4 space-y-1 text-gray-600 ">
-            <div className="flex space-x-1 items-center">
-              <HandThumbUpIcon className="h-4 w-4 text-[#00B8E1] " />
-              <p className="text-xs font-light">{aggregateLikes}</p>
-            </div>
-            <div className="flex space-x-1 items-center ">
-              <ClockIcon className="h-3 w-3" />
-              <p className="text-xs font-light">{readyInMinutes} min</p>
-            </div>
-            <div className="flex space-x-1 items-center">
-              <UserIcon className="h-3 w-3" />
-              <p className="text-xs font-light">{servings}</p>
-            </div>
+            <Tooltip
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
+              placement="top-start"
+              content={
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  {aggregateLikes} likes
+                </Typography>
+              }
+            >
+              <div className="flex space-x-1 items-center">
+                <HandThumbUpIcon className="h-4 w-4 text-[#00B8E1] " />
+                <p className="text-xs font-light">{aggregateLikes}</p>
+              </div>
+            </Tooltip>
+            <Tooltip
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
+              placement="top-start"
+              content={
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  Ready in {readyInMinutes} min
+                </Typography>
+              }
+            >
+              <div className="flex space-x-1 items-center ">
+                <ClockIcon className="h-3 w-3" />
+                <p className="text-xs font-light">{readyInMinutes} min</p>
+              </div>
+            </Tooltip>
+            <Tooltip
+              className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10"
+              placement="top-start"
+              content={
+                <Typography
+                  color="gray"
+                  className="font-medium"
+                >
+                  {servings} servings
+                </Typography>
+              }
+            >
+              <div className="flex space-x-1 items-center">
+                <UserIcon className="h-3 w-3" />
+                <p className="text-xs font-light">{servings}</p>
+              </div>
+            </Tooltip>
           </div>
         </div>
       </div>

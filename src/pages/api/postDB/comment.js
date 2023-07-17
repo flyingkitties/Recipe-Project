@@ -7,7 +7,6 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
       const { username, post_id, text } = req.body.data;
-      console.log('🚀 ~ post_id MUTATION', post_id);
 
       const createComment = await prisma.comment.create({
         data: {
@@ -20,12 +19,12 @@ export default async function handler(req, res) {
           text,
         },
       });
-      console.log('Comment added to DB');
+      // console.log('Comment added to DB');
       return res.json(createComment);
     }
     if (req.method === 'GET') {
       const { post_id } = req.query;
-      console.log('🚀 ~ post_id', post_id);
+
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;

@@ -67,20 +67,22 @@ export default async function handler(req, res) {
           },
           include: {
             comments: true,
-            _count: {
-              select: {
-                likes: {
-                  where: {
-                    liked: true,
-                  },
-                },
-              },
-            },
+            likes: true,
+            favourites: true,
+            // _count: {
+            //   select: {
+            //     likes: {
+            //       where: {
+            //       liked: true,
+            //       },
+            //     },
+            //   },
+            // },
           },
         });
-        console.log('🚀 ~ createPost', createPost);
+        // console.log('🚀 ~ createPost', createPost);
 
-        console.log('Creating new Post');
+        // console.log('Creating new Post');
         return res.status(200).send(createPost);
       }
       return res.status(200).send(postExists);

@@ -5,8 +5,6 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
       const { username, post_id, liked } = req.body.data;
-      console.log('🚀 ~ username', username);
-      console.log('🚀 ~ post_id', post_id);
 
       // const createLike = await prisma.like.findUnique({
       //   where: {
@@ -17,32 +15,33 @@ export default async function handler(req, res) {
       //   },
       // });
       // console.log('🚀 ~ createLike', createLike);
-
-      const createLike = await prisma.like.upsert({
-        where: {
-          postAndUser: {
+      if (post_id) {
+        const createLike = await prisma.like.upsert({
+          where: {
+            postAndUser: {
+              post_id,
+              username,
+            },
+          },
+          create: {
             post_id,
             username,
+            liked,
           },
-        },
-        create: {
-          post_id,
-          username,
-          liked,
-        },
-        update: {
-          post_id,
-          username,
-          liked,
-        },
-      });
-      console.log('Like added to DB');
-      res.json(createLike);
+          update: {
+            post_id,
+            username,
+            liked,
+          },
+        });
+        // console.log('Like added to DB');
+        res.json(createLike);
+      }
     }
     if (req.method === 'GET') {
       const { post_id, email } = req.query;
-      if (!post_id) throw new Error('Missing post_id');
-      if (!email) throw new Error('Missing email');
+      // if (!post_id) throw new Error('Missing post_id');
+      // if (!email) throw new Error('Missing email');
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
@@ -57,8 +56,8 @@ export default async function handler(req, res) {
         });
 
         const isLiked = getLikes.some((like) => like.username === email);
-        console.log('req. query log', req.query);
-        console.log('Getting list of likes', getLikes, isLiked);
+        // console.log('req. query log', req.query);
+        // console.log('Getting list of likes', getLikes, isLiked);
         return res.status(200).send(!!isLiked);
       }
     }

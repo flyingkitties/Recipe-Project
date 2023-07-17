@@ -7,7 +7,7 @@
 /* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useRouter } from 'next/router';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import axios from 'axios';
 import {
   ChevronDownIcon,
@@ -26,6 +26,7 @@ import {
   AiOutlineLike,
   AiOutlineHeart,
   AiFillLike,
+  AiFillHeart,
 } from 'react-icons/ai';
 import { Transition } from '@headlessui/react';
 import { useQuery } from '@tanstack/react-query';
@@ -39,6 +40,8 @@ function recipeById() {
   const router = useRouter();
   const { data: session } = useSession();
 
+  const ref = useRef(null);
+
   const [userDrop, setUserDrop] = useState(false);
   const [recipeByID, setRecipeById] = useState([]);
   const [nutrition, setNutrition] = useState([]);
@@ -48,23 +51,15 @@ function recipeById() {
   const [recipeDb, setRecipeDb] = useState([]);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(false);
-  const [favourites, setFacourites] = useState(false);
+  const [favourites, setFavourites] = useState(false);
 
   const handleUserDrop = () => {
     setUserDrop(!userDrop);
   };
 
-  // Get list of Comments from dataBase
-  // const getCommentList = async (dbData) => {
-  //   const commentList = await axios.get('../api/postDB/comment/', {
-  //     params: {
-  //       post_id: dbData?.id,
-  //     },
-  //   });
-
-  //   const commentListData = commentList.data;
-  //   setComments(commentListData);
-  // };
+  const handleScroll = () => {
+    ref.current?.scrollIntoView({ behaviour: 'smooth' });
+  };
 
   // Get Comments
   const {
@@ -108,9 +103,34 @@ function recipeById() {
         })
         .then((res) => res.data),
     retry: 3,
+    keepPreviousData: true, // to keep data boxes until new data is fetched
     onSuccess: (likedData) => {
       setLikes(likedData);
-      console.log('LikedData:', likedData);
+    },
+  });
+
+  // Get Favourites
+  const {
+    data: favouriteData,
+    isLoading: favouriteIsLoading,
+    error: favouriteError,
+    // refetch,
+  } = useQuery({
+    queryKey: ['getFavourite', recipeDb.id],
+    enabled: !!router.query.recipeId && !!session?.user?.email,
+    queryFn: () =>
+      axios
+        .get('../api/postDB/favourite/', {
+          params: {
+            post_id: recipeDb.id,
+            email: session?.user?.email,
+          },
+        })
+        .then((res) => res.data),
+    retry: 3,
+    keepPreviousData: true, // to keep data boxes until new data is fetched
+    onSuccess: (favouriteData) => {
+      setFavourites(favouriteData);
     },
   });
 
@@ -126,7 +146,6 @@ function recipeById() {
       },
     });
     const dbData = database.data;
-    console.log('🚀 ~ dbData', dbData);
     setRecipeDb(dbData);
     // await getCommentList(dbData);
   };
@@ -177,7 +196,6 @@ function recipeById() {
   // Add Likes to the dataBase
   const handleLike = async () => {
     setLikes((prev) => !prev); // faster way of getting previous value
-    console.log('Likes:', likes);
     await axios
       .post('../api/postDB/like/', {
         data: {
@@ -188,7 +206,21 @@ function recipeById() {
       })
       .then((res) => res.data)
       .catch((e) => setLikes((prev) => !prev));
-    console.log('Like post is:', likes);
+  };
+
+  // Add Favourites to the dataBase
+  const handleFavourite = async () => {
+    setFavourites((prev) => !prev); // faster way of getting previous value
+    await axios
+      .post('../api/postDB/favourite/', {
+        data: {
+          post_id: recipeDb.id,
+          username: session?.user?.email,
+          favouriteSaved: favourites,
+        },
+      })
+      .then((res) => res.data)
+      .catch((e) => setFavourites((prev) => !prev));
   };
 
   // Add Comments to DataBase
@@ -379,19 +411,19 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                Like
+                {`${likes ? 'Unlike' : 'Like'}`}
               </Typography>
             }
           >
             <button
               onClick={handleLike}
-              className="btnRecipe "
+              className={` ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
               {likes ? (
-                <AiFillLike className="iconMed bg-red-500" />
+                <AiFillLike className="iconMed text-orange-800" />
               ) : (
-                <AiOutlineLike className="iconMed bg-blue-500" />
+                <AiOutlineLike className="iconMed" />
               )}
             </button>
           </Tooltip>
@@ -403,15 +435,22 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                Add to Favourites
+                {`${
+                  favourites ? 'Remove from Favourites' : 'Add to Favourites'
+                }`}
               </Typography>
             }
           >
             <button
-              className="btnRecipe"
+              onClick={handleFavourite}
+              className={` ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
-              <AiOutlineHeart className="iconMed" />
+              {favourites ? (
+                <AiFillHeart className="iconMed text-orange-800" />
+              ) : (
+                <AiOutlineHeart className="iconMed" />
+              )}
             </button>
           </Tooltip>
 
@@ -428,6 +467,7 @@ function recipeById() {
             }
           >
             <button
+              onClick={handleScroll}
               className="btnRecipe"
               type="button"
             >
@@ -513,7 +553,7 @@ function recipeById() {
           </div>
         </div>
         {/* Buttons  */}
-        <div className="flex py-2 space-x-10 ">
+        <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
           <Tooltip
             className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
             placement="top-start"
@@ -522,15 +562,20 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                Like
+                {`${likes ? 'Unlike' : 'Like'}`}
               </Typography>
             }
           >
             <button
-              className="btnRecipe "
+              onClick={handleLike}
+              className={` ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
-              <AiOutlineLike className="iconMed" />
+              {likes ? (
+                <AiFillLike className="iconMed text-orange-800" />
+              ) : (
+                <AiOutlineLike className="iconMed" />
+              )}
             </button>
           </Tooltip>
           <Tooltip
@@ -541,15 +586,22 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                Add to Favourites
+                {`${
+                  favourites ? 'Remove from Favourites' : 'Add to Favourites'
+                }`}
               </Typography>
             }
           >
             <button
-              className="btnRecipe"
+              onClick={handleFavourite}
+              className={` ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
-              <AiOutlineHeart className="iconMed" />
+              {favourites ? (
+                <AiFillHeart className="iconMed text-orange-800" />
+              ) : (
+                <AiOutlineHeart className="iconMed" />
+              )}
             </button>
           </Tooltip>
 
@@ -566,6 +618,7 @@ function recipeById() {
             }
           >
             <button
+              onClick={handleScroll}
               className="btnRecipe"
               type="button"
             >
@@ -639,6 +692,7 @@ function recipeById() {
         </div>
         {/* Comments */}
         <div
+          ref={ref}
           className="text-xs sm:text-sm md:text-base font-light
        bg-white px-10 py-5 text-gray-600 rounded-md shadow-md my-2"
         >

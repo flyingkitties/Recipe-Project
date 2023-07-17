@@ -159,7 +159,7 @@ function glutenFreePage() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -172,7 +172,7 @@ function glutenFreePage() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -185,7 +185,7 @@ function glutenFreePage() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -198,7 +198,7 @@ function glutenFreePage() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }

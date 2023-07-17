@@ -176,7 +176,7 @@ function sides() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -189,7 +189,7 @@ function sides() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -202,7 +202,7 @@ function sides() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
@@ -215,7 +215,7 @@ function sides() {
                 title={recipe.title}
                 aggregateLikes={recipe.aggregateLikes}
                 readyInMinutes={recipe.readyInMinutes}
-                servings={recipe.readyInMinutes}
+                servings={recipe.servings}
               />
             );
           }
