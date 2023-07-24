@@ -1,6 +1,12 @@
 /* eslint-disable camelcase */
 import { prisma } from '../../../utils/db';
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
@@ -25,11 +31,10 @@ export default async function handler(req, res) {
             favouriteSaved,
           },
         });
-        // console.log('favourite added to DB');
-        res.json('Create favourite:', createFavourite);
+        console.log('favourite added to DB', createFavourite);
+        return res.json(createFavourite);
       }
-    }
-    if (req.method === 'GET') {
+    } else if (req.method === 'GET') {
       const { post_id, email } = req.query;
       //   if (!post_id) throw new Error('Missing post_id');
       //   if (!email) throw new Error('Missing email');
@@ -37,7 +42,7 @@ export default async function handler(req, res) {
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
       if (post_id) {
-        const getLikes = await prisma.like.findMany({
+        const getFavourite = await prisma.favourite.findMany({
           where: {
             post_id,
           },
@@ -46,14 +51,16 @@ export default async function handler(req, res) {
           },
         });
 
-        const isLiked = getLikes.some((like) => like.username === email);
+        const isFavourite = getFavourite.some(
+          (favourite) => favourite.username === email,
+        );
         // console.log('req. query log', req.query);
         // console.log('Getting list of likes', getLikes, isLiked);
-        return res.status(200).send(!!isLiked);
+        return res.status(200).send(!!isFavourite);
       }
     }
   } catch (error) {
-    console.log('🚀 ~ Likes Get error', error);
+    console.log('🚀 ~ Favourites Get error', error);
 
     if (error.response) {
       // The request was made and the server responded with a status code

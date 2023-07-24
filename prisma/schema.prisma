@@ -33,9 +33,9 @@ model Like {
 model Favourite {
   id             String    @id @default(cuid())
   created_at     DateTime? @default(now()) @db.Timestamptz(6)
-  post_id        String?
-  username       String?   @db.VarChar
-  favouriteSaved Boolean?  @default(false)
+  post_id        String
+  username       String    @db.VarChar
+  favouriteSaved Boolean   @default(false)
   post           Post?     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique(fields: [post_id, username], name: "postAndUser")

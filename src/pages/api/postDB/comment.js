@@ -3,6 +3,12 @@
 // import { PrismaClient } from '@prisma/client';
 import { prisma } from '../../../utils/db';
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
@@ -28,7 +34,7 @@ export default async function handler(req, res) {
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
-      if (!post_id) return res.status(500).send('Missing Post Id');
+      if (!post_id) return res.status(500).send('Missing Post Id in Comments');
       const getComments = await prisma.comment.findMany({
         where: {
           post_id,

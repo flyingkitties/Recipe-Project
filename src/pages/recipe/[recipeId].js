@@ -106,6 +106,7 @@ function recipeById() {
     keepPreviousData: true, // to keep data boxes until new data is fetched
     onSuccess: (likedData) => {
       setLikes(likedData);
+      console.log('🚀 ~ likedData when getting', likedData);
     },
   });
 
@@ -131,6 +132,7 @@ function recipeById() {
     keepPreviousData: true, // to keep data boxes until new data is fetched
     onSuccess: (favouriteData) => {
       setFavourites(favouriteData);
+      console.log('🚀 ~ Favourite Data when getting', favouriteData);
     },
   });
 
@@ -195,6 +197,7 @@ function recipeById() {
 
   // Add Likes to the dataBase
   const handleLike = async () => {
+    console.log('Likes before change', likes);
     setLikes((prev) => !prev); // faster way of getting previous value
     await axios
       .post('../api/postDB/like/', {
@@ -210,6 +213,7 @@ function recipeById() {
 
   // Add Favourites to the dataBase
   const handleFavourite = async () => {
+    console.log('Favourites before change', favourites);
     setFavourites((prev) => !prev); // faster way of getting previous value
     await axios
       .post('../api/postDB/favourite/', {
@@ -220,7 +224,7 @@ function recipeById() {
         },
       })
       .then((res) => res.data)
-      .catch((e) => setFavourites((prev) => !prev));
+      .catch((e) => setFavourites((prev) => !prev), console.log('error Faves'));
   };
 
   // Add Comments to DataBase
@@ -229,7 +233,7 @@ function recipeById() {
       .post('../api/postDB/comment/', {
         data: {
           post_id: recipeDb.id,
-          username: session?.user?.email,
+          username: session?.user?.name,
           text: dataComment.comment,
         },
       })

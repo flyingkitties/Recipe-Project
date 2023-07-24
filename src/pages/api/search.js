@@ -1,7 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import axios from 'axios';
-// import { prisma } from '@/utils/db';
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 
 export default async function handler(req, res) {
   const options = {

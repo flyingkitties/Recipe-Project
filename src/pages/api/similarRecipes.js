@@ -2,12 +2,18 @@
 /* eslint-disable no-plusplus */
 import axios from 'axios';
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     const { recipeId, number } = req.query;
 
     if (!recipeId) {
-      res.status(500).send('Must include a recipeId');
+      return res.status(500).send('Must include a recipeId');
     }
 
     const { data } = await axios({
@@ -43,25 +49,26 @@ export default async function handler(req, res) {
 
       updatedRecipes.push(response.data);
     }
-    res.status(200).json(updatedRecipes);
+    return res.status(200).json(updatedRecipes);
   } catch (error) {
     res.status(500).json({ message: 'Oops an error has occurred!', error });
-    // if (error.response) {
-    //   // The request was made and the server responded with a status code
-    //   // that falls out of the range of 2xx
-    //   res.status(500).json({ message: 'Oops an error has occurred!', error });
-    //   console.log(error.response.data);
-    //   console.log(error.response.status);
-    //   console.log(error.response.headers);
-    // } else if (error.request) {
-    //   // The request was made but no response was received
-    //   // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-    //   // http.ClientRequest in node.js
-    //   console.log(error.request);
-    // } else {
-    //   // Something happened in setting up the request that triggered an Error
-    //   console.log('Error', error.message);
-    // }
-    // console.log(error.config);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      res.status(500).json({ message: 'Oops an error has occurred!', error });
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      // The request was made but no response was received
+      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+      // http.ClientRequest in node.js
+      console.log(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.log('Error', error.message);
+    }
+    console.log(error.config);
   }
+  return null;
 }

@@ -3,6 +3,12 @@ import { prisma } from '../../../utils/db';
 // import { Post } from '@prisma/client';
 // import { PrismaClient } from '@prisma/client';
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {

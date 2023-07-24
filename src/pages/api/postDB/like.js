@@ -1,20 +1,17 @@
 /* eslint-disable camelcase */
 import { prisma } from '../../../utils/db';
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   try {
     if (req.method === 'POST') {
       const { username, post_id, liked } = req.body.data;
 
-      // const createLike = await prisma.like.findUnique({
-      //   where: {
-      //     postAndUser: {
-      //       post_id,
-      //       username,
-      //     },
-      //   },
-      // });
-      // console.log('🚀 ~ createLike', createLike);
       if (post_id) {
         const createLike = await prisma.like.upsert({
           where: {
@@ -34,8 +31,8 @@ export default async function handler(req, res) {
             liked,
           },
         });
-        // console.log('Like added to DB');
-        res.json(createLike);
+        console.log('Like added to DB');
+        return res.json(createLike);
       }
     }
     if (req.method === 'GET') {
