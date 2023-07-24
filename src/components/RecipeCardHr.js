@@ -27,7 +27,7 @@ function RecipeCardHr({
       <div className="flex bg-white  mb-10 lg:my-0 rounded-md cursor-pointer shadow-md hover:shadow-xl">
         <div
           className="flex max-h-[200px] max-w-[200px] justify-center content-center
-          items-center object-contain shrink-0"
+          items-center object-contain shrink-0 "
         >
           <Image
             className="rounded-l-md "
@@ -35,7 +35,7 @@ function RecipeCardHr({
             loading="lazy"
             width={240}
             height={150}
-            alt="Recipe mage"
+            alt="Recipe image"
           />
         </div>
         <div className="p-2">
