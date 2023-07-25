@@ -21,14 +21,13 @@ const progress = new ProgressBar({
   size: 3,
   color: '#DAA520',
   className: 'z-50 bar-of-progress',
-  delay: 100,
+  delay: 80,
 });
-
-const queryClient = new QueryClient();
-
 Router.events.on('routeChangeStart', progress.start);
 Router.events.on('routeChangeComplete', progress.finish);
 Router.events.on('routeChangeError', progress.finish);
+
+const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
   // const [progress, setProgress] = useState(0);

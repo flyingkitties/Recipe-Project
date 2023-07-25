@@ -31,31 +31,38 @@ export default async function handler(req, res) {
             liked,
           },
         });
-        console.log('Like added to DB');
+        console.log('Like added to DB', createLike);
         return res.json(createLike);
       }
     }
     if (req.method === 'GET') {
-      const { post_id, email } = req.query;
+      const { post_id, username } = req.query;
       // if (!post_id) throw new Error('Missing post_id');
       // if (!email) throw new Error('Missing email');
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
       if (post_id) {
-        const getLikes = await prisma.like.findMany({
+        const getLikes = await prisma.like.findUnique({
           where: {
-            post_id,
+            // post_id,
+            postAndUser: {
+              post_id,
+              username,
+            },
           },
-          orderBy: {
-            created_at: 'desc',
-          },
+          // orderBy: {
+          //   created_at: 'desc',
+          // },
         });
 
-        const isLiked = getLikes.some((like) => like.username === email);
+        // const isLiked = getLikes.some((like) => like.username === email);
+        // cannot use this in findUnique
         // console.log('req. query log', req.query);
         // console.log('Getting list of likes', getLikes, isLiked);
-        return res.status(200).send(!!isLiked);
+        // const isLiked = getLikes !== null && getLikes.username === email;
+        console.log('is liked:', getLikes);
+        return res.status(200).send(getLikes.liked);
       }
     }
   } catch (error) {

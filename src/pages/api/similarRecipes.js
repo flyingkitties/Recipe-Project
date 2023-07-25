@@ -12,44 +12,42 @@ export default async function handler(req, res) {
   try {
     const { recipeId, number } = req.query;
 
-    if (!recipeId) {
-      return res.status(500).send('Must include a recipeId');
-    }
-
-    const { data } = await axios({
-      method: 'GET',
-      url: `https://api.spoonacular.com/recipes/${recipeId}/similar`,
-      headers: {
-        'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
-      },
-      params: {
-        number: number || 5,
-      },
-    });
-
-    const updatedRecipes = [];
-
-    for (let index = 0; index < data.length; index++) {
-      const recipe = data[index];
-      if (!recipe.id) {
-        throw new Error('No id');
-      }
-
-      const response = await axios({
+    if (recipeId) {
+      const { data } = await axios({
         method: 'GET',
-        url: `https://api.spoonacular.com/recipes/${recipe.id}/information`,
+        url: `https://api.spoonacular.com/recipes/${recipeId}/similar`,
         headers: {
           'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
         },
         params: {
-          includeNutrition: 'true',
-          // addRecipeInformation: true,
+          number: number || 5,
         },
       });
 
-      updatedRecipes.push(response.data);
+      const updatedRecipes = [];
+
+      for (let index = 0; index < data.length; index++) {
+        const recipe = data[index];
+        if (!recipe.id) {
+          throw new Error('No id');
+        }
+
+        const response = await axios({
+          method: 'GET',
+          url: `https://api.spoonacular.com/recipes/${recipe.id}/information`,
+          headers: {
+            'x-api-key': process.env.NEXT_PUBLIC_API_KEY,
+          },
+          params: {
+            includeNutrition: 'true',
+            // addRecipeInformation: true,
+          },
+        });
+
+        updatedRecipes.push(response.data);
+      }
+      return res.status(200).json(updatedRecipes);
     }
-    return res.status(200).json(updatedRecipes);
   } catch (error) {
     res.status(500).json({ message: 'Oops an error has occurred!', error });
     if (error.response) {

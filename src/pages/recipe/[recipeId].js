@@ -50,8 +50,8 @@ function recipeById() {
   const [similarRecipeById, setSimilarRecipeById] = useState([]);
   const [recipeDb, setRecipeDb] = useState([]);
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState(false);
-  const [favourites, setFavourites] = useState(false);
+  const [likes, setLikes] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   const handleUserDrop = () => {
     setUserDrop(!userDrop);
@@ -89,7 +89,7 @@ function recipeById() {
     data: likedData,
     isLoading: likesIsLoading,
     error: likesError,
-    // refetch,
+    refetch: refetchLikes,
   } = useQuery({
     queryKey: ['getLiked', recipeDb.id],
     enabled: !!router.query.recipeId && !!session?.user?.email,
@@ -98,7 +98,7 @@ function recipeById() {
         .get('../api/postDB/like/', {
           params: {
             post_id: recipeDb.id,
-            email: session?.user?.email,
+            username: session?.user?.email,
           },
         })
         .then((res) => res.data),
@@ -124,12 +124,12 @@ function recipeById() {
         .get('../api/postDB/favourite/', {
           params: {
             post_id: recipeDb.id,
-            email: session?.user?.email,
+            username: session?.user?.email,
           },
         })
         .then((res) => res.data),
     retry: 3,
-    keepPreviousData: true, // to keep data boxes until new data is fetched
+    // keepPreviousData: true, // to keep data boxes until new data is fetched
     onSuccess: (favouriteData) => {
       setFavourites(favouriteData);
       console.log('🚀 ~ Favourite Data when getting', favouriteData);
@@ -213,7 +213,6 @@ function recipeById() {
 
   // Add Favourites to the dataBase
   const handleFavourite = async () => {
-    console.log('Favourites before change', favourites);
     setFavourites((prev) => !prev); // faster way of getting previous value
     await axios
       .post('../api/postDB/favourite/', {
@@ -224,7 +223,10 @@ function recipeById() {
         },
       })
       .then((res) => res.data)
-      .catch((e) => setFavourites((prev) => !prev), console.log('error Faves'));
+      .catch((e) => {
+        console.log('error Faves', e); // Log the error to the console for debugging purposes
+        setFavourites((prev) => !prev); // Revert the state back to its previous value
+      });
   };
 
   // Add Comments to DataBase
@@ -421,13 +423,22 @@ function recipeById() {
           >
             <button
               onClick={handleLike}
-              className={` ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
+              disabled={!session}
+              className={`${
+                !session && 'btnRecipe border-white text-white bg-gray-300'
+              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
               {likes ? (
-                <AiFillLike className="iconMed text-orange-800" />
+                <AiFillLike
+                  className={
+                    session
+                      ? 'iconMed text-orange-800'
+                      : 'iconMed text-white border-white'
+                  }
+                />
               ) : (
-                <AiOutlineLike className="iconMed" />
+                <AiOutlineLike className={session ? 'iconMed' : 'text-white'} />
               )}
             </button>
           </Tooltip>
@@ -439,21 +450,30 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                {`${
-                  favourites ? 'Remove from Favourites' : 'Add to Favourites'
-                }`}
+                {favourites ? 'Remove from Favourites' : 'Add to Favourites'}
               </Typography>
             }
           >
             <button
               onClick={handleFavourite}
-              className={` ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
+              disabled={!session}
+              className={`${
+                !session && 'btnRecipe border-white text-white bg-gray-300'
+              }  ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
               {favourites ? (
-                <AiFillHeart className="iconMed text-orange-800" />
+                <AiFillHeart
+                  className={
+                    session
+                      ? 'iconMed text-orange-800'
+                      : 'iconMed text-white border-white'
+                  }
+                />
               ) : (
-                <AiOutlineHeart className="iconMed" />
+                <AiOutlineHeart
+                  className={session ? 'iconMed' : 'text-white'}
+                />
               )}
             </button>
           </Tooltip>
@@ -472,7 +492,12 @@ function recipeById() {
           >
             <button
               onClick={handleScroll}
-              className="btnRecipe"
+              disabled={!session}
+              className={`${
+                !session
+                  ? 'btnRecipe border-white text-white bg-gray-300'
+                  : 'btnRecipe'
+              }`}
               type="button"
             >
               <FaRegCommentDots className="iconMed" />
@@ -572,13 +597,22 @@ function recipeById() {
           >
             <button
               onClick={handleLike}
-              className={` ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
+              disabled={!session}
+              className={`${
+                !session && 'btnRecipe border-white text-white bg-gray-300'
+              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
               {likes ? (
-                <AiFillLike className="iconMed text-orange-800" />
+                <AiFillLike
+                  className={
+                    session
+                      ? 'iconMed text-orange-800'
+                      : 'iconMed text-white border-white'
+                  }
+                />
               ) : (
-                <AiOutlineLike className="iconMed" />
+                <AiOutlineLike className={session ? 'iconMed' : 'text-white'} />
               )}
             </button>
           </Tooltip>
@@ -590,21 +624,30 @@ function recipeById() {
                 color="gray"
                 className="font-medium"
               >
-                {`${
-                  favourites ? 'Remove from Favourites' : 'Add to Favourites'
-                }`}
+                {favourites ? 'Remove from Favourites' : 'Add to Favourites'}
               </Typography>
             }
           >
             <button
               onClick={handleFavourite}
-              className={` ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
+              disabled={!session}
+              className={`${
+                !session && 'btnRecipe border-white text-white bg-gray-300'
+              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
               type="button"
             >
               {favourites ? (
-                <AiFillHeart className="iconMed text-orange-800" />
+                <AiFillHeart
+                  className={
+                    session
+                      ? 'iconMed text-orange-800'
+                      : 'iconMed text-white border-white'
+                  }
+                />
               ) : (
-                <AiOutlineHeart className="iconMed" />
+                <AiOutlineHeart
+                  className={session ? 'iconMed' : 'text-white'}
+                />
               )}
             </button>
           </Tooltip>
@@ -623,7 +666,12 @@ function recipeById() {
           >
             <button
               onClick={handleScroll}
-              className="btnRecipe"
+              disabled={!session}
+              className={`${
+                !session
+                  ? 'btnRecipe border-white text-white bg-gray-300'
+                  : 'btnRecipe'
+              }`}
               type="button"
             >
               <FaRegCommentDots className="iconMed" />

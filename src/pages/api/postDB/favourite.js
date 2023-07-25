@@ -35,28 +35,31 @@ export default async function handler(req, res) {
         return res.json(createFavourite);
       }
     } else if (req.method === 'GET') {
-      const { post_id, email } = req.query;
+      const { post_id, username } = req.query;
       //   if (!post_id) throw new Error('Missing post_id');
       //   if (!email) throw new Error('Missing email');
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
       if (post_id) {
-        const getFavourite = await prisma.favourite.findMany({
+        const getFavourite = await prisma.favourite.findUnique({
           where: {
-            post_id,
+            // post_id,
+            postAndUser: {
+              post_id,
+              username,
+            },
           },
-          orderBy: {
-            created_at: 'desc',
-          },
+          //   orderBy: {
+          //     created_at: 'desc',
+          //   },
         });
 
-        const isFavourite = getFavourite.some(
-          (favourite) => favourite.username === email,
-        );
-        // console.log('req. query log', req.query);
-        // console.log('Getting list of likes', getLikes, isLiked);
-        return res.status(200).send(!!isFavourite);
+        // const isFavourite = getFavourite.some(
+        //   (favourite) => favourite.username === email,
+        // );
+        console.log('Is Favourite:', getFavourite);
+        return res.status(200).send(getFavourite.favouriteSaved);
       }
     }
   } catch (error) {

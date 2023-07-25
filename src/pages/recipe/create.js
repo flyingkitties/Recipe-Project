@@ -77,24 +77,29 @@ function create() {
       {/* Body */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="px-5 sm:px-10 md:px-14 lg:px-36">
+        disabled={!session}
+        className="px-5 sm:px-10 md:px-14 lg:px-36"
+      >
         <div className=" relative flex bg-white rounded-md shadow-md">
           {/* Left Section container 1 */}
           {/* Image */}
           <div
             className="flex object-cover w-[100px] sm:w-[240px] h-[150px] md:w-[270px]
           md:h-[231px] lg:h-[360px] lg:w-[390px] xl:w-[480px] shrink-0 items-center
-          justify-center space-x-1 ">
+          justify-center space-x-1 "
+          >
             <div
               className="flex group items-center
-          justify-center hoverGray">
+          justify-center hoverGray"
+            >
               <div>
                 <div
                   className="flex items-center justify-center"
                   onClick={() => setImageBoxOpen(!imageBoxOpen)}
                   tabIndex="0"
                   onKeyDown={() => setImageBoxOpen(!imageBoxOpen)}
-                  role="button">
+                  role="button"
+                >
                   {imageBoxOpen ? (
                     <MinusIcon
                       className="iconSmall  group-hover:transition-transform
@@ -114,31 +119,40 @@ function create() {
                   lg:left-[390px] xl:left-[480px]
           h-full bg-white items-center justify-center ${
             imageBoxOpen === false && 'hidden'
-          }`}>
+          }`}
+                >
                   <div className="w-full mr-10">
                     <div
                       className="flex w-full items-center mb-2
-          justify-center text-xs sm:text-sm md:text-base font-light ">
+          justify-center text-xs sm:text-sm md:text-base font-light "
+                    >
                       <input
                         {...register('image', { required: true })}
+                        disabled={!session}
                         className="pl-3 w-full rounded-md shadow-sm
                         lg:p-3 md:p-2 p-1 border border-gray-600 hover:border-gray-500
                  outline-none  text-gray-800  focus:border-orange-400 "
                         type="text"
-                        placeholder="Add an Image URL"
+                        placeholder={
+                          session
+                            ? 'Add an Image URL'
+                            : 'Please sign in before creating Recipe'
+                        }
                       />
                       {errors.image && <p>Image is required</p>}
                     </div>
                     <div className="flex items-center justify-center">
                       <button
                         type="button"
-                        className="btnRecipe px-5"
+                        disabled={!session}
+                        className="btnRecipe px-5  disabled:text-white disabled:bg-gray-300 disabled:border-none"
                         onClick={() => {
                           setImageBoxOpen(false);
                         }}
                         onKeyDown={() => {
                           setImageBoxOpen(false);
-                        }}>
+                        }}
+                      >
                         Submit Image
                       </button>
                     </div>
@@ -151,23 +165,28 @@ function create() {
           {/* Right Section container 1 */}
           <div
             className="flex flex-col mr-10 pl-1 sm:pl-2 md:pl-3 lg:pl-5 w-full h-[150px]
-          md:h-[231px] lg:h-[360px] place-content-evenly">
+          md:h-[231px] lg:h-[360px] place-content-evenly"
+          >
             {/* Title */}
             <div className="">
               <input
+                disabled={!session}
                 {...register('title', { required: true })}
                 className=" w-full rounded-md lg:p-2 md:p-2 pl-3
                 text-base sm:text-xl md:text-2xl lg:text-3xl
                  titleFont tracking-wide border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800  focus:border-orange-400"
                 type="text"
-                placeholder="Title..."
+                placeholder={
+                  session ? 'Title...' : 'Please sign in before creating Recipe'
+                }
               />
               {errors.title && <p>Title is required</p>}
             </div>
             <div
               className=" text-gray-600 space-y-1 md:space-y-2 lg:space-y-5
-             ">
+             "
+            >
               {/* Ready In */}
               <div className="flex space-x-1 items-center ">
                 <ClockIcon className="h-3 w-3" />
@@ -176,13 +195,14 @@ function create() {
                 </p>
                 <div className="text-[10px] md:text-sm lg:text-base font-light">
                   <input
+                    disabled={!session}
                     {...register('readyInMinutes', { required: true })}
                     className="md:p-1 p-[2px] text-center
                     border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md focus:border-orange-400
                  required:border-red-400"
                     type="text"
-                    placeholder="Preparation Time..."
+                    placeholder={session ? 'Preparation Time...' : ''}
                   />
                   {errors.readyInMinutes && <p>Ready in is required</p>} min
                 </div>
@@ -195,12 +215,13 @@ function create() {
                 </p>
                 <div className="text-[10px] md:text-sm lg:text-base font-light">
                   <input
+                    disabled={!session}
                     {...register('servings', { required: true })}
                     className=" md:p-1 p-[2px] text-center
                     border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md focus:border-orange-400"
                     type="text"
-                    placeholder="Number of people..."
+                    placeholder={session ? 'Number of people...' : ''}
                   />
                   {errors.servings && <p>Servings is required</p>}
                 </div>
@@ -217,15 +238,19 @@ function create() {
         {/* Description container 2 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white p-10 text-gray-600 rounded-md shadow-md my-2">
+       bg-white p-10 text-gray-600 rounded-md shadow-md my-2"
+        >
           <div className="text-justify tracking-wide ">
             <div className=" ">
               <textarea
+                disabled={!session}
                 {...register('summary', { required: true })}
                 className="h-24  border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md  p-2
           pl-4 w-full font-light  focus:border-orange-400"
-                placeholder="Write a description..."
+                placeholder={
+                  session ? 'Write a description...' : 'Please Sign in'
+                }
               />
               {errors.summary && <p>Description is required</p>}
             </div>
@@ -234,11 +259,13 @@ function create() {
         {/* This recipe is... container 3 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2"
+        >
           <div className="space-y-4 ">
             <h1
               className="text-xl sm:text-2xl md:text-3xl lg:text-4xl
-              font-semibold text-orange-400">
+              font-semibold text-orange-400"
+            >
               This Recipe Is...
             </h1>
             <div className="">
@@ -247,7 +274,7 @@ function create() {
                 name="diets"
                 render={({ field: { onChange, value } }) => (
                   <Select
-                    {...register('diets')}
+                    {...register('diets', { disabled: `${!session}` })}
                     classNames="rounded-md"
                     options={dietOptions}
                     value={value}
@@ -282,22 +309,29 @@ function create() {
         {/* Ingredients container 4 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2"
+        >
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Ingredients
             </h1>
-            <button type="button" onClick={() => prepend('')}>
+            <button
+              type="button"
+              onClick={() => prepend('')}
+            >
               <PlusCircleIcon className="iconMed" />
             </button>
             <div className="grid grid-cols-1 ms:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-2 lg:gap-">
               {/* List of ingredients TODO */}
 
               {fields.map((field, index) => (
-                <div className="flex items-center" key={field.id}>
+                <div
+                  className="flex items-center"
+                  key={field.id}
+                >
                   <Input
                     {...register(
-                      `ingredients.${index}`
+                      `ingredients.${index}`,
                       // {required: true,}
                     )}
                     className="w-full flex items-center"
@@ -325,7 +359,8 @@ function create() {
         {/* Method container 5 */}
         <div
           className="text-xs sm:text-sm md:text-base font-light
-       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 ">
+       bg-white px-10 py-5 pb-10 text-gray-600 rounded-md shadow-md my-2 "
+        >
           <div className="space-y-4 ">
             <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-orange-400">
               Method
@@ -333,18 +368,23 @@ function create() {
 
             <div className="list-disc space-y-5 tracking-wide text-justify">
               <textarea
+                disabled={!session}
                 {...register('instructions', { required: true })}
                 className="h-24  border border-gray-600 hover:border-gray-500
                  outline-none text-gray-800 rounded-md  p-2
           pl-4 w-full font-light  focus:border-orange-400 "
-                placeholder="Write the method step by step..."
+                placeholder={session ? 'Write the method step by step...' : ''}
               />
               {errors.instructions && <p>Method is required</p>}
             </div>
           </div>
         </div>
         <div className="pb-10">
-          <button className="btnRecipe w-full" type="submit">
+          <button
+            disabled={!session}
+            className="btnRecipe w-full disabled:text-white disabled:bg-gray-300 disabled:border-none"
+            type="submit"
+          >
             Create Recipe
           </button>
         </div>

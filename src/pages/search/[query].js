@@ -1,14 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useRouter } from 'next/router';
 import React from 'react';
 import axios from 'axios';
-import { ClockIcon, UserIcon } from '@heroicons/react/24/outline';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
-// import { fetchData } from 'next-auth/client/_utils';
-import Link from 'next/link';
+import Skeleton from '@mui/material/Skeleton';
 import Footer from '../../components/Footer';
+import RecipePolaroid from '../../components/RecipePolaroid';
 
 function SearchParams() {
   const {
@@ -42,9 +43,6 @@ function SearchParams() {
       toast.error('Oops, there was an error here! Try again!', { id: e });
     },
   });
-  if (isLoading) {
-    return <p>Loading ...</p>;
-  }
 
   return (
     <div className="bg-gray-100">
@@ -68,51 +66,32 @@ function SearchParams() {
 
        "
         >
-          {data2?.results?.map((recipe) => {
-            if (recipe.image != null) {
-              return (
-                <div
-                  key={recipe.id}
-                  className=" bg-white rounded-md shadow-md cursor-pointer max-w-[312px]
-               hover:shadow-xl
-                "
-                >
-                  <Link href={`../recipe/${recipe?.id}`}>
-                    <div
-                      className="flex justify-center content-center
-              items-center object-cover"
-                    >
-                      <Image
-                        className="object-cover rounded-t-md  "
-                        loading="eager"
-                        width={312}
-                        height={150}
-                        src={recipe.image}
-                        alt="image"
-                      />
-                    </div>
-                    <div className=" p-2  text-gray-600">
-                      {' '}
-                      <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                        {recipe.title}
-                      </p>
-                      <div className="flex space-x-1 items-center ">
-                        <ClockIcon className="h-3 w-3" />
-                        <p className="text-sm font-light">
-                          {recipe.readyInMinutes} min
-                        </p>
-                      </div>
-                      <div className="flex space-x-1 items-center">
-                        <UserIcon className="h-3 w-3" />
-                        <p className="text-sm font-light">{recipe.servings}</p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              );
-            }
-            return null;
-          })}
+          {isLoading // eslint-disable-next-line no-unused-vars
+            ? Array.from({ length: 12 }).map((_) => (
+                <Skeleton
+                  // Don't forget to add a unique key for each component in the loop
+                  variant="rounded"
+                  className="max-w-[312px]"
+                  width={265}
+                  height={230}
+                />
+              ))
+            : data2?.results?.map((recipe) => {
+                if (recipe.image != null) {
+                  return (
+                    <RecipePolaroid
+                      id={recipe.id}
+                      key={recipe.id}
+                      image={recipe.image}
+                      title={recipe.title}
+                      aggregateLikes={recipe.aggregateLikes}
+                      readyInMinutes={recipe.readyInMinutes}
+                      servings={recipe.servings}
+                    />
+                  );
+                }
+                return null;
+              })}
         </div>
       </div>
       <Footer />

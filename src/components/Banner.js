@@ -3,6 +3,7 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { Tooltip, Typography } from '@material-tailwind/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 function Banner() {
@@ -10,6 +11,12 @@ function Banner() {
 
   function handleChange(e) {
     setQuery(e.target.value);
+  }
+
+  const { push } = useRouter();
+  function handleSearch() {
+    if (!query.length) return;
+    push(`/search/${query}`);
   }
 
   return (
@@ -101,14 +108,13 @@ function Banner() {
               </div>
             }
           >
-            <Link href={`/search/${query}`}>
-              <button
-                className=" md:p-5 p-3 max-w-10"
-                type="button"
-              >
-                <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
-              </button>
-            </Link>
+            <button
+              className=" md:p-5 p-3 max-w-10"
+              type="button"
+              onClick={handleSearch}
+            >
+              <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
+            </button>
           </Tooltip>
         </div>
       </form>

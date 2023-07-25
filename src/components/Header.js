@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { Transition } from '@headlessui/react';
@@ -31,7 +32,6 @@ import {
 } from 'react-icons/bs';
 import { GiCookingGlove, GiCookingPot, GiForkKnifeSpoon } from 'react-icons/gi';
 import { RxGlobe } from 'react-icons/rx';
-// import LogoRC from '../../public/images/logoRC.png';
 import { useRouter } from 'next/router';
 import Logo from '../../public/logo.png';
 
@@ -45,8 +45,6 @@ function Header() {
   const [categoryDrop, setCategoryDrop] = useState(false);
 
   const { data: session } = useSession();
-
-  // const router = useRouter();
 
   // Burger Menu Styles
   const styles = {
@@ -281,7 +279,7 @@ function Header() {
           <div className="flex relative">
             {session ? (
               <div
-                className="flex items-center link "
+                className="flex items-center link space-x-1 "
                 onClick={handleUserDrop}
                 onKeyDown={handleUserDrop}
                 role="button"
@@ -426,13 +424,24 @@ function Header() {
               <div>
                 {session ? (
                   <div className="w-full text-gray-800 ">
-                    <div className="py-5 px-2">
-                      <h1 className="text-2xl">
-                        Hello,
-                        <span className="">{session?.user.name}!</span>
+                    <div className="flex py-2 px-2 space-x-5">
+                      <Image
+                        src={`https://avatars.dicebear.com/api/open-peeps/${
+                          session?.username || 'placeholder'
+                        }.svg`}
+                        width={60}
+                        height={60}
+                        className="rounded-full cursor-pointer "
+                        alt="User Image"
+                      />
+
+                      <h1 className="flex items-center text-2xl ">
+                        Hello, {session?.user.name}!
                       </h1>
-                      <p className="text-xs mt-3 hoverGray">Sign Out</p>
                     </div>
+                    <p className="text-xs text-center pt-3 hoverGray my-5">
+                      Sign Out
+                    </p>
                     <hr />
                   </div>
                 ) : (
