@@ -28,7 +28,7 @@ function FavouriteButton({ id }) {
     // refetch,
   } = useQuery({
     queryKey: ['getFavourite', recipeDb.id],
-    enabled: !!router.query.recipeId && !!session?.user?.email,
+    enabled: !!recipeDb.id && !!session?.user?.email,
     queryFn: () =>
       axios
         .get('../api/postDB/favourite/', {

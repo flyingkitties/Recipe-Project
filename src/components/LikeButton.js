@@ -28,7 +28,7 @@ function LikeButton({ id }) {
     // refetch: refetchLikes,
   } = useQuery({
     queryKey: ['getLiked', recipeDb.id],
-    enabled: !!router.query.recipeId && !!session?.user?.email,
+    enabled: !!recipeDb.id && !!session?.user?.email,
     queryFn: () =>
       axios
         .get('../api/postDB/like/', {
