@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -29,6 +30,7 @@ import {
   AiFillHeart,
 } from 'react-icons/ai';
 import { Transition } from '@headlessui/react';
+import { Skeleton } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -126,27 +128,6 @@ function recipeById() {
     },
   });
 
-  // const {
-  //   data: similarRecipes,
-  //   isLoading: loadingSimilar,
-  //   error: errorSimilar,
-  // } = useQuery({
-  //   queryKey: ['SimilarByID', router.query.recipeId],
-  //   queryFn: () =>
-  //     axios
-  //       .get('../api/similarRecipes/', {
-  //         params: {
-  //           number: '4',
-  //           recipeId: router.query.recipeId,
-  //           limitLicense: 'true',
-  //         },
-  //       })
-  //       .then((res) => res.data),
-  //   onSuccess: (similarRecipes) => {
-  //     setSimilarRecipeById(similarRecipes);
-  //   },
-  // });
-
   // Add Comments to DataBase
   const AddComment = async (dataComment) => {
     await axios
@@ -188,16 +169,26 @@ function recipeById() {
             className="flex object-cover w-[160px] h-[150px] sm:w-[240px] md:w-[312px]
           md:h-[231px] lg:w-[480px] lg:h-[360px] shrink-0 "
           >
-            {recipeByID.image && (
-              <Image
-                className="rounded-l-md object-cover"
-                src={recipeByID?.image}
-                loading="eager"
-                width={480}
-                height={360}
-                alt="Recipe Image"
-                priority
+            {isLoading ? (
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                className="relative"
+                width="100%"
+                height="100%"
               />
+            ) : (
+              recipeByID.image && (
+                <Image
+                  className="rounded-l-md object-cover"
+                  src={recipeByID?.image}
+                  loading="eager"
+                  width={480}
+                  height={360}
+                  alt="Recipe Image"
+                  priority
+                />
+              )
             )}
           </div>
           {/* Right Section */}
@@ -221,7 +212,7 @@ function recipeById() {
             >
               <h1
                 className=" text-base sm:text-xl md:text-3xl lg:text-5xl
-            titleFont tracking-wide line-clamp-2 pb-1 pl-1"
+            titleFont tracking-wide capitalize line-clamp-2 pb-1 pl-1"
               >
                 {recipeByID?.title}
               </h1>

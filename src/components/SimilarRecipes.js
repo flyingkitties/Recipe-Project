@@ -46,7 +46,6 @@ function SimilarRecipes({ id }) {
       {loadingSimilar // eslint-disable-next-line no-unused-vars
         ? Array.from({ length: 4 }).map((_, i) => (
             <Skeleton
-              // Don't forget to add a unique key for each component in the loop
               key={i}
               variant="rounded"
               className="max-w-[312px]"

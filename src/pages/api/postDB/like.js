@@ -42,7 +42,7 @@ export default async function handler(req, res) {
       // console.log('req.body.data::', req.query.post_id);
       // const post_id = req.body.data;
       // const created_at = req.body.data.created_at;
-      if (post_id) {
+      if (post_id && username) {
         const getLikes = await prisma.like.findUnique({
           where: {
             // post_id,
@@ -66,6 +66,7 @@ export default async function handler(req, res) {
         }
         return res.status(200).send(false);
       }
+      return null;
     }
   } catch (error) {
     console.log('🚀 ~ Likes Get error', error);
