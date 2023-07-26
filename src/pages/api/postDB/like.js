@@ -68,6 +68,7 @@ export default async function handler(req, res) {
       }
       return null;
     }
+    return null;
   } catch (error) {
     console.log('🚀 ~ Likes Get error', error);
 

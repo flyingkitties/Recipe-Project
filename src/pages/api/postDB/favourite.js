@@ -65,6 +65,7 @@ export default async function handler(req, res) {
       }
       return null;
     }
+    return null;
   } catch (error) {
     console.log('🚀 ~ Favourites Get error', error);
 
