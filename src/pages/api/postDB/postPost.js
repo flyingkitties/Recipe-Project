@@ -37,18 +37,8 @@ export default async function handler(req, res) {
         include: {
           comments: true,
           likes: true,
-          // _count: {
-          //   select: {
-          //     likes: true,
-          //   },
-          // },
         },
       });
-      // const likes = postExists.likes.filter((like) => like.liked === true);
-      // const likesCount = likes.length;
-      // postExists.count.likes = likesCount;
-
-      // console.log('Post Exists in DB:', postExists);
 
       if (!postExists) {
         const createPost = await prisma.post.upsert({
@@ -60,8 +50,6 @@ export default async function handler(req, res) {
             image,
             ingredients,
             method: method || 'None',
-            //   types,
-            //   favourites,
           },
           create: {
             external_id,
@@ -86,9 +74,7 @@ export default async function handler(req, res) {
             // },
           },
         });
-        // console.log('🚀 ~ createPost', createPost);
 
-        // console.log('Creating new Post');
         return res.status(200).send(createPost);
       }
       return res.status(200).send(postExists);

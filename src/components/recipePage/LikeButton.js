@@ -9,29 +9,29 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function FavouriteButton({ id }) {
+function LikeButton({ id }) {
   const router = useRouter();
   const { data: session } = useSession();
-  const [favourites, setFavourites] = useState();
+  const [likes, setLikes] = useState('');
 
   const recipeDb = { id };
 
-  // Get Favourites
+  // Get Likes
   const {
-    data: favouriteData,
-    isLoading: favouriteIsLoading,
-    error: favouriteError,
-    // refetch,
+    data: likedData,
+    isLoading: likesIsLoading,
+    error: likesError,
+    // refetch: refetchLikes,
   } = useQuery({
-    queryKey: ['getFavourite', recipeDb.id],
+    queryKey: ['getLiked', recipeDb.id],
     enabled: !!recipeDb.id && !!session?.user?.email,
     queryFn: () =>
       axios
-        .get('../api/postDB/favourite/', {
+        .get('../api/postDB/like/', {
           params: {
             post_id: recipeDb.id,
             username: session?.user?.email,
@@ -39,26 +39,27 @@ function FavouriteButton({ id }) {
         })
         .then((res) => res.data),
     retry: 3,
-    // keepPreviousData: true, // to keep data boxes until new data is fetched
-    onSuccess: (favouriteData1) => {
-      setFavourites(favouriteData1);
+    keepPreviousData: true, // to keep data boxes until new data is fetched
+    onSuccess: (likedData1) => {
+      setLikes(likedData1);
     },
   });
 
-  // Add Favourites to the dataBase
-  const handleFavourite = async (valueFave) => {
-    setFavourites(valueFave); // faster way of getting previous value
+  //   // Add Likes to the dataBase
+  const handleLike = async (valueLike) => {
+    setLikes(valueLike); // faster way of getting previous value
     await axios
-      .post('../api/postDB/favourite/', {
+      .post('../api/postDB/like/', {
         data: {
           post_id: recipeDb.id,
           username: session?.user?.email,
-          favouriteSaved: valueFave,
+          liked: valueLike,
         },
       })
       .then((res) => res.data)
-      .catch((e) => null);
-    // Log the error to the console for debugging purposes
+      .catch((e) => {
+        console.log('Error Likes', e);
+      });
   };
   return (
     <Tooltip
@@ -69,20 +70,20 @@ function FavouriteButton({ id }) {
           color="gray"
           className="font-medium"
         >
-          {favourites ? 'Remove from Favourites' : 'Add to Favourites'}
+          {`${likes ? 'Unlike' : 'Like'}`}
         </Typography>
       }
     >
       <button
-        onClick={() => handleFavourite(!favourites)}
+        onClick={() => handleLike(!likes)}
         disabled={!session}
         className={`${
           !session && 'btnRecipe border-white text-white bg-gray-300'
-        }  ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
+        }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
         type="button"
       >
-        {favourites ? (
-          <AiFillHeart
+        {likes ? (
+          <AiFillLike
             className={
               session
                 ? 'iconMed text-orange-800'
@@ -90,13 +91,14 @@ function FavouriteButton({ id }) {
             }
           />
         ) : (
-          <AiOutlineHeart className={session ? 'iconMed' : 'text-white'} />
+          <AiOutlineLike className={session ? 'iconMed' : 'text-white'} />
         )}
       </button>
     </Tooltip>
   );
 }
-FavouriteButton.propTypes = {
+
+LikeButton.propTypes = {
   id: PropTypes.string,
 };
-export default FavouriteButton;
+export default LikeButton;

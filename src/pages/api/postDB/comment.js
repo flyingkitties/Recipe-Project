@@ -25,15 +25,12 @@ export default async function handler(req, res) {
           text,
         },
       });
-      // console.log('Comment added to DB');
+
       return res.json(createComment);
     }
     if (req.method === 'GET') {
       const { post_id } = req.query;
 
-      // console.log('req.body.data::', req.query.post_id);
-      // const post_id = req.body.data;
-      // const created_at = req.body.data.created_at;
       if (!post_id) return res.status(500).send('Missing Post Id in Comments');
       const getComments = await prisma.comment.findMany({
         where: {
@@ -43,8 +40,6 @@ export default async function handler(req, res) {
           created_at: 'desc',
         },
       });
-      // console.log('req. query log', req.query);
-      // console.log('Getting list of comments', getComments);
       return res.status(200).send(getComments);
     }
   } catch (error) {

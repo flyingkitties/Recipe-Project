@@ -31,16 +31,10 @@ export default async function handler(req, res) {
             favouriteSaved,
           },
         });
-        console.log('favourite added to DB', createFavourite);
         return res.json(createFavourite);
       }
     } else if (req.method === 'GET') {
       const { post_id, username } = req.query;
-      //   if (!post_id) throw new Error('Missing post_id');
-      //   if (!email) throw new Error('Missing email');
-      // console.log('req.body.data::', req.query.post_id);
-      // const post_id = req.body.data;
-      // const created_at = req.body.data.created_at;
       if (post_id) {
         const getFavourite = await prisma.favourite.findUnique({
           where: {
@@ -58,7 +52,6 @@ export default async function handler(req, res) {
         // const isFavourite = getFavourite.some(
         //   (favourite) => favourite.username === email,
         // );
-        console.log('Is Favourite:', getFavourite);
         return res.status(200).send(getFavourite.favouriteSaved);
       }
     }
