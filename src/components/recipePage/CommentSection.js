@@ -1,3 +1,6 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/require-default-props */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
