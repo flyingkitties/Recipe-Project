@@ -57,11 +57,9 @@ export default async function handler(req, res) {
 
         // const isFavourite = getFavourite.some(
         //   (favourite) => favourite.username === email,
-        // )
-        if (getFavourite && getFavourite.favouriteSaved) {
-          return res.status(200).send(getFavourite.favouriteSaved);
-        }
-        return res.status(200).send(false);
+        // );
+        console.log('Is Favourite:', getFavourite);
+        return res.status(200).send(getFavourite.favouriteSaved);
       }
     }
   } catch (error) {

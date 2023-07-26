@@ -67,9 +67,10 @@ function SearchParams() {
        "
         >
           {isLoading // eslint-disable-next-line no-unused-vars
-            ? Array.from({ length: 12 }).map((_) => (
+            ? Array.from({ length: 12 }).map((_, i) => (
                 <Skeleton
                   // Don't forget to add a unique key for each component in the loop
+                  key={i}
                   variant="rounded"
                   className="max-w-[312px]"
                   width={265}

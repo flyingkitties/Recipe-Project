@@ -35,6 +35,10 @@ import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import ReactTimeago from 'react-timeago';
 import Footer from '../../components/Footer';
+import LikeButton from '../../components/LikeButton';
+import FavouriteButton from '../../components/FavouriteButton';
+import CommentButton from '../../components/CommentButton';
+import SimilarRecipes from '../../components/SimilarRecipes';
 
 function recipeById() {
   const router = useRouter();
@@ -47,11 +51,11 @@ function recipeById() {
   const [nutrition, setNutrition] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [diets, setdiets] = useState([]);
-  const [similarRecipeById, setSimilarRecipeById] = useState([]);
+  // const [similarRecipeById, setSimilarRecipeById] = useState([]);
   const [recipeDb, setRecipeDb] = useState([]);
   const [comments, setComments] = useState([]);
-  const [likes, setLikes] = useState([]);
-  const [favourites, setFavourites] = useState([]);
+  // const [likes, setLikes] = useState();
+  // const [favourites, setFavourites] = useState();
 
   const handleUserDrop = () => {
     setUserDrop(!userDrop);
@@ -81,58 +85,6 @@ function recipeById() {
     retry: 3,
     onSuccess: (commentListData) => {
       setComments(commentListData);
-    },
-  });
-
-  // Get Likes
-  const {
-    data: likedData,
-    isLoading: likesIsLoading,
-    error: likesError,
-    refetch: refetchLikes,
-  } = useQuery({
-    queryKey: ['getLiked', recipeDb.id],
-    enabled: !!router.query.recipeId && !!session?.user?.email,
-    queryFn: () =>
-      axios
-        .get('../api/postDB/like/', {
-          params: {
-            post_id: recipeDb.id,
-            username: session?.user?.email,
-          },
-        })
-        .then((res) => res.data),
-    retry: 3,
-    keepPreviousData: true, // to keep data boxes until new data is fetched
-    onSuccess: (likedData) => {
-      setLikes(likedData);
-      console.log('🚀 ~ likedData when getting', likedData);
-    },
-  });
-
-  // Get Favourites
-  const {
-    data: favouriteData,
-    isLoading: favouriteIsLoading,
-    error: favouriteError,
-    // refetch,
-  } = useQuery({
-    queryKey: ['getFavourite', recipeDb.id],
-    enabled: !!router.query.recipeId && !!session?.user?.email,
-    queryFn: () =>
-      axios
-        .get('../api/postDB/favourite/', {
-          params: {
-            post_id: recipeDb.id,
-            username: session?.user?.email,
-          },
-        })
-        .then((res) => res.data),
-    retry: 3,
-    // keepPreviousData: true, // to keep data boxes until new data is fetched
-    onSuccess: (favouriteData) => {
-      setFavourites(favouriteData);
-      console.log('🚀 ~ Favourite Data when getting', favouriteData);
     },
   });
 
@@ -174,60 +126,26 @@ function recipeById() {
     },
   });
 
-  const {
-    data: similarRecipes,
-    isLoading: loadingSimilar,
-    error: errorSimilar,
-  } = useQuery({
-    queryKey: ['SimilarByID', router.query.recipeId],
-    queryFn: () =>
-      axios
-        .get('../api/similarRecipes/', {
-          params: {
-            number: '4',
-            recipeId: router.query.recipeId,
-            limitLicense: 'true',
-          },
-        })
-        .then((res) => res.data),
-    onSuccess: (similarRecipes) => {
-      setSimilarRecipeById(similarRecipes);
-    },
-  });
-
-  // Add Likes to the dataBase
-  const handleLike = async () => {
-    console.log('Likes before change', likes);
-    setLikes((prev) => !prev); // faster way of getting previous value
-    await axios
-      .post('../api/postDB/like/', {
-        data: {
-          post_id: recipeDb.id,
-          username: session?.user?.email,
-          liked: likes,
-        },
-      })
-      .then((res) => res.data)
-      .catch((e) => setLikes((prev) => !prev));
-  };
-
-  // Add Favourites to the dataBase
-  const handleFavourite = async () => {
-    setFavourites((prev) => !prev); // faster way of getting previous value
-    await axios
-      .post('../api/postDB/favourite/', {
-        data: {
-          post_id: recipeDb.id,
-          username: session?.user?.email,
-          favouriteSaved: favourites,
-        },
-      })
-      .then((res) => res.data)
-      .catch((e) => {
-        console.log('error Faves', e); // Log the error to the console for debugging purposes
-        setFavourites((prev) => !prev); // Revert the state back to its previous value
-      });
-  };
+  // const {
+  //   data: similarRecipes,
+  //   isLoading: loadingSimilar,
+  //   error: errorSimilar,
+  // } = useQuery({
+  //   queryKey: ['SimilarByID', router.query.recipeId],
+  //   queryFn: () =>
+  //     axios
+  //       .get('../api/similarRecipes/', {
+  //         params: {
+  //           number: '4',
+  //           recipeId: router.query.recipeId,
+  //           limitLicense: 'true',
+  //         },
+  //       })
+  //       .then((res) => res.data),
+  //   onSuccess: (similarRecipes) => {
+  //     setSimilarRecipeById(similarRecipes);
+  //   },
+  // });
 
   // Add Comments to DataBase
   const AddComment = async (dataComment) => {
@@ -409,100 +327,9 @@ function recipeById() {
 
         {/* Buttons  */}
         <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                {`${likes ? 'Unlike' : 'Like'}`}
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleLike}
-              disabled={!session}
-              className={`${
-                !session && 'btnRecipe border-white text-white bg-gray-300'
-              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
-              type="button"
-            >
-              {likes ? (
-                <AiFillLike
-                  className={
-                    session
-                      ? 'iconMed text-orange-800'
-                      : 'iconMed text-white border-white'
-                  }
-                />
-              ) : (
-                <AiOutlineLike className={session ? 'iconMed' : 'text-white'} />
-              )}
-            </button>
-          </Tooltip>
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                {favourites ? 'Remove from Favourites' : 'Add to Favourites'}
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleFavourite}
-              disabled={!session}
-              className={`${
-                !session && 'btnRecipe border-white text-white bg-gray-300'
-              }  ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
-              type="button"
-            >
-              {favourites ? (
-                <AiFillHeart
-                  className={
-                    session
-                      ? 'iconMed text-orange-800'
-                      : 'iconMed text-white border-white'
-                  }
-                />
-              ) : (
-                <AiOutlineHeart
-                  className={session ? 'iconMed' : 'text-white'}
-                />
-              )}
-            </button>
-          </Tooltip>
-
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                Comment
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleScroll}
-              disabled={!session}
-              className={`${
-                !session
-                  ? 'btnRecipe border-white text-white bg-gray-300'
-                  : 'btnRecipe'
-              }`}
-              type="button"
-            >
-              <FaRegCommentDots className="iconMed" />
-            </button>
-          </Tooltip>
+          <LikeButton id={recipeDb.id} />
+          <FavouriteButton id={recipeDb.id} />
+          <CommentButton handleScroll={handleScroll} />
         </div>
 
         {/* Description */}
@@ -583,100 +410,9 @@ function recipeById() {
         </div>
         {/* Buttons  */}
         <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                {`${likes ? 'Unlike' : 'Like'}`}
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleLike}
-              disabled={!session}
-              className={`${
-                !session && 'btnRecipe border-white text-white bg-gray-300'
-              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
-              type="button"
-            >
-              {likes ? (
-                <AiFillLike
-                  className={
-                    session
-                      ? 'iconMed text-orange-800'
-                      : 'iconMed text-white border-white'
-                  }
-                />
-              ) : (
-                <AiOutlineLike className={session ? 'iconMed' : 'text-white'} />
-              )}
-            </button>
-          </Tooltip>
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                {favourites ? 'Remove from Favourites' : 'Add to Favourites'}
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleFavourite}
-              disabled={!session}
-              className={`${
-                !session && 'btnRecipe border-white text-white bg-gray-300'
-              }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
-              type="button"
-            >
-              {favourites ? (
-                <AiFillHeart
-                  className={
-                    session
-                      ? 'iconMed text-orange-800'
-                      : 'iconMed text-white border-white'
-                  }
-                />
-              ) : (
-                <AiOutlineHeart
-                  className={session ? 'iconMed' : 'text-white'}
-                />
-              )}
-            </button>
-          </Tooltip>
-
-          <Tooltip
-            className="hidden sm:inline-block bg-white border border-blue-gray-50 shadow-xl shadow-black/10 "
-            placement="top-start"
-            content={
-              <Typography
-                color="gray"
-                className="font-medium"
-              >
-                Comment
-              </Typography>
-            }
-          >
-            <button
-              onClick={handleScroll}
-              disabled={!session}
-              className={`${
-                !session
-                  ? 'btnRecipe border-white text-white bg-gray-300'
-                  : 'btnRecipe'
-              }`}
-              type="button"
-            >
-              <FaRegCommentDots className="iconMed" />
-            </button>
-          </Tooltip>
+          <LikeButton id={recipeDb.id} />
+          <FavouriteButton id={recipeDb.id} />
+          <CommentButton handleScroll={handleScroll} />
         </div>
 
         {/* Similar Recipes */}
@@ -690,56 +426,7 @@ function recipeById() {
               You May Also Like
             </h1>
 
-            <div
-              className="flex overflow-x-scroll  space-x-4 lg:place-content-evenly
-             scrollbar-thin scrollbar-track-gray-600/20  scrollbar-thumb-[#f7ab0a]/70
-"
-            >
-              {similarRecipeById?.map((recipe) => (
-                <Link
-                  href={`${recipe?.id}`}
-                  key={recipe?.id}
-                >
-                  <div
-                    className=" bg-white p-2 cursor-pointer w-[250px]
-               hover:border-2 hover:border-gray-200 hover:rounded-md
-                hover:shadow-lg
-                "
-                  >
-                    <div
-                      className="flex justify-center content-center
-              items-center object-cover"
-                    >
-                      <Image
-                        className="object-cover rounded-md  "
-                        loading="eager"
-                        width={312}
-                        height={150}
-                        src={recipe?.image}
-                        alt="Recipe Image"
-                      />
-                    </div>
-
-                    <div className=" pt-2 text-gray-600">
-                      {' '}
-                      <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                        {recipe?.title}
-                      </p>
-                      <div className="flex space-x-1 items-center ">
-                        <ClockIcon className="h-3 w-3" />
-                        <p className="text-sm font-light">
-                          {recipe?.readyInMinutes} min
-                        </p>
-                      </div>
-                      <div className="flex space-x-1 items-center">
-                        <UserIcon className="h-3 w-3" />
-                        <p className="text-sm font-light">{recipe?.servings}</p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <SimilarRecipes id={router.query.recipeId} />
           </div>
         </div>
         {/* Comments */}

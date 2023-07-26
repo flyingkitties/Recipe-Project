@@ -61,8 +61,10 @@ export default async function handler(req, res) {
         // console.log('req. query log', req.query);
         // console.log('Getting list of likes', getLikes, isLiked);
         // const isLiked = getLikes !== null && getLikes.username === email;
-        console.log('is liked:', getLikes);
-        return res.status(200).send(getLikes.liked);
+        if (getLikes && getLikes.liked) {
+          return res.status(200).send(getLikes.liked);
+        }
+        return res.status(200).send(false);
       }
     }
   } catch (error) {
