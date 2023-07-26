@@ -1,3 +1,9 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable implicit-arrow-linebreak */
 import { ClockIcon, UserIcon } from '@heroicons/react/24/outline';
@@ -7,6 +13,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Skeleton } from '@mui/material';
 
 function SimilarRecipes({ id }) {
   const [similarRecipeById, setSimilarRecipeById] = useState([]);
@@ -36,50 +43,61 @@ function SimilarRecipes({ id }) {
  scrollbar-thin scrollbar-track-gray-600/20  scrollbar-thumb-[#f7ab0a]/70
 "
     >
-      {similarRecipeById?.map((recipe) => (
-        <Link
-          href={`${recipe?.id}`}
-          key={recipe?.id}
-        >
-          <div
-            className=" bg-white p-2 cursor-pointer w-[250px]
+      {loadingSimilar // eslint-disable-next-line no-unused-vars
+        ? Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton
+              // Don't forget to add a unique key for each component in the loop
+              key={i}
+              variant="rounded"
+              className="max-w-[312px]"
+              width={250}
+              height={200}
+            />
+          ))
+        : similarRecipeById?.map((recipe) => (
+            <Link
+              href={`${recipe?.id}`}
+              key={recipe?.id}
+            >
+              <div
+                className=" bg-white p-2 cursor-pointer w-[250px]
    hover:border-2 hover:border-gray-200 hover:rounded-md
     hover:shadow-lg
     "
-          >
-            <div
-              className="flex justify-center content-center
+              >
+                <div
+                  className="flex justify-center content-center
   items-center object-cover"
-            >
-              <Image
-                className="object-cover rounded-md  "
-                loading="eager"
-                width={312}
-                height={150}
-                src={recipe?.image}
-                alt="Recipe Image"
-              />
-            </div>
+                >
+                  <Image
+                    className="object-cover rounded-md  "
+                    loading="eager"
+                    width={312}
+                    height={150}
+                    src={recipe?.image}
+                    alt="Recipe Image"
+                  />
+                </div>
 
-            <div className=" pt-2 text-gray-600">
-              {' '}
-              <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
-                {recipe?.title}
-              </p>
-              <div className="flex space-x-1 items-center ">
-                <ClockIcon className="h-3 w-3" />
-                <p className="text-sm font-light">
-                  {recipe?.readyInMinutes} min
-                </p>
+                <div className=" pt-2 text-gray-600">
+                  {' '}
+                  <p className=" text-sm lg:text-md font-semibold capitalize hover:underline text-gray-700 line-clamp-2">
+                    {recipe?.title}
+                  </p>
+                  <div className="flex space-x-1 items-center ">
+                    <ClockIcon className="h-3 w-3" />
+                    <p className="text-sm font-light">
+                      {recipe?.readyInMinutes} min
+                    </p>
+                  </div>
+                  <div className="flex space-x-1 items-center">
+                    <UserIcon className="h-3 w-3" />
+                    <p className="text-sm font-light">{recipe?.servings}</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex space-x-1 items-center">
-                <UserIcon className="h-3 w-3" />
-                <p className="text-sm font-light">{recipe?.servings}</p>
-              </div>
-            </div>
-          </div>
-        </Link>
-      ))}
+            </Link>
+          ))}
     </div>
   );
 }
