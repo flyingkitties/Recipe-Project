@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /* eslint-disable global-require */
 /* eslint-disable import/no-extraneous-dependencies */
 const withMT = require('@material-tailwind/react/utils/withMT');
@@ -20,8 +21,7 @@ module.exports = withMT({
       },
       display: ['group-hover'],
       backgroundImage: {
-        orange:
-          "url('https://i.postimg.cc/SsnjK213/53201018528-cacd95222a-o.webp')",
+        orange: "url('/images/bgAVIF.avif')",
       },
     },
   },
@@ -33,3 +33,5 @@ module.exports = withMT({
     require('@tailwindcss/line-clamp'),
   ],
 });
+
+//https://live.staticflickr.com/65535/52764822208_5a7e6ff762_o.jpg
