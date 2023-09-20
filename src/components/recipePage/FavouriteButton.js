@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Skeleton } from '@mui/material';
 
 function FavouriteButton({ id }) {
   const router = useRouter();
@@ -73,26 +74,39 @@ function FavouriteButton({ id }) {
         </Typography>
       }
     >
-      <button
-        onClick={() => handleFavourite(!favourites)}
-        disabled={!session}
-        className={`${
-          !session && 'btnRecipe border-white text-white bg-gray-300'
-        }  ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
-        type="button"
-      >
-        {favourites ? (
-          <AiFillHeart
-            className={
-              session
-                ? 'iconMed text-orange-800'
-                : 'iconMed text-white border-white'
-            }
-          />
-        ) : (
-          <AiOutlineHeart className={session ? 'iconMed' : 'text-white'} />
-        )}
-      </button>
+      {favouriteIsLoading ? (
+        <Skeleton
+          animation="wave"
+          variant="circular"
+          className=" relative"
+          width={57}
+          height={57}
+        />
+      ) : (
+        <button
+          onClick={() => handleFavourite(!favourites)}
+          disabled={!session}
+          width={57}
+          height={57}
+          className={`h-[57px] w-[57px]${
+            !session && 'btnRecipe border-white text-white bg-gray-300'
+          }  ${favourites ? 'btnRecipeWhite' : 'btnRecipe'}`}
+          type="button"
+          aria-label="Favourites Button"
+        >
+          {favourites ? (
+            <AiFillHeart
+              className={
+                session
+                  ? 'iconMed text-orange-800'
+                  : 'iconMed text-white border-white'
+              }
+            />
+          ) : (
+            <AiOutlineHeart className={session ? 'iconMed' : 'text-white'} />
+          )}
+        </button>
+      )}
     </Tooltip>
   );
 }

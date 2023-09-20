@@ -230,6 +230,7 @@ function dessert() {
           className="flex items-center gap-2 rounded-full"
           onClick={prev}
           disabled={active === 1}
+          aria-label="Previous Page Button"
         >
           <ArrowLeftIcon
             strokeWidth={2}
@@ -249,6 +250,7 @@ function dessert() {
           className="flex items-center gap-2 rounded-full"
           onClick={next}
           disabled={active === 4}
+          aria-label="Next Page Button"
         >
           <span className="hidden sm:inline-flex">Next</span>
           <ArrowRightIcon

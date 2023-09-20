@@ -81,6 +81,7 @@ function LikeButton({ id }) {
           !session && 'btnRecipe border-white text-white bg-gray-300'
         }  ${likes ? 'btnRecipeWhite' : 'btnRecipe'}`}
         type="button"
+        aria-label="Likes Button"
       >
         {likes ? (
           <AiFillLike

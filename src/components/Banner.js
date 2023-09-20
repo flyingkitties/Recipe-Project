@@ -32,6 +32,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Sides Button"
           >
             <p className="shade">Sides</p>
           </button>
@@ -40,6 +41,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Dessert Button"
           >
             <p className="shade">Dessert</p>
           </button>
@@ -48,6 +50,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Salad Button"
           >
             <p className="shade">Salad</p>
           </button>
@@ -56,6 +59,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Breakfast Button"
           >
             <p className="shade">Breakfast</p>
           </button>
@@ -64,6 +68,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Main Course Button"
           >
             <p className="shade">Main Course</p>
           </button>
@@ -72,6 +77,7 @@ function Banner() {
           <button
             className="btnOrg"
             type="button"
+            aria-label="Snaks Button"
           >
             <p className="shade">Snacks</p>
           </button>
@@ -112,6 +118,7 @@ function Banner() {
               className=" md:p-5 p-3 max-w-10"
               type="button"
               onClick={handleSearch}
+              aria-label="Search Button"
             >
               <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
             </button>

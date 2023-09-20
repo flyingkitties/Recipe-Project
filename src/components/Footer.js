@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 function Footer() {
@@ -14,7 +15,9 @@ function Footer() {
         <p className="link">Sitemap</p>
       </div>
       <div className="flex justify-center text-gray-600 border-t py-2 text-xs">
-        <p className=" ">© 2023 RG Builds</p>
+        <Link href="https://www.ritaguilherme.com/">
+          <p className="link">© 2023 RG Builds</p>
+        </Link>
       </div>
     </div>
   );

@@ -18,8 +18,10 @@ function BackTop() {
         onClick={scrollToTop}
         onKeyDown={scrollToTop}
         role="button"
+        aria-label="Back To Top Button"
         tabIndex="0"
-        className="cursor-pointer group shade ">
+        className="cursor-pointer group shade "
+      >
         <div className="flex text-center justify-center  ">
           <ChevronUpIcon className="w-10 h-10 group-hover:w-12 group-hover:h-12" />
         </div>

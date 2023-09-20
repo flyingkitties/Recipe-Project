@@ -203,6 +203,7 @@ function Header() {
                 className=" md:px-5 p-[0.85rem]"
                 type="button"
                 onClick={handleSearch}
+                aria-label="Search Button"
               >
                 <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
               </button>
@@ -216,6 +217,7 @@ function Header() {
               onClick={handleSearchDrop}
               onKeyDown={handleSearchDrop}
               type="button"
+              aria-label="Search Button"
               className="flex items-center pt-1 px-1 space-x-1 text-gray-700 hover:text-gray-800"
             >
               <ChevronLeftIcon className="iconSmall hover:shadow-2xl hover:w-5 hover:h-5" />
@@ -243,6 +245,7 @@ function Header() {
                   <button
                     className=" md:p-5 p-3 "
                     type="button"
+                    aria-label="Search Button"
                   >
                     <MagnifyingGlassIcon className="md:h-6 md:w-6 h-5 w-5 text-white " />
                   </button>
@@ -272,6 +275,7 @@ function Header() {
               onClick={handleSearchDrop}
               onKeyDown={handleSearchDrop}
               type="button"
+              aria-label="Menu drop Button"
             >
               <MagnifyingGlassIcon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] items-center justify-center object-center cursor-pointer text-gray-800 " />
             </button>
@@ -283,6 +287,7 @@ function Header() {
                 onClick={handleUserDrop}
                 onKeyDown={handleUserDrop}
                 role="button"
+                aria-label="User drop Button"
                 tabIndex="0"
               >
                 <Image
@@ -336,6 +341,7 @@ function Header() {
                         onClick={() => signOut()}
                         onKeyDown={() => signOut()}
                         role="button"
+                        aria-label="Menu drop Button"
                         tabIndex="0"
                       >
                         <ArrowRightOnRectangleIcon className="iconMed  hoverGray " />
@@ -352,6 +358,7 @@ function Header() {
                 onClick={handleUserDrop}
                 onKeyDown={handleUserDrop}
                 role="button"
+                aria-label="User drop Button"
                 tabIndex="0"
               >
                 <UserIcon className="iconXM  hoverGray text-gray-800" />
@@ -384,6 +391,7 @@ function Header() {
                         onKeyDown={() => signIn()}
                         role="button"
                         tabIndex="0"
+                        aria-label="Sign in and out Button"
                       >
                         <ArrowRightOnRectangleIcon className="iconMed hoverGray " />
                         <p className="menuDropText">Sign In</p>
@@ -411,6 +419,7 @@ function Header() {
                 variant="text"
                 size="sm"
                 className="p-0 "
+                aria-label="Menu Button"
               >
                 <Bars3Icon className="h-[30px] w-[30px] sm:h-[35px] sm:w-[35px] text-gray-800" />
               </Button>
@@ -452,6 +461,7 @@ function Header() {
                         onClick={!session ? signIn : signOut}
                         onKeyDown={!session ? signIn : signOut}
                         type="button"
+                        aria-label="Sign in Button"
                       >
                         Sign In
                       </button>
@@ -460,6 +470,7 @@ function Header() {
                         onClick={!session ? signIn : signOut}
                         onKeyDown={!session ? signIn : signOut}
                         type="button"
+                        aria-label="Sign out Button"
                       >
                         Log In
                       </button>
@@ -490,6 +501,7 @@ function Header() {
                     className="flex space-x-2 hoverGray "
                     role="button"
                     tabIndex="0"
+                    aria-label="Recipes drop Button"
                   >
                     <GiCookingPot className="iconSM" />
                     <p className="">Recipes</p>
@@ -507,6 +519,7 @@ function Header() {
                       onKeyDown={handleRecipesDrop}
                       role="button"
                       tabIndex="0"
+                      aria-label="Recipes close Button"
                     >
                       <GiCookingPot className="iconSM" />
                       <p className="">Recipes</p>
@@ -528,6 +541,7 @@ function Header() {
                           onKeyDown={handleCategoryDrop}
                           role="button"
                           tabIndex="0"
+                          aria-label="Category drop Button"
                         >
                           <p className="ml-8">By Category</p>
                           <div className="flex items-center">
@@ -544,6 +558,7 @@ function Header() {
                             onKeyDown={handleCategoryDrop}
                             role="button"
                             tabIndex="0"
+                            aria-label="Category close Button"
                           >
                             <p className="ml-8">By Category</p>
                             <div className="flex items-center">
@@ -629,6 +644,7 @@ function Header() {
                             onKeyDown={handleDietDrop}
                             role="button"
                             tabIndex="0"
+                            aria-label="Diet drop Button"
                           >
                             <p className="ml-8">By Diet</p>
                             <div className="flex items-center">
@@ -647,6 +663,7 @@ function Header() {
                             onKeyDown={handleDietDrop}
                             role="button"
                             tabIndex="0"
+                            aria-label="Diet close Button"
                           >
                             <p className="ml-8">By Diet</p>
                             <div className="flex items-center">

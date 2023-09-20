@@ -194,6 +194,7 @@ function recipeById() {
                   onKeyDown={handleUserDrop}
                   role="button"
                   tabIndex="0"
+                  aria-label="Nutrition Button"
                 >
                   <p className="text-[10px] md:text-sm lg:text-base font-light ">
                     Nutrition per serving
@@ -246,7 +247,7 @@ function recipeById() {
         </div>
 
         {/* Buttons  */}
-        <div className="flex pt-2 pb-2 space-x-10 mt-2 ">
+        <div className="flex py-2 space-x-10 mt-2 ">
           <LikeButton id={recipeDb.id} />
           <FavouriteButton id={recipeDb.id} />
           <CommentButton handleScroll={handleScroll} />

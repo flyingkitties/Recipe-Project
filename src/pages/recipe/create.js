@@ -99,6 +99,7 @@ function create() {
                   tabIndex="0"
                   onKeyDown={() => setImageBoxOpen(!imageBoxOpen)}
                   role="button"
+                  aria-label="Open image input Button"
                 >
                   {imageBoxOpen ? (
                     <MinusIcon
@@ -144,6 +145,7 @@ function create() {
                     <div className="flex items-center justify-center">
                       <button
                         type="button"
+                        aria-label="Close Image input Button"
                         disabled={!session}
                         className="btnRecipe px-5  disabled:text-white disabled:bg-gray-300 disabled:border-none"
                         onClick={() => {
@@ -317,6 +319,7 @@ function create() {
             </h1>
             <button
               type="button"
+              aria-label="Add Ingredients Button"
               onClick={() => prepend('')}
             >
               <PlusCircleIcon className="iconMed" />
@@ -382,6 +385,7 @@ function create() {
         <div className="pb-10">
           <button
             disabled={!session}
+            aria-label="Create Recipe Button"
             className="btnRecipe w-full disabled:text-white disabled:bg-gray-300 disabled:border-none"
             type="submit"
           >

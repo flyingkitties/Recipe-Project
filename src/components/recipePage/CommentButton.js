@@ -25,6 +25,7 @@ function CommentButton({ handleScroll }) {
       <button
         onClick={handleScroll}
         disabled={!session}
+        aria-label="Scroll to comments"
         className={`${
           !session
             ? 'btnRecipe border-white text-white bg-gray-300'

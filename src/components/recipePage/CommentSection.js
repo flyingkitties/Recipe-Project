@@ -106,6 +106,7 @@ pl-4 outline-none text-gray-600 w-full font-light "
 
           <button
             type="submit"
+            aria-label="Submit Comment"
             className="text-orange-400 disabled:text-gray-200
        absolute top-16 right-1 group"
           >

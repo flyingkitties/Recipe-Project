@@ -19,6 +19,11 @@ export default function Home() {
     <div className="bg-fixed bg-center bg-no-repeat bg-cover bg-orange">
       <Head>
         <title>Recipe Corner</title>
+        <meta
+          name="description"
+          content="Recipe Corner - Recipes and nutrutional information - Rita Guilherme Web Engineer Portfolio"
+          key="desc"
+        />
       </Head>
 
       <main>
