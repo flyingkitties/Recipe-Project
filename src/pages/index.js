@@ -25,7 +25,6 @@ export default function Home() {
           key="desc"
         />
       </Head>
-
       <main>
         <Banner />
         <section className="mt-[10%]  px-5  bg-white ">

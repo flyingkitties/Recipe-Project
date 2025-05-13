@@ -5,6 +5,7 @@ import '@/styles/globals.css';
 import React from 'react';
 import { SessionProvider } from 'next-auth/react';
 import ProgressBar from '@badrap/bar-of-progress';
+import { Analytics } from '@vercel/analytics/next';
 import Router from 'next/router';
 import { Toaster } from 'react-hot-toast';
 import {
@@ -44,6 +45,7 @@ export default function App({ Component, pageProps }) {
         <div className=" ">
           <Header />
           <Component {...pageProps} />
+          <Analytics />
         </div>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

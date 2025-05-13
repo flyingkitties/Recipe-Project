@@ -33,5 +33,3 @@ module.exports = withMT({
     require('@tailwindcss/line-clamp'),
   ],
 });
-
-//https://live.staticflickr.com/65535/52764822208_5a7e6ff762_o.jpg
