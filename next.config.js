@@ -6,6 +6,13 @@ const nextConfig = {
     defaultLocale: 'en',
   },
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.spoonacular.com',
+        pathname: '/**',
+      },
+    ],
     domains: [
       'spoonacular.com',
       'img.spoonacular.com',
